@@ -12,7 +12,7 @@ LogChannel::LogChannel(std::string logTag, FILE* fileDesc) : logTag(logTag), fil
 
 LogChannel::~LogChannel()
 {
-
+    fclose(this->fileDesc);
 }
 
 LogChannel::LogChannel(const LogChannel& other) : logTag(other.logTag), fileDesc(other.fileDesc), enabled(other.enabled), logEntries(other.logEntries)//, entriesLock(nullptr)

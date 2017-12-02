@@ -6,20 +6,22 @@
 #include <string>
 #include <unordered_map>
 
+#include "service.hpp"
+
 #include "logchannel.hpp"
 
 namespace Util
 {
 
 #ifdef _WIN32
-class DLL_EXPORT Logger
+class DLL_EXPORT Logger : public Service
 #else
-class Logger
+class Logger : public Service
 #endif // _WIN32
 {
 public:
     Logger();
-    ~Logger();
+    virtual ~Logger();
 
     bool HasLogChannel(std::string channelName) const;
     void CreateLogChannel(std::string channelName, std::string tag, FILE* fileDesc);

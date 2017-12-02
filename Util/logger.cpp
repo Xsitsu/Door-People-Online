@@ -11,7 +11,12 @@ Logger::Logger() : logChannels()
 
 Logger::~Logger()
 {
-
+    for (auto it : this->logChannels)
+    {
+        LogChannel *channel = it.second;
+        it.second = nullptr;
+        delete channel;
+    }
 }
 
 bool Logger::HasLogChannel(std::string channelName) const

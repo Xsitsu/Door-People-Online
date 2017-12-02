@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <gl/gl.h>
 
+#include "util/serviceprovider.hpp"
 #include "util/logger.hpp"
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
@@ -58,9 +59,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
     /* enable OpenGL for the window */
     EnableOpenGL(hwnd, &hDC, &hRC);
 
-    Util::Logger logger;
-    logger.CreateLogChannel("test", "TST", stdout);
-    logger.EnableLogChannel("test");
+    Util::ServiceProvider provider;
+    Util::Logger *logger = static_cast<Util::Logger*>(provider.GetService("Logger"));
+    logger->CreateLogChannel("test", "TST", stdout);
+    logger->EnableLogChannel("test");
 
     /* program main loop */
     while (!bQuit)
@@ -81,8 +83,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
         }
         else
         {
-            logger.Log("test", "test message\n");
-            logger.FlushAll();
+            logger->Log("test", "test message\n");
+            logger->FlushAll();
 
             /* OpenGL animation code goes here */
 
