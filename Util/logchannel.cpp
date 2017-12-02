@@ -65,6 +65,7 @@ void LogChannel::Flush()
         std::string str = "[%s] ";
         str.append(it);
         fprintf(this->fileDesc, str.c_str(), this->logTag.c_str());
+        //printf(str.c_str(), this->logTag.c_str());
     }
 }
 

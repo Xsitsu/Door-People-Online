@@ -1,6 +1,8 @@
 #include <windows.h>
 #include <gl/gl.h>
 
+#include "util/logger.hpp"
+
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 void EnableOpenGL(HWND hwnd, HDC*, HGLRC*);
 void DisableOpenGL(HWND, HDC, HGLRC);
@@ -56,6 +58,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
     /* enable OpenGL for the window */
     EnableOpenGL(hwnd, &hDC, &hRC);
 
+    Util::Logger logger;
+    logger.CreateLogChannel("test", "TST", stdout);
+    logger.EnableLogChannel("test");
+
     /* program main loop */
     while (!bQuit)
     {
@@ -75,6 +81,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
         }
         else
         {
+            logger.Log("test", "test message\n");
+            logger.FlushAll();
+
             /* OpenGL animation code goes here */
 
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);

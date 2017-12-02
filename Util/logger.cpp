@@ -5,7 +5,8 @@ namespace Util
 
 Logger::Logger() : logChannels()
 {
-
+    this->CreateLogChannel("logger_debug", "LGDB", stderr);
+    this->EnableLogChannel("logger_debug");
 }
 
 Logger::~Logger()
@@ -96,6 +97,15 @@ void Logger::Log(std::string channelName, std::string message)
         message.append(channelName);
         message.append("\n");
         this->Log("logger_debug", message);
+    }
+}
+
+void Logger::FlushAll()
+{
+    for (auto it : this->logChannels)
+    {
+        LogChannel *channel = it.second;
+        channel->Flush();
     }
 }
 

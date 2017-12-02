@@ -28,6 +28,8 @@ public:
     bool IsLogChannelEnabled(std::string channelName) const;
 
     void Log(std::string channelName, std::string message);
+    void FlushAll();
+
 protected:
     std::unordered_map<std::string, LogChannel*> logChannels;
 
