@@ -3,6 +3,8 @@
 
 #include "main.h"
 
+#include "address.hpp"
+
 #ifdef _WIN32
 #include <winsock2.h>
 #else
@@ -29,8 +31,16 @@ class Socket
 #endif // _WIN32
 {
 public:
+	Socket();
+	~Socket();
+	bool Open(unsigned short port);
+	void Close();
+	bool IsOpen() const;
+	bool Send(const Address& destination, const void* data, int size);
+	int Receive(Address& sender, void* data, int size);
 
 protected:
+	int handle;
 
 };
 
