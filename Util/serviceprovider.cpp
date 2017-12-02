@@ -17,7 +17,7 @@ ServiceProvider::~ServiceProvider()
 
 void ServiceProvider::Init()
 {
-    this->AddService("Logger", new Logger());
+
 }
 
 bool ServiceProvider::HasService(std::string serviceName) const

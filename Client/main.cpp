@@ -60,9 +60,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
     EnableOpenGL(hwnd, &hDC, &hRC);
 
     Util::ServiceProvider provider;
-    Util::Logger *logger = static_cast<Util::Logger*>(provider.GetService("Logger"));
-    logger->CreateLogChannel("test", "TST", stdout);
-    logger->EnableLogChannel("test");
+
+    Util::Logger::Instance()->CreateLogChannel("test", "TST", stdout);
+    Util::Logger::Instance()->EnableLogChannel("test");
 
     /* program main loop */
     while (!bQuit)
@@ -83,8 +83,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
         }
         else
         {
-            logger->Log("test", "test message\n");
-            logger->Flush();
+            Util::Logger::Instance()->Log("test", "test message\n");
+            Util::Logger::Instance()->Flush();
 
             /* OpenGL animation code goes here */
 

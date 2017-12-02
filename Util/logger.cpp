@@ -3,6 +3,17 @@
 namespace Util
 {
 
+Logger* Logger::i_logger = nullptr;
+
+Logger* Logger::Instance()
+{
+    if (!Logger::i_logger)
+    {
+        Logger::i_logger = new Logger();
+    }
+    return Logger::i_logger;
+}
+
 Logger::Logger() : logChannels(), logEntries()
 {
     this->CreateLogChannel("logger_debug", "LGDB", stderr);
@@ -17,6 +28,16 @@ Logger::~Logger()
         it.second = nullptr;
         delete channel;
     }
+}
+
+Logger::Logger(const Logger&) : logChannels(), logEntries()
+{
+
+}
+
+Logger& Logger::operator= (const Logger&)
+{
+    return *this;
 }
 
 bool Logger::HasLogChannel(std::string channelName) const

@@ -16,19 +16,18 @@ namespace Util
 
 struct LogEntry
 {
-    LogChannel *channel = nullptr;;
+    LogChannel *channel = nullptr;
     std::string message = "";
 };
 
 #ifdef _WIN32
-class DLL_EXPORT Logger : public Service
+class DLL_EXPORT Logger
 #else
-class Logger : public Service
+class Logger
 #endif // _WIN32
 {
 public:
-    Logger();
-    virtual ~Logger();
+    static Logger* Instance();
 
     bool HasLogChannel(std::string channelName) const;
     void CreateLogChannel(std::string channelName, std::string tag, FILE* fileDesc);
@@ -40,8 +39,15 @@ public:
     void Flush();
 
 protected:
+    Logger();
+    ~Logger();
+    Logger(const Logger&);
+    Logger& operator= (const Logger&);
+
     std::unordered_map<std::string, LogChannel*> logChannels;
     std::list<LogEntry> logEntries;
+
+    static Logger* i_logger;
 };
 
 }
