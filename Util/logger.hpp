@@ -5,6 +5,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <list>
 
 #include "service.hpp"
 
@@ -12,6 +13,12 @@
 
 namespace Util
 {
+
+struct LogEntry
+{
+    LogChannel *channel = nullptr;;
+    std::string message = "";
+};
 
 #ifdef _WIN32
 class DLL_EXPORT Logger : public Service
@@ -30,11 +37,11 @@ public:
     bool IsLogChannelEnabled(std::string channelName) const;
 
     void Log(std::string channelName, std::string message);
-    void FlushAll();
+    void Flush();
 
 protected:
     std::unordered_map<std::string, LogChannel*> logChannels;
-
+    std::list<LogEntry> logEntries;
 };
 
 }

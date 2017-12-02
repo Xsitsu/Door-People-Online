@@ -5,9 +5,9 @@
 namespace Util
 {
 
-LogChannel::LogChannel(std::string logTag, FILE* fileDesc) : logTag(logTag), fileDesc(fileDesc), enabled(false), logEntries()//, entriesLock(nullptr)
+LogChannel::LogChannel(std::string logTag, FILE* fileDesc) : logTag(logTag), fileDesc(fileDesc), enabled(false)
 {
-    //this->entriesLock = new std::mutex;
+
 }
 
 LogChannel::~LogChannel()
@@ -15,9 +15,9 @@ LogChannel::~LogChannel()
     fclose(this->fileDesc);
 }
 
-LogChannel::LogChannel(const LogChannel& other) : logTag(other.logTag), fileDesc(other.fileDesc), enabled(other.enabled), logEntries(other.logEntries)//, entriesLock(nullptr)
+LogChannel::LogChannel(const LogChannel& other) : logTag(other.logTag), fileDesc(other.fileDesc), enabled(other.enabled)
 {
-    //this->entriesLock = new std::mutex();
+
 }
 
 LogChannel& LogChannel::operator=(const LogChannel& other)
@@ -45,28 +45,14 @@ void LogChannel::Disable()
     this->enabled = false;
 }
 
-void LogChannel::AddLogEntry(std::string message)
+std::string LogChannel::GetLogTag() const
 {
-    //this->entriesLock->lock();
-    this->logEntries.push_back(message);
-    //this->entriesLock->unlock();
+    return this->logTag;
 }
 
-void LogChannel::Flush()
+FILE* LogChannel::GetFileDesc() const
 {
-    std::list<std::string> entriesCopy;
-    //this->entriesLock->lock();
-    entriesCopy = this->logEntries;
-    this->logEntries.clear();
-    //this->entriesLock->unlock();
-
-    for (auto it : entriesCopy)
-    {
-        std::string str = "[%s] ";
-        str.append(it);
-        fprintf(this->fileDesc, str.c_str(), this->logTag.c_str());
-        //printf(str.c_str(), this->logTag.c_str());
-    }
+    return this->fileDesc;
 }
 
 }

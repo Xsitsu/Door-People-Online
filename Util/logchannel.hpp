@@ -4,8 +4,6 @@
 #include "main.h"
 
 #include <string>
-#include <list>
-#include <mutex>
 
 namespace Util
 {
@@ -24,8 +22,8 @@ public:
     void Enable();
     void Disable();
 
-    void AddLogEntry(std::string message);
-    void Flush();
+    std::string GetLogTag() const;
+    FILE* GetFileDesc() const;
 
 protected:
     LogChannel(const LogChannel& other);
@@ -34,10 +32,6 @@ protected:
     std::string logTag;
     FILE* fileDesc;
     bool enabled;
-
-    std::list<std::string> logEntries;
-
-    //std::mutex *entriesLock;
 };
 
 }

@@ -3,7 +3,7 @@
 namespace Util
 {
 
-Logger::Logger() : logChannels()
+Logger::Logger() : logChannels(), logEntries()
 {
     this->CreateLogChannel("logger_debug", "LGDB", stderr);
     this->EnableLogChannel("logger_debug");
@@ -92,7 +92,10 @@ void Logger::Log(std::string channelName, std::string message)
             LogChannel* channel = this->logChannels[channelName];
             if (channel->IsEnabled())
             {
-                channel->AddLogEntry(message);
+                LogEntry entry;
+                entry.channel = this->logChannels[channelName];
+                entry.message = message;
+                this->logEntries.push_back(entry);
             }
         }
     }
@@ -105,12 +108,21 @@ void Logger::Log(std::string channelName, std::string message)
     }
 }
 
-void Logger::FlushAll()
+void Logger::Flush()
 {
-    for (auto it : this->logChannels)
+    // TODO: figure out mutex stuff
+
+    std::list<LogEntry> entriesClone;
+    entriesClone = this->logEntries;
+    this->logEntries = std::list<LogEntry>();
+
+    for (auto entry : entriesClone)
     {
-        LogChannel *channel = it.second;
-        channel->Flush();
+        std::string logTag = entry.channel->GetLogTag();
+        FILE* fileDesc = entry.channel->GetFileDesc();
+        std::string str = "[%s] ";
+        str.append(entry.message);
+        fprintf(fileDesc, str.c_str(), logTag.c_str());
     }
 }
 

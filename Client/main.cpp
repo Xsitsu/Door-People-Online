@@ -84,7 +84,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
         else
         {
             logger->Log("test", "test message\n");
-            logger->FlushAll();
+            logger->Flush();
 
             /* OpenGL animation code goes here */
 
