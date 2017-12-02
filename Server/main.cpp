@@ -1,16 +1,20 @@
 #include "util/serviceprovider.hpp"
 #include "util/logger.hpp"
 
+#include "network/socket.hpp"
 
 int main(int argc, char *argv[])
 {
-    Util::ServiceProvider provider;
-    Util::Logger *logger = static_cast<Util::Logger*>(provider.GetService("Logger"));
+    Network::InitializeSockets();
 
-    logger->CreateLogChannel("test", "TST", stdout);
-    logger->EnableLogChannel("test");
-    logger->Log("test", "test logging\n");
-    logger->FlushAll();
+    Util::ServiceProvider provider;
+
+    Util::Logger::Instance()->CreateLogChannel("test", "TST", stdout);
+    Util::Logger::Instance()->EnableLogChannel("test");
+    Util::Logger::Instance()->Log("test", "test logging\n");
+    Util::Logger::Instance()->Flush();
+
+    Network::ShutdownSockets();
 
     return 0;
 }
