@@ -3,6 +3,10 @@
 #ifdef _WIN32
 extern "C" DLL_EXPORT BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
+    // get rid of compiler warnings
+    hinstDLL = hinstDLL;
+    lpvReserved = lpvReserved;
+
     switch (fdwReason)
     {
         case DLL_PROCESS_ATTACH:
