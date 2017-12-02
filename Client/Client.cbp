@@ -16,6 +16,7 @@
 				</Compiler>
 				<Linker>
 					<Add library="../Util/bin/Debug/libUtil.a" />
+					<Add library="../Network/bin/Debug/libNetwork.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -28,12 +29,14 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="../Util/bin/Debug/libUtil.a" />
+					<Add library="../Util/bin/Release/libUtil.a" />
+					<Add library="../Network/bin/Release/libNetwork.a" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=c++11" />
 			<Add directory="../" />
 		</Compiler>
 		<Linker>
