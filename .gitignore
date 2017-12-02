@@ -1,0 +1,11 @@
+bin/
+obj/
+
+*.o
+*.exe
+*.dll
+*.a
+*.def
+*.layout
+*.depend
+
