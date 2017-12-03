@@ -17,6 +17,7 @@
 				<Linker>
 					<Add library="../Util/bin/Debug/libUtil.a" />
 					<Add library="../Network/bin/Debug/libNetwork.a" />
+					<Add library="../GameCore/bin/Debug/libGameCore.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -31,10 +32,12 @@
 					<Add option="-s" />
 					<Add library="../Util/bin/Release/libUtil.a" />
 					<Add library="../Network/bin/Release/libNetwork.a" />
+					<Add library="../GameCore/bin/Release/libGameCore.a" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />

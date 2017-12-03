@@ -57,6 +57,7 @@
 			<Add after='cmd /c copy &quot;$(PROJECT_DIR)$(TARGET_OUTPUT_FILE)&quot; &quot;$(PROJECT_DIR)..\Client\bin\$(TARGET_NAME)&quot;' />
 			<Add after='cmd /c copy &quot;$(PROJECT_DIR)$(TARGET_OUTPUT_FILE)&quot; &quot;$(PROJECT_DIR)..\Server\bin\$(TARGET_NAME)&quot;' />
 			<Add after='cmd /c copy &quot;$(PROJECT_DIR)$(TARGET_OUTPUT_FILE)&quot; &quot;$(PROJECT_DIR)..\Network\bin\$(TARGET_NAME)&quot;' />
+			<Add after='cmd /c copy &quot;$(PROJECT_DIR)$(TARGET_OUTPUT_FILE)&quot; &quot;$(PROJECT_DIR)..\GameCore\bin\$(TARGET_NAME)&quot;' />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="logchannel.cpp" />

@@ -1,4 +1,4 @@
-#ifndef ADRESS_HPP_INCLUDE
+#ifndef ADDRESS_HPP_INCLUDE
 #define ADDRESS_HPP_INCLUDE
 
 #include "main.h"
@@ -37,4 +37,4 @@ protected:
 };
 
 }
-#endif // ADRESS_HPP_INCLUDE
+#endif // ADDRESS_HPP_INCLUDE

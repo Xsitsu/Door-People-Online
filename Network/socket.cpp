@@ -76,14 +76,16 @@ void Socket::Close()
 {
 #ifdef _WIN32
     closesocket(this->handle);
+    this->handle = 0;
 #else
 	close(this->handle);
+	this->handle = 0
 #endif
 }
 
 bool Socket::IsOpen() const
 {
-	return (handle > 0);
+	return (this->handle > 0);
 }
 
 bool Socket::Send(const Address& destination, const void* data, int size)
