@@ -4,5 +4,6 @@
 #include "packet.hpp"
 #include "packetconnect.hpp"
 #include "packetdisconnect.hpp"
+#include "packetterrain.hpp"
 
 #endif // PACKETALL_HPP_INCLUDE

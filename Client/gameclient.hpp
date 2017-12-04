@@ -11,6 +11,7 @@
 #include "network/packetall.hpp"
 
 #include "gamecore/datamodel.hpp"
+#include "gamecore/world.hpp"
 
 class GameClient : public Network::Client
 {
@@ -21,6 +22,11 @@ public:
     void Run();
 
 protected:
+    Game::World* GetWorld();
+
+    bool HandlePacket(Network::Packet::Connect *packet, const Network::Address &sender);
+    bool HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender);
+
     ALLEGRO_DISPLAY *display;
     ALLEGRO_EVENT_QUEUE *event_queue;
     ALLEGRO_TIMER *timer;

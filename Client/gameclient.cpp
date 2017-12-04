@@ -38,8 +38,8 @@ void GameClient::Run()
 {
     Game::Vector2 drawBegin(1152 / 2, 648 * 0.8);
 
-    Game::World *world = reinterpret_cast<Game::World*>(this->dataModel.GetService("World"));
-    world->LoadWorld();
+    Game::World *world = this->GetWorld();
+    //world->LoadWorld();
 
     bool needsDraw = false;
     this->isRunning = true;
@@ -119,4 +119,62 @@ void GameClient::Run()
     {
         this->Disconnect();
     }
+}
+
+Game::World* GameClient::GetWorld()
+{
+    return reinterpret_cast<Game::World*>(this->dataModel.GetService("World"));
+}
+
+bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::Address &sender)
+{
+    bool wasHandled = Network::Client::HandlePacket(packet, sender);
+    if (wasHandled && this->isConnected)
+    {
+        Network::Packet::Terrain packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
+        this->SendPacket(&packet, this->serverAddress);
+    }
+    return wasHandled;
+}
+
+bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender)
+{
+    if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
+    {
+        Game::World* world = this->GetWorld();
+        world->ClearTerrain();
+
+        std::list<Network::Packet::Terrain::TerrainData> terrainData = packet->GetTerrainData();
+        for (Network::Packet::Terrain::TerrainData tData : terrainData)
+        {
+            Game::TerrainType tType = static_cast<Game::TerrainType>(tData.type);
+            Game::Vector2 position((int)tData.posX, (int)tData.posY);
+            Game::Vector2 size((int)tData.sizeX, (int)tData.sizeY);
+
+            Game::Terrain *terrain = nullptr;
+            if (tType == Game::TerrainType::TYPE_PLATFORM)
+            {
+                terrain = new Game::Platform();
+            }
+            else if (tType == Game::TerrainType::TYPE_WALL)
+            {
+                terrain = new Game::Wall();
+            }
+
+            if (terrain)
+            {
+                terrain->SetPosition(position);
+                terrain->SetSize(size);
+                world->AddTerrain(terrain);
+
+                printf("added\n");
+                printf("Position: %f/%f\n", position.x, position.y);
+                printf("Size: %f/%f\n", size.x, size.y);
+            }
+        }
+
+        return true;
+    }
+
+    return false;
 }

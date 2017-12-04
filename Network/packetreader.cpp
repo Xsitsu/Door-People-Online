@@ -38,6 +38,25 @@ Packet::Base* PacketReader::ReadPacket(unsigned int packetSize, void *data)
         ret = packet;
         break;
         }
+    case PacketFamily::FAMILY_TERRAIN:
+        {
+        Packet::Terrain *packet = new Packet::Terrain(connectionId, action);
+
+        uint8_t terrainSize = PacketReader::Read8(data);
+        for (uint8_t i = 0; i < terrainSize; i++)
+        {
+            Packet::Terrain::TerrainData tData;
+            tData.type = PacketReader::Read8(data);
+            tData.posX = PacketReader::Read32(data);
+            tData.posY = PacketReader::Read32(data);
+            tData.sizeX = PacketReader::Read32(data);
+            tData.sizeY = PacketReader::Read32(data);
+            packet->AddTerrainData(tData);
+        }
+
+        ret = packet;
+        break;
+        }
     default:
         {
         Packet::Base *packet = new Packet::Base(connectionId, family, action);

@@ -126,4 +126,9 @@ bool Client::HandlePacket(Packet::Disconnect *, const Address &)
     return false;
 }
 
+bool Client::HandlePacket(Packet::Terrain *, const Address &)
+{
+    return false;
+}
+
 }

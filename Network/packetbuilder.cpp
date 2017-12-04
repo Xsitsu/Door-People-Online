@@ -34,6 +34,23 @@ void PacketBuilder::BuildPacket(Packet::Base *packet, void *data)
         //Packet::Disconnect *pkt = static_cast<Packet::Disconnect*>(packet);
         // nothing else required
     }
+    else if (family == PacketFamily::FAMILY_TERRAIN)
+    {
+        Packet::Terrain *pkt = static_cast<Packet::Terrain*>(packet);
+        const std::list<Packet::Terrain::TerrainData> &terrainData = pkt->GetTerrainData();
+        uint8_t terrainSize = terrainData.size();
+
+        PacketBuilder::Put8(data, terrainSize);
+
+        for (Packet::Terrain::TerrainData tData : terrainData)
+        {
+            PacketBuilder::Put8(data, tData.type);
+            PacketBuilder::Put32(data, tData.posX);
+            PacketBuilder::Put32(data, tData.posY);
+            PacketBuilder::Put32(data, tData.sizeX);
+            PacketBuilder::Put32(data, tData.sizeY);
+        }
+    }
 }
 
 void PacketBuilder::PacketBuilder::PutFamily(void *&data, PacketFamily value)

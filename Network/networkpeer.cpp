@@ -64,6 +64,10 @@ bool NetworkPeer::DoHandlePacket(Packet::Base *packet, const Address &sender)
     {
         wasHandled = this->HandlePacket(static_cast<Packet::Disconnect*>(packet), sender);
     }
+    else if (packet->GetFamily() == PacketFamily::FAMILY_TERRAIN)
+    {
+        wasHandled = this->HandlePacket(static_cast<Packet::Terrain*>(packet), sender);
+    }
     else
     {
         wasHandled = this->HandlePacket(packet, sender);

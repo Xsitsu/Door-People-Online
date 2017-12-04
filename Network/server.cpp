@@ -195,4 +195,9 @@ bool Server::HandlePacket(Packet::Disconnect *packet, const Address &sender)
     return false;
 }
 
+bool Server::HandlePacket(Packet::Terrain *, const Address &)
+{
+    return false;
+}
+
 }

@@ -5,6 +5,7 @@
 #include "network/packetall.hpp"
 
 #include "gamecore/datamodel.hpp"
+#include "gamecore/world.hpp"
 
 #include "util/timer.hpp"
 
@@ -17,6 +18,10 @@ public:
     void Run();
 
 protected:
+    Game::World* GetWorld();
+
+    bool HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender);
+
     Game::DataModel dataModel;
 
     bool isRunning;

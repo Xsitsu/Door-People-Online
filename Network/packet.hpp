@@ -15,6 +15,7 @@ enum PacketFamily : uint8_t
     FAMILY_NONE = 0,
     FAMILY_CONNECT = 1,
     FAMILY_DISCONNECT = 2,
+    FAMILY_TERRAIN = 3,
 };
 
 enum PacketAction : uint8_t
@@ -23,7 +24,7 @@ enum PacketAction : uint8_t
     ACTION_REQUEST = 1,
     ACTION_ACCEPT = 2,
     ACTION_DECLINE = 3,
-    ACTION_CORRECT = 4,
+    ACTION_TELL = 4,
 };
 
 std::string PacketFamilyToString(PacketFamily family);

@@ -18,6 +18,9 @@ std::string PacketFamilyToString(PacketFamily family)
     case PacketFamily::FAMILY_DISCONNECT:
         return "FAMILY_DISCONNECT";
 
+    case PacketFamily::FAMILY_TERRAIN:
+        return "FAMILY_TERRAIN";
+
     default:
         return "N/A";
     }
@@ -39,8 +42,8 @@ std::string PacketActionToString(PacketAction action)
     case PacketAction::ACTION_DECLINE:
         return "ACTION_DECLINE";
 
-    case PacketAction::ACTION_CORRECT:
-        return "ACTION_CORRECT";
+    case PacketAction::ACTION_TELL:
+        return "ACTION_TELL";
 
     default:
         return "N/A";

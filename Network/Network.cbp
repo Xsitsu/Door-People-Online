@@ -79,6 +79,10 @@
 		<Unit filename="packetdisconnect.hpp" />
 		<Unit filename="packetreader.cpp" />
 		<Unit filename="packetreader.hpp" />
+		<Unit filename="packetterrain.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="packetterrain.hpp" />
 		<Unit filename="server.cpp" />
 		<Unit filename="server.hpp" />
 		<Unit filename="socket.cpp" />
