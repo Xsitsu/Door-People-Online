@@ -2,8 +2,15 @@
 
 #include "util/logger.hpp"
 
-GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), datamodel(), isRunning(false)
+#include "gamecore/world.hpp"
+#include "gamecore/terrain.hpp"
+#include "gamecore/platform.hpp"
+#include "gamecore/wall.hpp"
+
+GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false)
 {
+    dataModel.Init();
+
     this->display = al_create_display(1152, 648);
     this->event_queue = al_create_event_queue();
     this->timer = al_create_timer(1.0 / 60);
@@ -29,6 +36,11 @@ GameClient::~GameClient()
 
 void GameClient::Run()
 {
+    Game::Vector2 drawBegin(1152 / 2, 648 * 0.8);
+
+    Game::World *world = reinterpret_cast<Game::World*>(this->dataModel.GetService("World"));
+    world->LoadWorld();
+
     bool needsDraw = false;
     this->isRunning = true;
     al_start_timer(this->timer);
@@ -73,6 +85,28 @@ void GameClient::Run()
         if (needsDraw && al_is_event_queue_empty(event_queue))
         {
             needsDraw = false;
+
+            std::list<Game::Terrain*> terrain = world->GetTerrain();
+            for (Game::Terrain *terrainObj : terrain)
+            {
+                ALLEGRO_COLOR col = al_map_rgb(255, 255, 255);
+                if (terrainObj->GetTerrainType() == Game::TerrainType::TYPE_PLATFORM)
+                {
+                    col = al_map_rgb(20, 20, 220);
+                }
+                else if (terrainObj->GetTerrainType() == Game::TerrainType::TYPE_WALL)
+                {
+                    col = al_map_rgb(20, 220, 20);
+                }
+
+                Game::Vector2 size = terrainObj->GetSize();
+                Game::Vector2 position = terrainObj->GetPosition();
+
+                Game::Vector2 drawStart = drawBegin + position;
+                Game::Vector2 drawEnd = drawStart + size;
+
+                al_draw_filled_rectangle(drawStart.x, drawStart.y, drawEnd.x, drawEnd.y, col);
+            }
 
             al_wait_for_vsync();
             al_flip_display();

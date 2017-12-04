@@ -9,6 +9,9 @@
 
 #include "vector2.hpp"
 #include "actor.hpp"
+#include "terrain.hpp"
+#include "platform.hpp"
+#include "wall.hpp"
 
 namespace Game
 {
@@ -31,9 +34,15 @@ public:
     void AddActor(Actor *actor);
     void RemoveActor(Actor *actor);
 
+    void LoadWorld();
+    void ClearTerrain();
+    void AddTerrain(Terrain *terrain);
+    std::list<Terrain*> GetTerrain();
+
 protected:
     Vector2 gravity;
     std::list<Actor*> actors;
+    std::list<Terrain*> terrain;
 
 };
 

@@ -16,12 +16,12 @@ GameServer::~GameServer()
 
 void GameServer::Run()
 {
-    this->isRunning = true;
-
     Game::World *world = reinterpret_cast<Game::World*>(this->dataModel.GetService("World"));
+    world->LoadWorld();
 
     Util::Timer timer;
     timer.Start();
+    this->isRunning = true;
     while (this->isRunning)
     {
         double deltaT = timer.GetMiliSeconds();

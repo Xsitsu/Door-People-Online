@@ -61,8 +61,14 @@
 		<Unit filename="datamodel.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main.h" />
+		<Unit filename="platform.cpp" />
+		<Unit filename="platform.hpp" />
+		<Unit filename="terrain.cpp" />
+		<Unit filename="terrain.hpp" />
 		<Unit filename="vector2.cpp" />
 		<Unit filename="vector2.hpp" />
+		<Unit filename="wall.cpp" />
+		<Unit filename="wall.hpp" />
 		<Unit filename="world.cpp" />
 		<Unit filename="world.hpp" />
 		<Extensions>

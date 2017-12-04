@@ -25,7 +25,7 @@ protected:
     ALLEGRO_EVENT_QUEUE *event_queue;
     ALLEGRO_TIMER *timer;
 
-    Game::DataModel datamodel;
+    Game::DataModel dataModel;
     bool isRunning;
 
 };
