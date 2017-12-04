@@ -27,7 +27,7 @@ Packet::Base* PacketReader::ReadPacket(unsigned int packetSize, void *data)
     {
     case PacketFamily::FAMILY_CONNECT:
         {
-        Packet::Connect *packet = new Packet::Connect(connectionId, family, action);
+        Packet::Connect *packet = new Packet::Connect(connectionId, action);
         packet->SetAssignedId(PacketReader::Read32(data));
         ret = packet;
         break;

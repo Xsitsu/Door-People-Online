@@ -26,9 +26,19 @@ public:
     void Shutdown();
     bool IsRunning() const;
 
+    unsigned int NumConnectionsOnAddr(uint32_t addr) const;
+
+    bool HasConnection(uint32_t conId) const;
+    ClientConnection* GetConnection(uint32_t conId);
+    void AddConnection(uint32_t conId, const Address &address);
+    void RemoveConnection(uint32_t conId);
+
+
 protected:
+    uint32_t conIdCounter;
     unsigned int maxClients;
-    std::unordered_map<unsigned int, ClientConnection*> connections;
+    std::unordered_map<uint32_t, ClientConnection*> connections;
+    std::unordered_map<unsigned int, unsigned int> connectionsPerAddr;
 };
 
 }

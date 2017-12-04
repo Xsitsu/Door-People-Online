@@ -37,7 +37,7 @@ void Client::Connect(const Address &serverAddress)
     {
         this->serverAddress = serverAddress;
 
-        Packet::Connect packet(0, PacketFamily::FAMILY_CONNECT, PacketAction::ACTION_REQUEST);
+        Packet::Connect packet(0, PacketAction::ACTION_REQUEST);
         std::string family = PacketFamilyToString(packet.GetFamily());
         std::string action = PacketActionToString(packet.GetAction());
 

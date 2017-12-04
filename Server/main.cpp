@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
         double deltaT = timer.GetMiliSeconds();
         if (deltaT >= 16)
         {
-            Util::Logger::Instance()->Log("main", "Tick\n");
+            //Util::Logger::Instance()->Log("main", "Tick\n");
             timer.Reset();
             server.Tick();
             world->Update(deltaT);

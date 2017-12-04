@@ -15,6 +15,9 @@ std::string PacketFamilyToString(PacketFamily family)
     case PacketFamily::FAMILY_CONNECT:
         return "FAMILY_CONNECT";
 
+    case PacketFamily::FAMILY_DISCONNECT:
+        return "FAMILY_DISCONNECT";
+
     default:
         return "N/A";
     }

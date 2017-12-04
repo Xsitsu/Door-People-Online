@@ -15,12 +15,14 @@ class ClientConnection
 #endif // _WIN32
 {
 public:
-    ClientConnection(Address address);
+    ClientConnection(uint32_t conId, Address address);
     ~ClientConnection();
 
+    uint32_t GetConnectionId() const;
     const Address& GetAddress() const;
 
 protected:
+    uint32_t connectionId;
     Address address;
 
 };

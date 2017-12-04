@@ -6,7 +6,7 @@ namespace Network
 namespace Packet
 {
 
-Connect::Connect(uint32_t conId, PacketFamily family, PacketAction action) : Packet::Base(conId, family, action), assignedId(0)
+Connect::Connect(uint32_t conId, PacketAction action) : Packet::Base(conId, PacketFamily::FAMILY_CONNECT, action), assignedId(0)
 {
 
 }

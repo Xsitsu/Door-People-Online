@@ -12,6 +12,7 @@ enum PacketFamily : uint8_t
 {
     FAMILY_NONE = 0,
     FAMILY_CONNECT = 1,
+    FAMILY_DISCONNECT = 2,
 };
 
 enum PacketAction : uint8_t

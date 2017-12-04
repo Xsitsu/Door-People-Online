@@ -3,7 +3,7 @@
 namespace Network
 {
 
-ClientConnection::ClientConnection(Address address) : address(address)
+ClientConnection::ClientConnection(uint32_t conId, Address address) : connectionId(conId),address(address)
 {
 
 }
@@ -11,6 +11,11 @@ ClientConnection::ClientConnection(Address address) : address(address)
 ClientConnection::~ClientConnection()
 {
 
+}
+
+uint32_t ClientConnection::GetConnectionId() const
+{
+    return this->connectionId;
 }
 
 const Address& ClientConnection::GetAddress() const

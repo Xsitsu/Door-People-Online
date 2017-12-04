@@ -18,7 +18,7 @@ class Connect : public Packet::Base
 #endif // _WIN32
 {
 public:
-    Connect(uint32_t conId, PacketFamily family, PacketAction action);
+    Connect(uint32_t conId, PacketAction action);
     virtual ~Connect();
     virtual unsigned int GetPacketSize() const;
 
