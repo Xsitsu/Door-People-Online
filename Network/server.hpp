@@ -30,6 +30,7 @@ public:
 
     bool HasConnection(uint32_t conId) const;
     ClientConnection* GetConnection(uint32_t conId);
+    ClientConnection* GetConnectionFromAddress(const Address &address);
     void AddConnection(uint32_t conId, const Address &address);
     void RemoveConnection(uint32_t conId);
 

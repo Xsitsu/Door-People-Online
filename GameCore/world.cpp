@@ -3,7 +3,7 @@
 namespace Game
 {
 
-World::World() : gravity(), actors(), terrain()
+World::World() : gravity(), actors(), terrain(), terrainIsLoaded(false)
 {
     this->SetGravity(Vector2(0, -20));
 }
@@ -45,6 +45,11 @@ void World::RemoveActor(Actor *actor)
     this->actors.remove(actor);
 }
 
+std::list<Actor*> World::GetActors()
+{
+    return this->actors;
+}
+
 void World::LoadWorld()
 {
     Terrain *terrainObj;
@@ -63,6 +68,8 @@ void World::LoadWorld()
     terrainObj->SetSize(Vector2(600, 20));
     terrainObj->SetPosition(Vector2(300, -20));
     this->AddTerrain(terrainObj);
+
+    this->SetTerrainIsLoaded(true);
 }
 
 void World::ClearTerrain()
@@ -83,6 +90,16 @@ void World::AddTerrain(Terrain *terrain)
 std::list<Terrain*> World::GetTerrain()
 {
     return this->terrain;
+}
+
+bool World::IsTerrainLoaded() const
+{
+    return this->terrainIsLoaded;
+}
+
+void World::SetTerrainIsLoaded(bool loaded)
+{
+    this->terrainIsLoaded = loaded;
 }
 
 }

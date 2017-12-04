@@ -5,6 +5,9 @@
 
 #include "util/serviceprovider.hpp"
 
+#include "world.hpp"
+#include "playerlist.hpp"
+
 namespace Game
 {
 
@@ -18,6 +21,9 @@ public:
     DataModel();
     virtual ~DataModel();
     virtual void Init();
+
+    World* GetWorld();
+    PlayerList* GetPlayerList();
 
 protected:
 

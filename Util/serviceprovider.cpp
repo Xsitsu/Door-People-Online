@@ -34,6 +34,7 @@ void ServiceProvider::AddService(std::string serviceName, Service* service)
 {
     if (!this->HasService(serviceName))
     {
+        service->SetServiceProvider(this);
         this->services[serviceName] = service;
     }
 }

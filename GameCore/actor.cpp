@@ -3,7 +3,7 @@
 namespace Game
 {
 
-Actor::Actor() : position(), velocity(), direction(Actor::Direction::DIR_LEFT)
+Actor::Actor() : size(Vector2(40, 80)), position(), velocity(), direction(Actor::Direction::DIR_LEFT)
 {
 
 }
@@ -11,6 +11,16 @@ Actor::Actor() : position(), velocity(), direction(Actor::Direction::DIR_LEFT)
 Actor::~Actor()
 {
 
+}
+
+bool Actor::IsPlayer() const
+{
+    return false;
+}
+
+Vector2 Actor::GetSize() const
+{
+    return this->size;
 }
 
 Vector2 Actor::GetPosition() const

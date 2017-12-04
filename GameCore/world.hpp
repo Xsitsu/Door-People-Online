@@ -24,7 +24,7 @@ class World : public Util::Service
 {
 public:
     World();
-    ~World();
+    virtual ~World();
 
     Vector2 GetGravity() const;
     void SetGravity(const Vector2 &gravity);
@@ -33,16 +33,22 @@ public:
 
     void AddActor(Actor *actor);
     void RemoveActor(Actor *actor);
+    std::list<Actor*> GetActors();
 
     void LoadWorld();
     void ClearTerrain();
     void AddTerrain(Terrain *terrain);
     std::list<Terrain*> GetTerrain();
 
+    bool IsTerrainLoaded() const;
+    void SetTerrainIsLoaded(bool loaded);
+
 protected:
     Vector2 gravity;
     std::list<Actor*> actors;
     std::list<Terrain*> terrain;
+
+    bool terrainIsLoaded;
 
 };
 

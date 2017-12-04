@@ -95,6 +95,20 @@ ClientConnection* Server::GetConnection(uint32_t conId)
     return nullptr;
 }
 
+
+ClientConnection* Server::GetConnectionFromAddress(const Address &address)
+{
+    for (auto it : this->connections)
+    {
+        ClientConnection *connection = it.second;
+        if (connection->GetAddress() ==  address)
+        {
+            return connection;
+        }
+    }
+    return nullptr;
+}
+
 void Server::AddConnection(uint32_t conId, const Address &address)
 {
     if (!this->GetConnection(conId))

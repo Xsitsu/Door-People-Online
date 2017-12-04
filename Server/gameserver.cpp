@@ -2,8 +2,6 @@
 
 #include "util/logger.hpp"
 
-#include "gamecore/world.hpp"
-
 GameServer::GameServer() : Server(), dataModel(), isRunning(false)
 {
     this->dataModel.Init();
@@ -16,7 +14,7 @@ GameServer::~GameServer()
 
 void GameServer::Run()
 {
-    Game::World *world = this->GetWorld();
+    Game::World *world = this->dataModel.GetWorld();
     world->LoadWorld();
 
     Util::Timer timer;
@@ -37,16 +35,29 @@ void GameServer::Run()
     }
 }
 
-Game::World* GameServer::GetWorld()
+bool GameServer::HandlePacket(Network::Packet::Connect *packet, const Network::Address &sender)
 {
-    return reinterpret_cast<Game::World*>(this->dataModel.GetService("World"));
+    bool wasHandled = Server::HandlePacket(packet, sender);
+    if (wasHandled)
+    {
+        Network::ClientConnection *connection = this->GetConnectionFromAddress(sender);
+        if (connection)
+        {
+            Game::PlayerList *playerList = this->dataModel.GetPlayerList();
+            Game::Player *player = new Game::Player();
+            player->SetNetworkOwner(connection->GetConnectionId());
+            playerList->AddPlayer(player);
+        }
+    }
+
+    return wasHandled;
 }
 
 bool GameServer::HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender)
 {
     if (packet->GetAction() == Network::PacketAction::ACTION_REQUEST)
     {
-        Game::World *world = this->GetWorld();
+        Game::World *world = this->dataModel.GetWorld();
 
         Network::Packet::Terrain packet(0, Network::PacketAction::ACTION_TELL);
 

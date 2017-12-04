@@ -63,6 +63,10 @@
 		<Unit filename="main.h" />
 		<Unit filename="platform.cpp" />
 		<Unit filename="platform.hpp" />
+		<Unit filename="player.cpp" />
+		<Unit filename="player.hpp" />
+		<Unit filename="playerlist.cpp" />
+		<Unit filename="playerlist.hpp" />
 		<Unit filename="terrain.cpp" />
 		<Unit filename="terrain.hpp" />
 		<Unit filename="vector2.cpp" />

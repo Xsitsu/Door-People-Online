@@ -7,7 +7,7 @@
 #include "gamecore/platform.hpp"
 #include "gamecore/wall.hpp"
 
-GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false)
+GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false), player(nullptr)
 {
     dataModel.Init();
 
@@ -38,7 +38,7 @@ void GameClient::Run()
 {
     Game::Vector2 drawBegin(1152 / 2, 648 * 0.8);
 
-    Game::World *world = this->GetWorld();
+    Game::World *world = this->dataModel.GetWorld();
     //world->LoadWorld();
 
     bool needsDraw = false;
@@ -86,27 +86,59 @@ void GameClient::Run()
         {
             needsDraw = false;
 
-            std::list<Game::Terrain*> terrain = world->GetTerrain();
-            for (Game::Terrain *terrainObj : terrain)
+            if (world->IsTerrainLoaded())
             {
-                ALLEGRO_COLOR col = al_map_rgb(255, 255, 255);
-                if (terrainObj->GetTerrainType() == Game::TerrainType::TYPE_PLATFORM)
+                std::list<Game::Terrain*> terrain = world->GetTerrain();
+                for (Game::Terrain *terrainObj : terrain)
                 {
-                    col = al_map_rgb(20, 20, 220);
+                    ALLEGRO_COLOR col = al_map_rgb(255, 255, 255);
+                    if (terrainObj->GetTerrainType() == Game::TerrainType::TYPE_PLATFORM)
+                    {
+                        col = al_map_rgb(20, 20, 220);
+                    }
+                    else if (terrainObj->GetTerrainType() == Game::TerrainType::TYPE_WALL)
+                    {
+                        col = al_map_rgb(20, 220, 20);
+                    }
+
+                    Game::Vector2 size = terrainObj->GetSize();
+                    Game::Vector2 position = terrainObj->GetPosition();
+
+                    Game::Vector2 drawStart = drawBegin + position;
+                    Game::Vector2 drawEnd = drawStart + size;
+
+                    al_draw_filled_rectangle(drawStart.x, drawStart.y, drawEnd.x, drawEnd.y, col);
                 }
-                else if (terrainObj->GetTerrainType() == Game::TerrainType::TYPE_WALL)
+
+                std::list<Game::Actor*> actors = world->GetActors();
+                for (Game::Actor *actor : actors)
                 {
-                    col = al_map_rgb(20, 220, 20);
+                    if (actor->IsPlayer())
+                    {
+                        Game::Player *player = static_cast<Game::Player*>(actor);
+                        if (player != this->player)
+                        {
+                            Game::Vector2 size = player->GetSize();
+                            Game::Vector2 position = player->GetPosition();
+
+                            Game::Vector2 drawStart = drawBegin + position;
+                            Game::Vector2 drawEnd = drawStart + size;
+                            al_draw_filled_rectangle(drawStart.x, drawStart.y, drawEnd.x, drawEnd.y, al_map_rgb(0, 255, 255));
+                        }
+                    }
                 }
 
-                Game::Vector2 size = terrainObj->GetSize();
-                Game::Vector2 position = terrainObj->GetPosition();
+                if (this->player)
+                {
+                    Game::Vector2 size = this->player->GetSize();
+                    Game::Vector2 position = this->player->GetPosition();
 
-                Game::Vector2 drawStart = drawBegin + position;
-                Game::Vector2 drawEnd = drawStart + size;
-
-                al_draw_filled_rectangle(drawStart.x, drawStart.y, drawEnd.x, drawEnd.y, col);
+                    Game::Vector2 drawStart = drawBegin + position;
+                    Game::Vector2 drawEnd = drawStart + size;
+                    al_draw_filled_rectangle(drawStart.x, drawStart.y, drawEnd.x, drawEnd.y, al_map_rgb(255, 255, 0));
+                }
             }
+
 
             al_wait_for_vsync();
             al_flip_display();
@@ -121,18 +153,28 @@ void GameClient::Run()
     }
 }
 
-Game::World* GameClient::GetWorld()
-{
-    return reinterpret_cast<Game::World*>(this->dataModel.GetService("World"));
-}
-
 bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::Address &sender)
 {
     bool wasHandled = Network::Client::HandlePacket(packet, sender);
-    if (wasHandled && this->isConnected)
+    if (wasHandled)
     {
-        Network::Packet::Terrain packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
-        this->SendPacket(&packet, this->serverAddress);
+        if (this->isConnected)
+        {
+            Network::Packet::Terrain packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
+            this->SendPacket(&packet, this->serverAddress);
+
+            Game::PlayerList *playerList = this->dataModel.GetPlayerList();
+            Game::Player *player = new Game::Player();
+            player->SetNetworkOwner(this->connectionId);
+            playerList->AddPlayer(player);
+
+            this->player = player;
+        }
+        else
+        {
+            this->isRunning = false;
+        }
+
     }
     return wasHandled;
 }
@@ -141,7 +183,7 @@ bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::A
 {
     if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
     {
-        Game::World* world = this->GetWorld();
+        Game::World* world = this->dataModel.GetWorld();
         world->ClearTerrain();
 
         std::list<Network::Packet::Terrain::TerrainData> terrainData = packet->GetTerrainData();
@@ -166,12 +208,10 @@ bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::A
                 terrain->SetPosition(position);
                 terrain->SetSize(size);
                 world->AddTerrain(terrain);
-
-                printf("added\n");
-                printf("Position: %f/%f\n", position.x, position.y);
-                printf("Size: %f/%f\n", size.x, size.y);
             }
         }
+
+        world->SetTerrainIsLoaded(true);
 
         return true;
     }

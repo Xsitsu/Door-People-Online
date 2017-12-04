@@ -1,6 +1,7 @@
 #include "datamodel.hpp"
 
 #include "gamecore/world.hpp"
+#include "gamecore/playerlist.hpp"
 
 namespace Game
 {
@@ -19,6 +20,17 @@ void DataModel::Init()
 {
     Util::ServiceProvider::Init();
     this->AddService("World", new World());
+    this->AddService("PlayerList", new PlayerList());
+}
+
+World* DataModel::GetWorld()
+{
+    return reinterpret_cast<World*>(this->GetService("World"));
+}
+
+PlayerList* DataModel::GetPlayerList()
+{
+    return reinterpret_cast<PlayerList*>(this->GetService("PlayerList"));
 }
 
 }

@@ -25,6 +25,9 @@ public:
     Actor();
     virtual ~Actor();
 
+    virtual bool IsPlayer() const;
+
+    Vector2 GetSize() const;
     Vector2 GetPosition() const;
     Vector2 GetVelocity() const;
     Direction GetDirection() const;
@@ -35,6 +38,7 @@ public:
     void Jump();
 
 protected:
+    Vector2 size;
     Vector2 position;
     Vector2 velocity;
     Direction direction;
