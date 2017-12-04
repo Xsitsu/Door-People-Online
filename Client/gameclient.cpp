@@ -146,8 +146,10 @@ void GameClient::Run()
         {
             needsDraw = false;
 
-            if (world->IsTerrainLoaded())
+            if (world->IsTerrainLoaded() && this->player)
             {
+                Game::Vector2 drawFocus = drawBegin - Game::Vector2(player->GetPosition().x, 0);
+
                 std::list<Game::Terrain*> terrain = world->GetTerrain();
                 for (Game::Terrain *terrainObj : terrain)
                 {
@@ -160,7 +162,7 @@ void GameClient::Run()
                     {
                         col = al_map_rgb(20, 220, 20);
                     }
-                    TerrainDrawer::DrawTerrain(terrainObj, drawBegin, col);
+                    TerrainDrawer::DrawTerrain(terrainObj, drawFocus, col);
                 }
 
                 std::list<Game::Actor*> actors = world->GetActors();
@@ -171,15 +173,12 @@ void GameClient::Run()
                         Game::Player *player = static_cast<Game::Player*>(actor);
                         if (player != this->player)
                         {
-                            ActorDrawer::DrawActor(player, drawBegin, al_map_rgb(0, 255, 255));
+                            ActorDrawer::DrawActor(player, drawFocus, al_map_rgb(0, 255, 255));
                         }
                     }
                 }
 
-                if (this->player)
-                {
-                    ActorDrawer::DrawActor(this->player, drawBegin, al_map_rgb(255, 255, 0));
-                }
+                ActorDrawer::DrawActor(this->player, drawFocus, al_map_rgb(255, 255, 0));
             }
 
 
