@@ -7,7 +7,7 @@ namespace Game
 
 World::World() : gravity(), actors(), terrain(), terrainIsLoaded(false)
 {
-    this->SetGravity(Vector2(0, -200));
+    this->SetGravity(Vector2(0, -480));
 }
 
 World::~World()
@@ -33,6 +33,14 @@ void World::Update(double deltaT)
         {
             Vector2 size = actor->GetSize();
             Vector2 before = actor->GetPosition();
+
+            if (before.y < -300)
+            {
+                actor->SetPosition(Vector2(0, 300));
+                before = actor->GetPosition();
+                actor->AddVelocity(Vector2(0, -actor->GetVelocity().y));
+            }
+
             actor->AddVelocity(this->gravity * deltaT);
             actor->Update(deltaT);
             Vector2 after = actor->GetPosition();
@@ -91,11 +99,27 @@ void World::Update(double deltaT)
                         }
                     }
 
-                    if (this->SegmentsOverlap(after.y, after.y - size.y, objPos.y, bottomLeft.y))
+                    if (this->SegmentsOverlap(after.y - size.y, after.y, bottomLeft.y, objPos.y))
                     {
                         if (velocity.x > 0)
                         {
-
+                            if (objPos.x >= before.x + size.x)
+                            {
+                                if (after.x + size.x > objPos.x)
+                                {
+                                    after.x = objPos.x - size.x;
+                                }
+                            }
+                        }
+                        else if (velocity.x < 0)
+                        {
+                            if (topRight.x <= before.x)
+                            {
+                                if (after.x < topRight.x)
+                                {
+                                    after.x = topRight.x;
+                                }
+                            }
                         }
                     }
                 }
@@ -176,7 +200,7 @@ void World::SetTerrainIsLoaded(bool loaded)
 
 bool World::SegmentsOverlap(double x1, double x2, double y1, double y2) const
 {
-    return (x2 >= y1 && y2 >= x1);
+    return (x2 > y1 && y2 > x1);
 }
 
 }

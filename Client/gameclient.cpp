@@ -44,7 +44,7 @@ void GameClient::Run()
 
     Game::World *world = this->dataModel.GetWorld();
 
-    Game::Vector2 walkSpeed(200, 0);
+    Game::Vector2 walkSpeed(160, 0);
 
     Util::Timer uTimer;
 
@@ -80,7 +80,10 @@ void GameClient::Run()
             {
                 if (ev.keyboard.keycode == ALLEGRO_KEY_UP)
                 {
-                    this->player->Jump();
+                    if (this->player->GetVelocity().y == 0)
+                    {
+                        this->player->Jump();
+                    }
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
                 {

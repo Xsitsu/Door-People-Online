@@ -66,7 +66,7 @@ void Actor::Update(double deltaT)
 
 void Actor::Jump()
 {
-    this->AddVelocity(Vector2(0, 140));
+    this->AddVelocity(Vector2(0, 240));
 }
 
 }
