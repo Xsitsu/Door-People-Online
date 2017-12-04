@@ -70,6 +70,8 @@
 		<Unit filename="service.hpp" />
 		<Unit filename="serviceprovider.cpp" />
 		<Unit filename="serviceprovider.hpp" />
+		<Unit filename="timer.cpp" />
+		<Unit filename="timer.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

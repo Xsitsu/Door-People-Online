@@ -55,10 +55,14 @@
 			<Add after='cmd /c copy &quot;$(PROJECT_DIR)$(TARGET_OUTPUT_FILE)&quot; &quot;$(PROJECT_DIR)..\Server\bin\$(TARGET_NAME)&quot;' />
 			<Mode after="always" />
 		</ExtraCommands>
+		<Unit filename="actor.cpp" />
+		<Unit filename="actor.hpp" />
 		<Unit filename="datamodel.cpp" />
 		<Unit filename="datamodel.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main.h" />
+		<Unit filename="vector2.cpp" />
+		<Unit filename="vector2.hpp" />
 		<Unit filename="world.cpp" />
 		<Unit filename="world.hpp" />
 		<Extensions>

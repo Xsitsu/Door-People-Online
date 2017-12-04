@@ -7,7 +7,7 @@ namespace Util
 
 ServiceProvider::ServiceProvider() : services()
 {
-    this->Init();
+
 }
 
 ServiceProvider::~ServiceProvider()
@@ -17,7 +17,11 @@ ServiceProvider::~ServiceProvider()
 
 void ServiceProvider::Init()
 {
-
+    if (!Util::Logger::Instance()->HasLogChannel("service_provider"))
+    {
+        Util::Logger::Instance()->CreateLogChannel("service_provider", "SVP", stdout);
+        Util::Logger::Instance()->EnableLogChannel("service_provider");
+    }
 }
 
 bool ServiceProvider::HasService(std::string serviceName) const
@@ -42,6 +46,9 @@ Service* ServiceProvider::GetService(std::string serviceName)
     }
     else
     {
+        std::string msg = "Tried to get invalid service: " + serviceName + "\n";
+        Util::Logger::Instance()->Log("service_provider", msg);
+        Util::Logger::Instance()->Flush();
         return nullptr;
     }
 }

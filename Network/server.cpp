@@ -2,6 +2,8 @@
 
 #include "network/packetall.hpp"
 
+#include <iostream>
+
 namespace Network
 {
 

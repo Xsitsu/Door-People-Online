@@ -20,7 +20,7 @@ Packet::Base* NetworkPeer::ReceivePacket(Address &sender)
     char buffer[this->maxPacketSize];
     Packet::Base *packet = nullptr;
 
-    unsigned int bytesRead = 0;
+    int bytesRead = 0;
     bool reading = true;
     while (reading)
     {
@@ -48,7 +48,7 @@ void NetworkPeer::SendPacket(Packet::Base* packet, const Address &destination)
     this->socket.Send(destination, buffer, dataSize);
 }
 
-void NetworkPeer::SetMaxPacketSize(unsigned int buffSize)
+void NetworkPeer::SetMaxPacketSize(int buffSize)
 {
     this->maxPacketSize = buffSize;
 }

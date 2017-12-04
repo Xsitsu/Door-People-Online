@@ -1,8 +1,11 @@
 #include <sstream>
 
 #include "util/logger.hpp"
+#include "util/timer.hpp"
 
 #include "network/server.hpp"
+#include "gamecore/datamodel.hpp"
+#include "gamecore/world.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -16,24 +19,34 @@ int main(int argc, char *argv[])
     if (!server.Init(bindPort, 20))
     {
         std::stringstream stream;
-        stream << "Unable to bind to port: ";
-        stream << bindPort;
-        stream << "!\n";
+        stream << "Unable to bind to port: " << bindPort << "!\n";
         Util::Logger::Instance()->Log("main", stream.str());
         Util::Logger::Instance()->Flush();
         return -1;
     }
 
     std::stringstream stream;
-    stream << "Successfully bound to port: ";
-    stream << bindPort;
-    stream << "!\n";
+    stream << "Successfully bound to port: " << bindPort << "!\n";
     Util::Logger::Instance()->Log("main", stream.str());
     Util::Logger::Instance()->Flush();
 
+    Game::DataModel dataModel;
+    dataModel.Init();
+    Game::World *world = reinterpret_cast<Game::World*>(dataModel.GetService("World"));
+
+    Util::Timer timer;
+    timer.Start();
     while (server.IsRunning())
     {
-        server.Tick();
+        double deltaT = timer.GetMiliSeconds();
+        if (deltaT >= 16)
+        {
+            Util::Logger::Instance()->Log("main", "Tick\n");
+            timer.Reset();
+            server.Tick();
+            world->Update(deltaT);
+        }
+
         Util::Logger::Instance()->Flush();
     }
 

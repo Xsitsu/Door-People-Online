@@ -20,6 +20,7 @@ class ServiceProvider
 public:
     ServiceProvider();
     virtual ~ServiceProvider();
+    virtual void Init();
 
     bool HasService(std::string serviceName) const;
     void AddService(std::string serviceName, Service* service);
@@ -28,8 +29,6 @@ public:
     void DestroyService(std::string serviceName); // remove then delete
 
 protected:
-    virtual void Init();
-
     std::unordered_map<std::string, Service*> services;
 };
 

@@ -17,9 +17,10 @@ class DataModel : public Util::ServiceProvider
 public:
     DataModel();
     virtual ~DataModel();
+    virtual void Init();
 
 protected:
-    virtual void Init();
+
 };
 
 }

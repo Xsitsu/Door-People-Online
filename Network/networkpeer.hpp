@@ -22,12 +22,12 @@ public:
     Packet::Base* ReceivePacket(Address &sender);
     void SendPacket(Packet::Base* packet, const Address &destination);
 
-    void SetMaxPacketSize(unsigned int buffSize);
+    void SetMaxPacketSize(int buffSize);
 
 protected:
     Socket socket;
 
-    unsigned int maxPacketSize;
+    int maxPacketSize;
 
 };
 
