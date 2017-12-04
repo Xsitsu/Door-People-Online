@@ -4,7 +4,7 @@
 #include "main.h"
 
 #include "socket.hpp"
-#include "packet.hpp"
+#include "packetall.hpp"
 
 namespace Network
 {
@@ -25,8 +25,11 @@ public:
     void SetMaxPacketSize(int buffSize);
 
 protected:
-    Socket socket;
+    virtual bool HandlePacket(Packet::Base *packet, const Address &sender) = 0;
+    virtual bool HandlePacket(Packet::Connect *packet, const Address &sender) = 0;
+    virtual bool HandlePacket(Packet::Disconnect *packet, const Address &sender) = 0;
 
+    Socket socket;
     int maxPacketSize;
 
 };

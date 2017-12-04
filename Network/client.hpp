@@ -21,12 +21,21 @@ public:
     bool Init(unsigned short port);
     void Connect(const Address &serverAddress);
     bool IsConnected() const;
+    void Disconnect();
+
+    void Tick();
 
     const Address& GetServerAddress() const;
+    uint32_t GetConnectionId() const;
 
 protected:
+    virtual bool HandlePacket(Packet::Base *packet, const Address &sender);
+    virtual bool HandlePacket(Packet::Connect *packet, const Address &sender);
+    virtual bool HandlePacket(Packet::Disconnect *packet, const Address &sender);
+
     Address serverAddress;
     bool isConnected;
+    uint32_t connectionId;
 };
 
 }

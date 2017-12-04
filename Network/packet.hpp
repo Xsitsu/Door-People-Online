@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include "address.hpp"
+
 namespace Network
 {
 

@@ -26,8 +26,13 @@ void PacketBuilder::BuildPacket(Packet::Base *packet, void *data)
 
     if (family == PacketFamily::FAMILY_CONNECT)
     {
-        Packet::Connect *packet = static_cast<Packet::Connect*>(packet);
-        PacketBuilder::Put32(data, packet->GetAssignedId());
+        Packet::Connect *pkt = static_cast<Packet::Connect*>(packet);
+        PacketBuilder::Put32(data, pkt->GetAssignedId());
+    }
+    else if (family == PacketFamily::FAMILY_DISCONNECT)
+    {
+        //Packet::Disconnect *pkt = static_cast<Packet::Disconnect*>(packet);
+        // nothing else required
     }
 }
 

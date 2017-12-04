@@ -43,6 +43,8 @@
 			<Add option="-fexceptions" />
 			<Add directory="../" />
 		</Compiler>
+		<Unit filename="gameserver.cpp" />
+		<Unit filename="gameserver.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

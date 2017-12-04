@@ -32,6 +32,12 @@ Packet::Base* PacketReader::ReadPacket(unsigned int packetSize, void *data)
         ret = packet;
         break;
         }
+    case PacketFamily::FAMILY_DISCONNECT:
+        {
+        Packet::Disconnect *packet = new Packet::Disconnect(connectionId, action);
+        ret = packet;
+        break;
+        }
     default:
         {
         Packet::Base *packet = new Packet::Base(connectionId, family, action);

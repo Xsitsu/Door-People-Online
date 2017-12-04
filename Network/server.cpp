@@ -4,15 +4,18 @@
 
 #include "util/logger.hpp"
 
+static const char *logChannelName = "server";
+static const char *logChannelTag = "SRVR";
+
 namespace Network
 {
 
 Server::Server() : conIdCounter(0), maxClients(0), connections(), connectionsPerAddr()
 {
-    if (!Util::Logger::Instance()->HasLogChannel("server"))
+    if (!Util::Logger::Instance()->HasLogChannel(logChannelName))
     {
-        Util::Logger::Instance()->CreateLogChannel("server", "SRVR", stdout);
-        Util::Logger::Instance()->EnableLogChannel("server");
+        Util::Logger::Instance()->CreateLogChannel(logChannelName, logChannelTag, stdout);
+        Util::Logger::Instance()->EnableLogChannel(logChannelName);
     }
 }
 
@@ -43,35 +46,15 @@ void Server::Tick()
     {
         if (packet->GetFamily() == PacketFamily::FAMILY_CONNECT)
         {
-            Packet::Connect *packet = static_cast<Packet::Connect*>(packet);
-            unsigned int addr = sender.GetAddress();
-            uint32_t conNumber = this->NumConnectionsOnAddr(addr);
-            if (conNumber >= 3)
-            {
-                Packet::Connect response(0, PacketAction::ACTION_DECLINE);
-                this->SendPacket(&response, sender);
-            }
-            else
-            {
-                uint32_t conId = this->conIdCounter++;
-                while (this->HasConnection(conId))
-                {
-                    conId = this->conIdCounter++;
-                }
-
-                this->AddConnection(conId, sender);
-                ClientConnection *connection = this->GetConnection(conId);
-
-                Packet::Connect response(0, PacketAction::ACTION_ACCEPT);
-                response.SetAssignedId(conId);
-                this->SendPacket(&response, sender);
-
-                Util::Logger::Instance()->Log("server", "Accepted client connection!\n");
-            }
+            this->HandlePacket(static_cast<Packet::Connect*>(packet), sender);
         }
         else if (packet->GetFamily() == PacketFamily::FAMILY_DISCONNECT)
         {
-
+            this->HandlePacket(static_cast<Packet::Disconnect*>(packet), sender);
+        }
+        else
+        {
+            this->HandlePacket(packet, sender);
         }
 
         delete packet;
@@ -152,12 +135,82 @@ void Server::RemoveConnection(uint32_t conId)
         uint32_t numCons = this->NumConnectionsOnAddr(addr);
         if (numCons > 0)
         {
-            this->connectionsPerAddr[addr] = numCons--;
+            this->connectionsPerAddr[addr] = numCons - 1;
         }
 
         this->connections.erase(conId);
     }
 }
 
+
+
+bool Server::HandlePacket(Packet::Base *packet, const Address &)
+{
+    std::string packetFamilyName = PacketFamilyToString(packet->GetFamily());
+    std::string packetActionName = PacketActionToString(packet->GetAction());
+    std::string msg = "Got packet with I don't know what to do with: " + packetFamilyName + " " + packetActionName + "\n";
+    Util::Logger::Instance()->Log(logChannelName, msg);
+
+    return false;
+}
+
+bool Server::HandlePacket(Packet::Connect *packet, const Address &sender)
+{
+    if (packet->GetAction() == PacketAction::ACTION_REQUEST)
+    {
+        unsigned int addr = sender.GetAddress();
+        uint32_t conNumber = this->NumConnectionsOnAddr(addr);
+        if (conNumber >= 3)
+        {
+            Packet::Connect response(0, PacketAction::ACTION_DECLINE);
+            this->SendPacket(&response, sender);
+
+            std::string message = "Refused client connection with address: " + sender.ToString() + "\n";
+            Util::Logger::Instance()->Log(logChannelName, message);
+        }
+        else
+        {
+            uint32_t conId = this->conIdCounter++;
+            while (this->HasConnection(conId))
+            {
+                conId = this->conIdCounter++;
+            }
+
+            this->AddConnection(conId, sender);
+
+            Packet::Connect response(0, PacketAction::ACTION_ACCEPT);
+            response.SetAssignedId(conId);
+            this->SendPacket(&response, sender);
+
+            std::string message = "Client connected with address: " + sender.ToString() + "\n";
+            Util::Logger::Instance()->Log(logChannelName, message);
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Server::HandlePacket(Packet::Disconnect *packet, const Address &sender)
+{
+    if (packet->GetAction() == PacketAction::ACTION_REQUEST)
+    {
+        uint32_t conId = packet->GetConnectionId();
+        ClientConnection *connection = this->GetConnection(conId);
+        if (connection)
+        {
+            if (connection->GetAddress() == sender)
+            {
+                this->RemoveConnection(conId);
+                Packet::Disconnect packet(0, PacketAction::ACTION_ACCEPT);
+                this->SendPacket(&packet, sender);
+
+                std::string message = "Client disconnected with address: " + sender.ToString() + "\n";
+                Util::Logger::Instance()->Log(logChannelName, message);
+            }
+        }
+        return true;
+    }
+    return false;
+}
 
 }

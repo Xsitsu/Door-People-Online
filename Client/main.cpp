@@ -9,6 +9,7 @@
 #include "util/logger.hpp"
 
 #include "network/client.hpp"
+#include "network/packetall.hpp"
 
 int main()
 {
@@ -32,7 +33,7 @@ int main()
     al_init_font_addon();
     al_init_ttf_addon();
 
-    ALLEGRO_DISPLAY *display = al_create_display(1280, 720);
+    ALLEGRO_DISPLAY *display = al_create_display(1152, 648);
     ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / 60);
 
@@ -72,6 +73,8 @@ int main()
         if (ev.type == ALLEGRO_EVENT_TIMER)
         {
             needsDraw = true;
+
+            client.Tick();
         }
         else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {
@@ -105,9 +108,13 @@ int main()
             al_wait_for_vsync();
             al_flip_display();
             al_clear_to_color(al_map_rgb(0, 0, 0));
-
         }
 
+    }
+
+    if(client.IsConnected())
+    {
+        client.Disconnect();
     }
 
     Util::Logger::Instance()->Flush();

@@ -28,7 +28,7 @@ public:
 
 	sockaddr_in ToSockaddr_in() const;
 
-	bool operator==(const Address& rhs);
+	bool operator==(const Address& rhs) const;
 
 protected:
 	unsigned int address;

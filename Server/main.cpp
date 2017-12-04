@@ -3,9 +3,10 @@
 #include "util/logger.hpp"
 #include "util/timer.hpp"
 
-#include "network/server.hpp"
 #include "gamecore/datamodel.hpp"
 #include "gamecore/world.hpp"
+
+#include "gameserver.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +16,7 @@ int main(int argc, char *argv[])
     Util::Logger::Instance()->EnableLogChannel("main");
 
     unsigned int bindPort = 50000;
-    Network::Server server;
+    GameServer server;
     if (!server.Init(bindPort, 20))
     {
         std::stringstream stream;

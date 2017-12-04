@@ -71,7 +71,7 @@ std::string Address::ToString() const
     return stream.str();
 }
 
-bool Address::operator==(const Address& rhs)
+bool Address::operator==(const Address& rhs) const
 {
     return (this->address == rhs.address) && (this->port == rhs.port);
 }

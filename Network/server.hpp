@@ -7,6 +7,7 @@
 
 #include "networkpeer.hpp"
 #include "clientconnection.hpp"
+#include "packetall.hpp"
 
 namespace Network
 {
@@ -33,8 +34,11 @@ public:
     void AddConnection(uint32_t conId, const Address &address);
     void RemoveConnection(uint32_t conId);
 
-
 protected:
+    virtual bool HandlePacket(Packet::Base *packet, const Address &sender);
+    virtual bool HandlePacket(Packet::Connect *packet, const Address &sender);
+    virtual bool HandlePacket(Packet::Disconnect *packet, const Address &sender);
+
     uint32_t conIdCounter;
     unsigned int maxClients;
     std::unordered_map<uint32_t, ClientConnection*> connections;
