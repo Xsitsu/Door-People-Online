@@ -26,6 +26,7 @@ protected:
     ALLEGRO_TIMER *timer;
 
     Game::DataModel datamodel;
+    bool isRunning;
 
 };
 

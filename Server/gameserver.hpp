@@ -6,14 +6,20 @@
 
 #include "gamecore/datamodel.hpp"
 
+#include "util/timer.hpp"
+
 class GameServer : public Network::Server
 {
 public:
     GameServer();
     virtual ~GameServer();
 
+    void Run();
+
 protected:
-    Game::DataModel datamodel;
+    Game::DataModel dataModel;
+
+    bool isRunning;
 
 };
 

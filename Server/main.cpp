@@ -1,10 +1,6 @@
 #include <sstream>
 
 #include "util/logger.hpp"
-#include "util/timer.hpp"
-
-#include "gamecore/datamodel.hpp"
-#include "gamecore/world.hpp"
 
 #include "gameserver.hpp"
 
@@ -31,24 +27,13 @@ int main(int argc, char *argv[])
     Util::Logger::Instance()->Log("main", stream.str());
     Util::Logger::Instance()->Flush();
 
-    Game::DataModel dataModel;
-    dataModel.Init();
-    Game::World *world = reinterpret_cast<Game::World*>(dataModel.GetService("World"));
-
-    Util::Timer timer;
-    timer.Start();
-    while (server.IsRunning())
+    try
     {
-        double deltaT = timer.GetMiliSeconds();
-        if (deltaT >= 16)
-        {
-            //Util::Logger::Instance()->Log("main", "Tick\n");
-            timer.Reset();
-            server.Tick();
-            world->Update(deltaT);
-        }
+        server.Run();
+    }
+    catch (...)
+    {
 
-        Util::Logger::Instance()->Flush();
     }
 
     Util::Logger::Instance()->Flush();

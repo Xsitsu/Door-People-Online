@@ -2,7 +2,7 @@
 
 #include "util/logger.hpp"
 
-GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), datamodel()
+GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), datamodel(), isRunning(false)
 {
     this->display = al_create_display(1152, 648);
     this->event_queue = al_create_event_queue();
@@ -30,9 +30,9 @@ GameClient::~GameClient()
 void GameClient::Run()
 {
     bool needsDraw = false;
-    bool running = true;
+    this->isRunning = true;
     al_start_timer(this->timer);
-    while (running)
+    while (this->isRunning)
     {
         ALLEGRO_EVENT ev;
         al_wait_for_event(this->event_queue, &ev);
@@ -47,7 +47,7 @@ void GameClient::Run()
         }
         else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {
-            running = false;
+            this->isRunning = false;
         }
         else if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
         {

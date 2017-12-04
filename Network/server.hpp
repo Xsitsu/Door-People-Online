@@ -25,7 +25,6 @@ public:
     bool Init(unsigned short port, unsigned int maxClients);
     void Tick();
     void Shutdown();
-    bool IsRunning() const;
 
     unsigned int NumConnectionsOnAddr(uint32_t addr) const;
 

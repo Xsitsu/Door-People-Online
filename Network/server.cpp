@@ -65,11 +65,6 @@ void Server::Shutdown()
     }
 }
 
-bool Server::IsRunning() const
-{
-    return this->socket.IsOpen();
-}
-
 unsigned int Server::NumConnectionsOnAddr(uint32_t addr) const
 {
     auto srch = this->connectionsPerAddr.find(addr);
