@@ -10,7 +10,7 @@ static const char *logChannelTag = "SRVR";
 namespace Network
 {
 
-Server::Server() : conIdCounter(0), maxClients(0), connections(), connectionsPerAddr()
+Server::Server() : conIdCounter(1), maxClients(0), connections(), connectionsPerAddr()
 {
     if (!Util::Logger::Instance()->HasLogChannel(logChannelName))
     {
@@ -44,20 +44,7 @@ void Server::Tick()
     Packet::Base *packet = this->ReceivePacket(sender);
     while (packet != nullptr)
     {
-        if (packet->GetFamily() == PacketFamily::FAMILY_CONNECT)
-        {
-            this->HandlePacket(static_cast<Packet::Connect*>(packet), sender);
-        }
-        else if (packet->GetFamily() == PacketFamily::FAMILY_DISCONNECT)
-        {
-            this->HandlePacket(static_cast<Packet::Disconnect*>(packet), sender);
-        }
-        else
-        {
-            this->HandlePacket(packet, sender);
-        }
-
-        delete packet;
+        this->DoHandlePacket(packet, sender);
         packet = this->ReceivePacket(sender);
     }
 }
@@ -171,7 +158,7 @@ bool Server::HandlePacket(Packet::Connect *packet, const Address &sender)
         else
         {
             uint32_t conId = this->conIdCounter++;
-            while (this->HasConnection(conId))
+            while (conId == 0 || this->HasConnection(conId))
             {
                 conId = this->conIdCounter++;
             }

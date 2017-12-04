@@ -45,6 +45,8 @@
 			<Add directory="../" />
 			<Add directory="../allegro/include" />
 		</Compiler>
+		<Unit filename="gameclient.cpp" />
+		<Unit filename="gameclient.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

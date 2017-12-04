@@ -4,6 +4,8 @@
 #include "network/server.hpp"
 #include "network/packetall.hpp"
 
+#include "gamecore/datamodel.hpp"
+
 class GameServer : public Network::Server
 {
 public:
@@ -11,6 +13,7 @@ public:
     virtual ~GameServer();
 
 protected:
+    Game::DataModel datamodel;
 
 };
 

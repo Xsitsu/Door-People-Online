@@ -53,4 +53,24 @@ void NetworkPeer::SetMaxPacketSize(int buffSize)
     this->maxPacketSize = buffSize;
 }
 
+bool NetworkPeer::DoHandlePacket(Packet::Base *packet, const Address &sender)
+{
+    bool wasHandled = false;
+    if (packet->GetFamily() == PacketFamily::FAMILY_CONNECT)
+    {
+        wasHandled = this->HandlePacket(static_cast<Packet::Connect*>(packet), sender);
+    }
+    else if (packet->GetFamily() == PacketFamily::FAMILY_DISCONNECT)
+    {
+        wasHandled = this->HandlePacket(static_cast<Packet::Disconnect*>(packet), sender);
+    }
+    else
+    {
+        wasHandled = this->HandlePacket(packet, sender);
+    }
+    delete packet;
+
+    return wasHandled;
+}
+
 }

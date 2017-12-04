@@ -75,20 +75,7 @@ void Client::Tick()
     {
         if (sender == this->serverAddress)
         {
-            if (packet->GetFamily() == PacketFamily::FAMILY_CONNECT)
-            {
-                this->HandlePacket(static_cast<Packet::Connect*>(packet), sender);
-            }
-            else if (packet->GetFamily() == PacketFamily::FAMILY_DISCONNECT)
-            {
-                this->HandlePacket(static_cast<Packet::Disconnect*>(packet), sender);
-            }
-            else
-            {
-                this->HandlePacket(packet, sender);
-            }
-
-            delete packet;
+            this->DoHandlePacket(packet, sender);
             packet = this->ReceivePacket(sender);
         }
     }

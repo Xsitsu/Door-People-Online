@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-GameServer::GameServer() : Server()
+GameServer::GameServer() : Server(), datamodel()
 {
 
 }
