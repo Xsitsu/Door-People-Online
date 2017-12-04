@@ -44,6 +44,8 @@ public:
     void SetTerrainIsLoaded(bool loaded);
 
 protected:
+    bool SegmentsOverlap(double x1, double x2, double y1, double y2) const;
+
     Vector2 gravity;
     std::list<Actor*> actors;
     std::list<Terrain*> terrain;

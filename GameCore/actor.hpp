@@ -32,6 +32,9 @@ public:
     Vector2 GetVelocity() const;
     Direction GetDirection() const;
 
+    void SetDirection(Direction dir);
+    void SetPosition(const Vector2 &pos);
+    void SetVelocity(const Vector2 &vel);
     void AddVelocity(const Vector2 &vel);
     void Update(double deltaT);
 

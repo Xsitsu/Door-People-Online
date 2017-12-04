@@ -45,9 +45,13 @@
 			<Add directory="../" />
 			<Add directory="../allegro/include" />
 		</Compiler>
+		<Unit filename="actordrawer.cpp" />
+		<Unit filename="actordrawer.hpp" />
 		<Unit filename="gameclient.cpp" />
 		<Unit filename="gameclient.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="terraindrawer.cpp" />
+		<Unit filename="terraindrawer.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -28,7 +28,7 @@ void GameServer::Run()
             //Util::Logger::Instance()->Log("main", "Tick\n");
             timer.Reset();
             this->Tick();
-            world->Update(deltaT);
+            world->Update(deltaT/1000);
 
             Util::Logger::Instance()->Flush();
         }

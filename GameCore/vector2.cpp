@@ -78,4 +78,14 @@ Vector2 Vector2::operator/(const double num) const
     return Vector2(this->x / num, this->y / num);
 }
 
+Vector2 Vector2::operator-() const
+{
+    return Vector2(-this->x, -this->y);
+}
+
+double Vector2::Cross(const Vector2 &other) const
+{
+    return ((this->x * other.y) - (this->y * other.x));
+}
+
 }

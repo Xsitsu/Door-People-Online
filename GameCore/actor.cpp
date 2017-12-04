@@ -3,7 +3,7 @@
 namespace Game
 {
 
-Actor::Actor() : size(Vector2(40, 80)), position(), velocity(), direction(Actor::Direction::DIR_LEFT)
+Actor::Actor() : size(Vector2(40, 80)), position(Vector2(0, 200)), velocity(), direction(Actor::Direction::DIR_LEFT)
 {
 
 }
@@ -38,6 +38,22 @@ Actor::Direction Actor::GetDirection() const
     return this->direction;
 }
 
+void Actor::SetDirection(Direction dir)
+{
+    this->direction = dir;
+}
+
+void Actor::SetPosition(const Vector2 &pos)
+{
+    this->position = pos;
+}
+
+
+void Actor::SetVelocity(const Vector2 &vel)
+{
+    this->velocity = vel;
+}
+
 void Actor::AddVelocity(const Vector2 &vel)
 {
     this->velocity += vel;
@@ -50,7 +66,7 @@ void Actor::Update(double deltaT)
 
 void Actor::Jump()
 {
-    this->AddVelocity(Vector2(0, 80));
+    this->AddVelocity(Vector2(0, 140));
 }
 
 }

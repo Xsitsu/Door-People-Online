@@ -31,6 +31,9 @@ struct Vector2
     Vector2 operator-(const Vector2& rhs) const;
     Vector2 operator*(const double num) const;
     Vector2 operator/(const double num) const;
+    Vector2 operator-() const;
+
+    double Cross(const Vector2 &other) const;
 };
 
 }

@@ -1,11 +1,15 @@
 #include "gameclient.hpp"
 
 #include "util/logger.hpp"
+#include "util/timer.hpp"
 
 #include "gamecore/world.hpp"
 #include "gamecore/terrain.hpp"
 #include "gamecore/platform.hpp"
 #include "gamecore/wall.hpp"
+
+#include "actordrawer.hpp"
+#include "terraindrawer.hpp"
 
 GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false), player(nullptr)
 {
@@ -39,11 +43,15 @@ void GameClient::Run()
     Game::Vector2 drawBegin(1152 / 2, 648 * 0.8);
 
     Game::World *world = this->dataModel.GetWorld();
-    //world->LoadWorld();
+
+    Game::Vector2 walkSpeed(200, 0);
+
+    Util::Timer uTimer;
 
     bool needsDraw = false;
     this->isRunning = true;
     al_start_timer(this->timer);
+    uTimer.Start();
     while (this->isRunning)
     {
         ALLEGRO_EVENT ev;
@@ -54,6 +62,11 @@ void GameClient::Run()
             needsDraw = true;
 
             this->Tick();
+            Game::World *world = this->dataModel.GetWorld();
+
+            double deltaT = uTimer.GetMiliSeconds();
+            uTimer.Reset();
+            world->Update(deltaT/1000);
 
             Util::Logger::Instance()->Flush();
         }
@@ -63,11 +76,55 @@ void GameClient::Run()
         }
         else if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
         {
+            if (this->player)
+            {
+                if (ev.keyboard.keycode == ALLEGRO_KEY_UP)
+                {
+                    this->player->Jump();
+                }
+                else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
+                {
+                    this->player->AddVelocity(-walkSpeed);
+                    if (this->player->GetDirection() != Game::Actor::Direction::DIR_LEFT)
+                    {
+                        this->player->SetDirection(Game::Actor::Direction::DIR_LEFT);
+                    }
+                }
+                else if (ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
+                {
+                    this->player->AddVelocity(walkSpeed);
+                    if (this->player->GetDirection() != Game::Actor::Direction::DIR_RIGHT)
+                    {
+                        this->player->SetDirection(Game::Actor::Direction::DIR_RIGHT);
+                    }
+                }
+                else if (ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
+                {
 
+                }
+            }
         }
         else if (ev.type == ALLEGRO_EVENT_KEY_UP)
         {
+            if (this->player)
+            {
+                if (ev.keyboard.keycode == ALLEGRO_KEY_UP)
+                {
 
+                }
+                else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
+                {
+                    this->player->AddVelocity(walkSpeed);
+                }
+                else if (ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
+                {
+                    this->player->AddVelocity(-walkSpeed);
+                }
+                else if (ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
+                {
+
+                }
+            }
         }
         else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES)
         {
@@ -100,14 +157,7 @@ void GameClient::Run()
                     {
                         col = al_map_rgb(20, 220, 20);
                     }
-
-                    Game::Vector2 size = terrainObj->GetSize();
-                    Game::Vector2 position = terrainObj->GetPosition();
-
-                    Game::Vector2 drawStart = drawBegin + position;
-                    Game::Vector2 drawEnd = drawStart + size;
-
-                    al_draw_filled_rectangle(drawStart.x, drawStart.y, drawEnd.x, drawEnd.y, col);
+                    TerrainDrawer::DrawTerrain(terrainObj, drawBegin, col);
                 }
 
                 std::list<Game::Actor*> actors = world->GetActors();
@@ -118,24 +168,14 @@ void GameClient::Run()
                         Game::Player *player = static_cast<Game::Player*>(actor);
                         if (player != this->player)
                         {
-                            Game::Vector2 size = player->GetSize();
-                            Game::Vector2 position = player->GetPosition();
-
-                            Game::Vector2 drawStart = drawBegin + position;
-                            Game::Vector2 drawEnd = drawStart + size;
-                            al_draw_filled_rectangle(drawStart.x, drawStart.y, drawEnd.x, drawEnd.y, al_map_rgb(0, 255, 255));
+                            ActorDrawer::DrawActor(player, drawBegin, al_map_rgb(0, 255, 255));
                         }
                     }
                 }
 
                 if (this->player)
                 {
-                    Game::Vector2 size = this->player->GetSize();
-                    Game::Vector2 position = this->player->GetPosition();
-
-                    Game::Vector2 drawStart = drawBegin + position;
-                    Game::Vector2 drawEnd = drawStart + size;
-                    al_draw_filled_rectangle(drawStart.x, drawStart.y, drawEnd.x, drawEnd.y, al_map_rgb(255, 255, 0));
+                    ActorDrawer::DrawActor(this->player, drawBegin, al_map_rgb(255, 255, 0));
                 }
             }
 
