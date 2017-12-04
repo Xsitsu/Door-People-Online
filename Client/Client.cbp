@@ -18,6 +18,7 @@
 					<Add library="../Util/bin/Debug/libUtil.a" />
 					<Add library="../Network/bin/Debug/libNetwork.a" />
 					<Add library="../GameCore/bin/Debug/libGameCore.a" />
+					<Add library="../allegro/lib/liballegro-5.0.10-monolith-md-debug.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -33,6 +34,7 @@
 					<Add library="../Util/bin/Release/libUtil.a" />
 					<Add library="../Network/bin/Release/libNetwork.a" />
 					<Add library="../GameCore/bin/Release/libGameCore.a" />
+					<Add library="../allegro/lib/liballegro-5.0.10-monolith-md.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -41,6 +43,7 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 			<Add directory="../" />
+			<Add directory="../allegro/include" />
 		</Compiler>
 		<Unit filename="main.cpp" />
 		<Extensions>

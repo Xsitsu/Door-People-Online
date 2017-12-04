@@ -1,3 +1,5 @@
+allegro/
+
 bin/
 obj/
 
@@ -8,4 +10,4 @@ obj/
 *.def
 *.layout
 *.depend
-
+*.log

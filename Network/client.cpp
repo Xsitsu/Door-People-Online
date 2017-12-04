@@ -38,11 +38,6 @@ void Client::Connect(const Address &serverAddress)
         this->serverAddress = serverAddress;
 
         Packet::Connect packet(0, PacketAction::ACTION_REQUEST);
-        std::string family = PacketFamilyToString(packet.GetFamily());
-        std::string action = PacketActionToString(packet.GetAction());
-
-        printf("Family: %s; Action: %s;\n", family.c_str(), action.c_str());
-
         this->SendPacket(&packet, serverAddress);
 
         this->isConnected = true;
