@@ -131,4 +131,9 @@ bool Client::HandlePacket(Packet::Terrain *, const Address &)
     return false;
 }
 
+bool Client::HandlePacket(Packet::Player *, const Address &)
+{
+    return false;
+}
+
 }

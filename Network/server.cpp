@@ -231,4 +231,9 @@ bool Server::HandlePacket(Packet::Terrain *, const Address &)
     return false;
 }
 
+bool Server::HandlePacket(Packet::Player *, const Address &)
+{
+    return false;
+}
+
 }

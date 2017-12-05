@@ -21,6 +21,9 @@ std::string PacketFamilyToString(PacketFamily family)
     case PacketFamily::FAMILY_TERRAIN:
         return "FAMILY_TERRAIN";
 
+    case PacketFamily::FAMILY_PLAYER:
+        return "FAMILY_PLAYER";
+
     default:
         return "N/A";
     }
@@ -44,6 +47,12 @@ std::string PacketActionToString(PacketAction action)
 
     case PacketAction::ACTION_TELL:
         return "ACTION_TELL";
+
+    case PacketAction::ACTION_ADD:
+        return "ACTION_ADD";
+
+    case PacketAction::ACTION_REMOVE:
+        return "ACTION_REMOVE";
 
     default:
         return "N/A";

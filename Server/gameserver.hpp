@@ -21,6 +21,7 @@ protected:
     virtual void ClientConnectionRemoving(Network::ClientConnection *connection);
 
     bool HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender);
+    bool HandlePacket(Network::Packet::Player *packet, const Network::Address &sender);
 
     Game::DataModel dataModel;
 

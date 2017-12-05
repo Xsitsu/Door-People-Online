@@ -41,6 +41,23 @@ void GameServer::ClientConnectionAdded(Network::ClientConnection *connection)
     Game::Player *player = new Game::Player();
     player->SetNetworkOwner(connection->GetConnectionId());
     playerList->AddPlayer(player);
+
+    Network::Packet::Player npPacket = Network::Packet::Player(0, Network::PacketAction::ACTION_ADD);
+    npPacket.SetPlayerId(player->GetNetworkOwner());
+    npPacket.SetDir(player->GetDirection());
+    npPacket.SetPosX(player->GetPosition().x);
+    npPacket.SetPosY(player->GetPosition().y);
+    npPacket.SetVelX(player->GetVelocity().x);
+    npPacket.SetVelY(player->GetVelocity().y);
+
+    for (auto it : this->connections)
+    {
+        Network::ClientConnection *other = it.second;
+        if (other != connection)
+        {
+            this->SendPacket(&npPacket, other->GetAddress());
+        }
+    }
 }
 
 void GameServer::ClientConnectionRemoving(Network::ClientConnection *connection)
@@ -49,6 +66,19 @@ void GameServer::ClientConnectionRemoving(Network::ClientConnection *connection)
     Game::Player *player = playerList->GetPlayerWithNetworkId(connection->GetConnectionId());
     if (player)
     {
+        Network::Packet::Player npPacket = Network::Packet::Player(0, Network::PacketAction::ACTION_REMOVE);
+        npPacket.SetPlayerId(player->GetNetworkOwner());
+
+        for (auto it : this->connections)
+        {
+            Network::ClientConnection *other = it.second;
+            if (other != connection)
+            {
+                this->SendPacket(&npPacket, other->GetAddress());
+            }
+        }
+
+
         playerList->RemovePlayer(player);
         delete player;
     }
@@ -83,3 +113,10 @@ bool GameServer::HandlePacket(Network::Packet::Terrain *packet, const Network::A
     }
     return false;
 }
+
+
+bool GameServer::HandlePacket(Network::Packet::Player *packet, const Network::Address &sender)
+{
+
+}
+

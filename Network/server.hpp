@@ -42,6 +42,7 @@ protected:
     virtual bool HandlePacket(Packet::Connect *packet, const Address &sender);
     virtual bool HandlePacket(Packet::Disconnect *packet, const Address &sender);
     virtual bool HandlePacket(Packet::Terrain *packet, const Address &sender);
+    virtual bool HandlePacket(Packet::Player *packet, const Address &sender);
 
     uint32_t conIdCounter;
     unsigned int maxClients;

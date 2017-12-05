@@ -51,6 +51,16 @@ void PacketBuilder::BuildPacket(Packet::Base *packet, void *data)
             PacketBuilder::Put32(data, tData.sizeY);
         }
     }
+    else if (family == PacketFamily::FAMILY_PLAYER)
+    {
+        Packet::Player *pkt = static_cast<Packet::Player*>(packet);
+        PacketBuilder::Put32(data, pkt->GetPlayerId());
+        PacketBuilder::Put8(data, pkt->GetDir());
+        PacketBuilder::Put32(data, pkt->GetPosX());
+        PacketBuilder::Put32(data, pkt->GetPosY());
+        PacketBuilder::Put32(data, pkt->GetVelX());
+        PacketBuilder::Put32(data, pkt->GetVelY());
+    }
 }
 
 void PacketBuilder::PacketBuilder::PutFamily(void *&data, PacketFamily value)

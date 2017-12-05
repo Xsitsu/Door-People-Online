@@ -30,6 +30,7 @@ protected:
     virtual bool HandlePacket(Packet::Connect *packet, const Address &sender) = 0;
     virtual bool HandlePacket(Packet::Disconnect *packet, const Address &sender) = 0;
     virtual bool HandlePacket(Packet::Terrain *packet, const Address &sender) = 0;
+    virtual bool HandlePacket(Packet::Player *packet, const Address &sender) = 0;
 
     Socket socket;
     int maxPacketSize;

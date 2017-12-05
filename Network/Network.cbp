@@ -77,6 +77,8 @@
 		<Unit filename="packetconnect.hpp" />
 		<Unit filename="packetdisconnect.cpp" />
 		<Unit filename="packetdisconnect.hpp" />
+		<Unit filename="packetplayer.cpp" />
+		<Unit filename="packetplayer.hpp" />
 		<Unit filename="packetreader.cpp" />
 		<Unit filename="packetreader.hpp" />
 		<Unit filename="packetterrain.cpp">

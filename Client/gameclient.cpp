@@ -260,3 +260,56 @@ bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::A
 
     return false;
 }
+
+
+bool GameClient::HandlePacket(Network::Packet::Player *packet, const Network::Address &sender)
+{
+    Game::PlayerList *playerList = this->dataModel.GetPlayerList();
+    if (packet->GetAction() == Network::PacketAction::ACTION_ADD)
+    {
+        if (!playerList->GetPlayerWithNetworkId(packet->GetPlayerId()))
+        {
+            Game::Player *player = new Game::Player();
+            player->SetNetworkOwner(packet->GetPlayerId());
+
+            Game::Actor::Direction direction = static_cast<Game::Actor::Direction>(packet->GetDir());
+            Game::Vector2 position((int)packet->GetPosX(), (int)packet->GetPosY());
+            Game::Vector2 velocity((int)packet->GetVelX(), (int)packet->GetVelY());
+
+            player->SetDirection(direction);
+            player->SetPosition(position);
+            player->SetVelocity(velocity);
+
+            playerList->AddPlayer(player);
+        }
+
+        return true;
+    }
+    else if (packet->GetAction() == Network::PacketAction::ACTION_REMOVE)
+    {
+        Game::Player *player = playerList->GetPlayerWithNetworkId(packet->GetPlayerId());
+        if (player)
+        {
+            playerList->RemovePlayer(player);
+            delete player;
+        }
+
+        return true;
+    }
+    else if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
+    {
+        Game::Player *player = playerList->GetPlayerWithNetworkId(packet->GetPlayerId());
+        if (player)
+        {
+            Game::Actor::Direction direction = static_cast<Game::Actor::Direction>(packet->GetDir());
+            Game::Vector2 position((int)packet->GetPosX(), (int)packet->GetPosY());
+            Game::Vector2 velocity((int)packet->GetVelX(), (int)packet->GetVelY());
+
+            player->SetDirection(direction);
+            player->SetPosition(position);
+            player->SetVelocity(velocity);
+        }
+        return true;
+    }
+    return false;
+}
