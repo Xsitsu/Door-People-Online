@@ -177,22 +177,37 @@ bool Server::HandlePacket(Packet::Connect *packet, const Address &sender)
         }
         else
         {
-            uint32_t conId = this->conIdCounter++;
-            while (conId == 0 || this->HasConnection(conId))
+            ClientConnection *connection = this->GetConnectionFromAddress(sender);
+            if (!connection)
             {
-                conId = this->conIdCounter++;
+                uint32_t conId = this->conIdCounter++;
+                while (conId == 0 || this->HasConnection(conId))
+                {
+                    conId = this->conIdCounter++;
+                }
+
+                this->AddConnection(conId, sender);
+
+                Packet::Connect response(0, PacketAction::ACTION_ACCEPT);
+                response.SetAssignedId(conId);
+                this->SendPacket(&response, sender);
+
+                std::string message = "Client connected with address: " + sender.ToString() + "\n";
+                Util::Logger::Instance()->Log(logChannelName, message);
+
+                this->ClientConnectionAdded(this->GetConnection(conId));
             }
+            else
+            {
+                Packet::Connect response(0, PacketAction::ACTION_ACCEPT);
+                response.SetAssignedId(connection->GetConnectionId());
+                this->SendPacket(&response, sender);
 
-            this->AddConnection(conId, sender);
+                std::string message = "Client reconnected with address: " + sender.ToString() + "\n";
+                Util::Logger::Instance()->Log(logChannelName, message);
 
-            Packet::Connect response(0, PacketAction::ACTION_ACCEPT);
-            response.SetAssignedId(conId);
-            this->SendPacket(&response, sender);
-
-            std::string message = "Client connected with address: " + sender.ToString() + "\n";
-            Util::Logger::Instance()->Log(logChannelName, message);
-
-            this->ClientConnectionAdded(this->GetConnection(conId));
+                this->ClientConnectionAdded(connection);
+            }
         }
         return true;
     }

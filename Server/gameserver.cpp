@@ -38,23 +38,30 @@ void GameServer::Run()
 void GameServer::ClientConnectionAdded(Network::ClientConnection *connection)
 {
     Game::PlayerList *playerList = this->dataModel.GetPlayerList();
-    Game::Player *player = new Game::Player();
-    player->SetNetworkOwner(connection->GetConnectionId());
+    Game::Player *player = playerList->GetPlayerWithNetworkId(connection->GetConnectionId());
+    if (!player)
+    {
+        player = new Game::Player();
+        player->SetNetworkOwner(connection->GetConnectionId());
+        playerList->AddPlayer(player);
+    }
 
     Network::Packet::Player curPacket = Network::Packet::Player(0, Network::PacketAction::ACTION_ADD);
     for (Game::Player *other : playerList->GetPlayers())
     {
-        Network::Packet::Player::PlayerData npData;
-        npData.playerId = other->GetNetworkOwner();
-        npData.direction = static_cast<uint8_t>(other->GetDirection());
-        npData.posX = (int)other->GetPosition().x;
-        npData.posY = (int)other->GetPosition().y;
-        npData.velX = (int)other->GetVelocity().x;
-        npData.velY = (int)other->GetVelocity().y;
-        curPacket.AddPlayerData(npData);
+        if (other != player)
+        {
+            Network::Packet::Player::PlayerData npData;
+            npData.playerId = other->GetNetworkOwner();
+            npData.direction = static_cast<uint8_t>(other->GetDirection());
+            npData.posX = (int)other->GetPosition().x;
+            npData.posY = (int)other->GetPosition().y;
+            npData.velX = (int)other->GetVelocity().x;
+            npData.velY = (int)other->GetVelocity().y;
+            curPacket.AddPlayerData(npData);
+        }
     }
 
-    playerList->AddPlayer(player);
     this->SendPacket(&curPacket, connection->GetAddress());
 
     Network::Packet::Player npPacket = Network::Packet::Player(0, Network::PacketAction::ACTION_ADD);
