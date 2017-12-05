@@ -46,6 +46,8 @@ void GameClient::Run()
 
     Game::Vector2 walkSpeed(160, 0);
 
+    bool needPhysicsUpdate = false;
+
     Util::Timer uTimer;
 
     bool needsDraw = false;
@@ -68,6 +70,24 @@ void GameClient::Run()
             uTimer.Reset();
             world->Update(deltaT/1000);
 
+            if (needPhysicsUpdate)
+            {
+                needPhysicsUpdate = false;
+
+                Network::Packet::Player packet(this->connectionId, Network::PacketAction::ACTION_TELL);
+
+                Network::Packet::Player::PlayerData npData;
+                npData.playerId = this->player->GetNetworkOwner();
+                npData.direction = static_cast<uint8_t>(this->player->GetDirection());
+                npData.posX = (int)this->player->GetPosition().x;
+                npData.posY = (int)this->player->GetPosition().y;
+                npData.velX = (int)this->player->GetVelocity().x;
+                npData.velY = (int)this->player->GetVelocity().y;
+                packet.AddPlayerData(npData);
+
+                this->SendPacket(&packet, this->serverAddress);
+            }
+
             Util::Logger::Instance()->Flush();
         }
         else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -82,11 +102,15 @@ void GameClient::Run()
                 {
                     if (this->player->GetVelocity().y == 0)
                     {
+                        needPhysicsUpdate = true;
+
                         this->player->Jump();
                     }
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
                 {
+                    needPhysicsUpdate = true;
+
                     this->player->AddVelocity(-walkSpeed);
                     if (this->player->GetDirection() != Game::Actor::Direction::DIR_LEFT)
                     {
@@ -95,6 +119,8 @@ void GameClient::Run()
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
                 {
+                    needPhysicsUpdate = true;
+
                     this->player->AddVelocity(walkSpeed);
                     if (this->player->GetDirection() != Game::Actor::Direction::DIR_RIGHT)
                     {
@@ -117,10 +143,14 @@ void GameClient::Run()
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
                 {
+                    needPhysicsUpdate = true;
+
                     this->player->AddVelocity(walkSpeed);
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
                 {
+                    needPhysicsUpdate = true;
+
                     this->player->AddVelocity(-walkSpeed);
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
@@ -267,47 +297,58 @@ bool GameClient::HandlePacket(Network::Packet::Player *packet, const Network::Ad
     Game::PlayerList *playerList = this->dataModel.GetPlayerList();
     if (packet->GetAction() == Network::PacketAction::ACTION_ADD)
     {
-        if (!playerList->GetPlayerWithNetworkId(packet->GetPlayerId()))
+        std::list<Network::Packet::Player::PlayerData> playerData = packet->GetPlayerData();
+        for (Network::Packet::Player::PlayerData pData : playerData)
         {
-            Game::Player *player = new Game::Player();
-            player->SetNetworkOwner(packet->GetPlayerId());
+            if (!playerList->GetPlayerWithNetworkId(pData.playerId))
+            {
+                Game::Player *player = new Game::Player();
+                player->SetNetworkOwner(pData.playerId);
 
-            Game::Actor::Direction direction = static_cast<Game::Actor::Direction>(packet->GetDir());
-            Game::Vector2 position((int)packet->GetPosX(), (int)packet->GetPosY());
-            Game::Vector2 velocity((int)packet->GetVelX(), (int)packet->GetVelY());
+                Game::Actor::Direction direction = static_cast<Game::Actor::Direction>(pData.direction);
+                Game::Vector2 position((int)pData.posX, (int)pData.posY);
+                Game::Vector2 velocity((int)pData.velX, (int)pData.velY);
 
-            player->SetDirection(direction);
-            player->SetPosition(position);
-            player->SetVelocity(velocity);
+                player->SetDirection(direction);
+                player->SetPosition(position);
+                player->SetVelocity(velocity);
 
-            playerList->AddPlayer(player);
+                playerList->AddPlayer(player);
+            }
         }
 
         return true;
     }
     else if (packet->GetAction() == Network::PacketAction::ACTION_REMOVE)
     {
-        Game::Player *player = playerList->GetPlayerWithNetworkId(packet->GetPlayerId());
-        if (player)
+        std::list<Network::Packet::Player::PlayerData> playerData = packet->GetPlayerData();
+        for (Network::Packet::Player::PlayerData pData : playerData)
         {
-            playerList->RemovePlayer(player);
-            delete player;
+            Game::Player *player = playerList->GetPlayerWithNetworkId(pData.playerId);
+            if (player)
+            {
+                playerList->RemovePlayer(player);
+                delete player;
+            }
         }
-
         return true;
     }
     else if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
     {
-        Game::Player *player = playerList->GetPlayerWithNetworkId(packet->GetPlayerId());
-        if (player)
+        std::list<Network::Packet::Player::PlayerData> playerData = packet->GetPlayerData();
+        for (Network::Packet::Player::PlayerData pData : playerData)
         {
-            Game::Actor::Direction direction = static_cast<Game::Actor::Direction>(packet->GetDir());
-            Game::Vector2 position((int)packet->GetPosX(), (int)packet->GetPosY());
-            Game::Vector2 velocity((int)packet->GetVelX(), (int)packet->GetVelY());
+            Game::Player *player = playerList->GetPlayerWithNetworkId(pData.playerId);
+            if (player)
+            {
+                Game::Actor::Direction direction = static_cast<Game::Actor::Direction>(pData.direction);
+                Game::Vector2 position((int)pData.posX, (int)pData.posY);
+                Game::Vector2 velocity((int)pData.velX, (int)pData.velY);
 
-            player->SetDirection(direction);
-            player->SetPosition(position);
-            player->SetVelocity(velocity);
+                player->SetDirection(direction);
+                player->SetPosition(position);
+                player->SetVelocity(velocity);
+            }
         }
         return true;
     }

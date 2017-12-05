@@ -60,12 +60,19 @@ Packet::Base* PacketReader::ReadPacket(unsigned int packetSize, void *data)
     case PacketFamily::FAMILY_PLAYER:
         {
         Packet::Player *packet = new Packet::Player(connectionId, action);
-        packet->SetPlayerId(PacketReader::Read32(data));
-        packet->SetDir(PacketReader::Read8(data));
-        packet->SetPosX(PacketReader::Read32(data));
-        packet->SetPosY(PacketReader::Read32(data));
-        packet->SetVelX(PacketReader::Read32(data));
-        packet->SetVelY(PacketReader::Read32(data));
+
+        uint8_t numPlayers = PacketReader::Read8(data);
+        for (uint8_t i = 0; i < numPlayers; i++)
+        {
+            Packet::Player::PlayerData pData;
+            pData.playerId = PacketReader::Read32(data);
+            pData.direction = PacketReader::Read8(data);
+            pData.posX = PacketReader::Read32(data);
+            pData.posY = PacketReader::Read32(data);
+            pData.velX = PacketReader::Read32(data);
+            pData.velY = PacketReader::Read32(data);
+            packet->AddPlayerData(pData);
+        }
 
         ret = packet;
         break;

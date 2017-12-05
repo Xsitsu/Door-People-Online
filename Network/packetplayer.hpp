@@ -3,6 +3,8 @@
 
 #include "main.h"
 
+#include <list>
+
 #include "packet.hpp"
 
 namespace Network
@@ -18,33 +20,25 @@ class Player : public Packet::Base
 #endif // _WIN32
 {
 public:
+    struct PlayerData
+    {
+        uint32_t playerId;
+        uint8_t direction;
+        uint32_t posX;
+        uint32_t posY;
+        uint32_t velX;
+        uint32_t velY;
+    };
+
     Player(uint32_t conId, PacketAction action);
     virtual ~Player();
     virtual unsigned int GetPacketSize() const;
 
-    uint32_t GetPlayerId() const;
-    void SetPlayerId(uint32_t id);
-
-    uint8_t GetDir() const;
-    uint32_t GetPosX() const;
-    uint32_t GetPosY() const;
-    uint32_t GetVelX() const;
-    uint32_t GetVelY() const;
-
-    void SetDir(uint8_t val);
-    void SetPosX(uint32_t val);
-    void SetPosY(uint32_t val);
-    void SetVelX(uint32_t val);
-    void SetVelY(uint32_t val);
-
+    const std::list<PlayerData>& GetPlayerData() const;
+    void AddPlayerData(PlayerData data);
 
 protected:
-    uint32_t playerId;
-    uint8_t dir;
-    uint32_t posX;
-    uint32_t posY;
-    uint32_t velX;
-    uint32_t velY;
+    std::list<PlayerData> playerData;
 
 };
 

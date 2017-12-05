@@ -40,15 +40,32 @@ void GameServer::ClientConnectionAdded(Network::ClientConnection *connection)
     Game::PlayerList *playerList = this->dataModel.GetPlayerList();
     Game::Player *player = new Game::Player();
     player->SetNetworkOwner(connection->GetConnectionId());
+
+    Network::Packet::Player curPacket = Network::Packet::Player(0, Network::PacketAction::ACTION_ADD);
+    for (Game::Player *other : playerList->GetPlayers())
+    {
+        Network::Packet::Player::PlayerData npData;
+        npData.playerId = other->GetNetworkOwner();
+        npData.direction = static_cast<uint8_t>(other->GetDirection());
+        npData.posX = (int)other->GetPosition().x;
+        npData.posY = (int)other->GetPosition().y;
+        npData.velX = (int)other->GetVelocity().x;
+        npData.velY = (int)other->GetVelocity().y;
+        curPacket.AddPlayerData(npData);
+    }
+
     playerList->AddPlayer(player);
+    this->SendPacket(&curPacket, connection->GetAddress());
 
     Network::Packet::Player npPacket = Network::Packet::Player(0, Network::PacketAction::ACTION_ADD);
-    npPacket.SetPlayerId(player->GetNetworkOwner());
-    npPacket.SetDir(player->GetDirection());
-    npPacket.SetPosX(player->GetPosition().x);
-    npPacket.SetPosY(player->GetPosition().y);
-    npPacket.SetVelX(player->GetVelocity().x);
-    npPacket.SetVelY(player->GetVelocity().y);
+    Network::Packet::Player::PlayerData npData;
+    npData.playerId = player->GetNetworkOwner();
+    npData.direction = static_cast<uint8_t>(player->GetDirection());
+    npData.posX = (int)player->GetPosition().x;
+    npData.posY = (int)player->GetPosition().y;
+    npData.velX = (int)player->GetVelocity().x;
+    npData.velY = (int)player->GetVelocity().y;
+    npPacket.AddPlayerData(npData);
 
     for (auto it : this->connections)
     {
@@ -67,7 +84,10 @@ void GameServer::ClientConnectionRemoving(Network::ClientConnection *connection)
     if (player)
     {
         Network::Packet::Player npPacket = Network::Packet::Player(0, Network::PacketAction::ACTION_REMOVE);
-        npPacket.SetPlayerId(player->GetNetworkOwner());
+        Network::Packet::Player::PlayerData npData;
+        npData.playerId = player->GetNetworkOwner();
+        npData.direction = static_cast<uint8_t>(player->GetDirection());
+        npPacket.AddPlayerData(npData);
 
         for (auto it : this->connections)
         {
@@ -117,6 +137,44 @@ bool GameServer::HandlePacket(Network::Packet::Terrain *packet, const Network::A
 
 bool GameServer::HandlePacket(Network::Packet::Player *packet, const Network::Address &sender)
 {
+    Game::PlayerList *playerList = this->dataModel.GetPlayerList();
+    if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
+    {
+        Network::ClientConnection *connection = this->GetConnectionFromAddress(sender);
 
+        Network::Packet::Player sendOut(0, Network::PacketAction::ACTION_TELL);
+
+        std::list<Network::Packet::Player::PlayerData> playerData = packet->GetPlayerData();
+        for (Network::Packet::Player::PlayerData pData : playerData)
+        {
+            if (pData.playerId == connection->GetConnectionId())
+            {
+                Game::Player *player = playerList->GetPlayerWithNetworkId(pData.playerId);
+                if (player)
+                {
+                    Game::Actor::Direction direction = static_cast<Game::Actor::Direction>(pData.direction);
+                    Game::Vector2 position((int)pData.posX, (int)pData.posY);
+                    Game::Vector2 velocity((int)pData.velX, (int)pData.velY);
+
+                    player->SetDirection(direction);
+                    player->SetPosition(position);
+                    player->SetVelocity(velocity);
+
+                    sendOut.AddPlayerData(pData);
+                }
+            }
+        }
+
+        for (auto it : this->connections)
+        {
+            Network::ClientConnection *other = it.second;
+            if (other != connection)
+            {
+                this->SendPacket(&sendOut, other->GetAddress());
+            }
+        }
+    }
+
+    return true;
 }
 

@@ -41,7 +41,6 @@ void PacketBuilder::BuildPacket(Packet::Base *packet, void *data)
         uint8_t terrainSize = terrainData.size();
 
         PacketBuilder::Put8(data, terrainSize);
-
         for (Packet::Terrain::TerrainData tData : terrainData)
         {
             PacketBuilder::Put8(data, tData.type);
@@ -54,12 +53,19 @@ void PacketBuilder::BuildPacket(Packet::Base *packet, void *data)
     else if (family == PacketFamily::FAMILY_PLAYER)
     {
         Packet::Player *pkt = static_cast<Packet::Player*>(packet);
-        PacketBuilder::Put32(data, pkt->GetPlayerId());
-        PacketBuilder::Put8(data, pkt->GetDir());
-        PacketBuilder::Put32(data, pkt->GetPosX());
-        PacketBuilder::Put32(data, pkt->GetPosY());
-        PacketBuilder::Put32(data, pkt->GetVelX());
-        PacketBuilder::Put32(data, pkt->GetVelY());
+        const std::list<Packet::Player::PlayerData> &playerData = pkt->GetPlayerData();
+        uint8_t numPlayers = playerData.size();
+
+        PacketBuilder::Put8(data, numPlayers);
+        for (Packet::Player::PlayerData pData : playerData)
+        {
+            PacketBuilder::Put32(data, pData.playerId);
+            PacketBuilder::Put8(data, pData.direction);
+            PacketBuilder::Put32(data, pData.posX);
+            PacketBuilder::Put32(data, pData.posY);
+            PacketBuilder::Put32(data, pData.velX);
+            PacketBuilder::Put32(data, pData.velY);
+        }
     }
 }
 
