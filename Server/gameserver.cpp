@@ -141,40 +141,48 @@ bool GameServer::HandlePacket(Network::Packet::Player *packet, const Network::Ad
     if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
     {
         Network::ClientConnection *connection = this->GetConnectionFromAddress(sender);
-
-        Network::Packet::Player sendOut(0, Network::PacketAction::ACTION_TELL);
-
-        std::list<Network::Packet::Player::PlayerData> playerData = packet->GetPlayerData();
-        for (Network::Packet::Player::PlayerData pData : playerData)
+        if (connection)
         {
-            if (pData.playerId == connection->GetConnectionId())
+            Network::Packet::Player sendOut(0, Network::PacketAction::ACTION_TELL);
+
+            std::list<Network::Packet::Player::PlayerData> playerData = packet->GetPlayerData();
+            for (Network::Packet::Player::PlayerData pData : playerData)
             {
-                Game::Player *player = playerList->GetPlayerWithNetworkId(pData.playerId);
-                if (player)
+                if (pData.playerId == connection->GetConnectionId())
                 {
-                    Game::Actor::Direction direction = static_cast<Game::Actor::Direction>(pData.direction);
-                    Game::Vector2 position((int)pData.posX, (int)pData.posY);
-                    Game::Vector2 velocity((int)pData.velX, (int)pData.velY);
+                    Game::Player *player = playerList->GetPlayerWithNetworkId(pData.playerId);
+                    if (player)
+                    {
+                        Game::Actor::Direction direction = static_cast<Game::Actor::Direction>(pData.direction);
+                        Game::Vector2 position((int)pData.posX, (int)pData.posY);
+                        Game::Vector2 velocity((int)pData.velX, (int)pData.velY);
 
-                    player->SetDirection(direction);
-                    player->SetPosition(position);
-                    player->SetVelocity(velocity);
+                        player->SetDirection(direction);
+                        player->SetPosition(position);
+                        player->SetVelocity(velocity);
 
-                    sendOut.AddPlayerData(pData);
+                        sendOut.AddPlayerData(pData);
+                    }
                 }
             }
-        }
 
-        for (auto it : this->connections)
-        {
-            Network::ClientConnection *other = it.second;
-            if (other != connection)
+            for (auto it : this->connections)
             {
-                this->SendPacket(&sendOut, other->GetAddress());
+                Network::ClientConnection *other = it.second;
+                if (other != connection)
+                {
+                    this->SendPacket(&sendOut, other->GetAddress());
+                }
             }
+
+            return true;
+        }
+        else
+        {
+            Network::Packet::Disconnect sendOut(0, Network::PacketAction::ACTION_TELL);
+            this->SendPacket(&sendOut, sender);
         }
     }
-
-    return true;
+    return false;
 }
 

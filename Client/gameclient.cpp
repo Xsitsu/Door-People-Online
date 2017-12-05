@@ -251,6 +251,15 @@ bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::A
     return wasHandled;
 }
 
+
+bool GameClient::HandlePacket(Network::Packet::Disconnect *packet, const Network::Address &sender)
+{
+    if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
+    {
+        this->isRunning = false;
+    }
+}
+
 bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender)
 {
     if (packet->GetAction() == Network::PacketAction::ACTION_TELL)

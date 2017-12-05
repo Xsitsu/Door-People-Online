@@ -23,6 +23,7 @@ public:
 
 protected:
     bool HandlePacket(Network::Packet::Connect *packet, const Network::Address &sender);
+    bool HandlePacket(Network::Packet::Disconnect *packet, const Network::Address &sender);
     bool HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender);
     bool HandlePacket(Network::Packet::Player *packet, const Network::Address &sender);
 
