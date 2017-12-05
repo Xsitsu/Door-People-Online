@@ -13,6 +13,8 @@ int main()
 {
     unsigned int connectPort = 50000;
     Network::Address serverAddress(127, 0, 0, 1, 50000);
+    serverAddress = Network::Address(172, 93, 52, 252, 50000);
+
 
     Util::Logger::Instance()->CreateLogChannel("main", "MAIN", stdout);
     Util::Logger::Instance()->EnableLogChannel("main");
