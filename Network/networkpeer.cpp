@@ -1,5 +1,7 @@
 #include "networkpeer.hpp"
 
+#include <string.h>
+
 #include "packetreader.hpp"
 #include "packetbuilder.hpp"
 

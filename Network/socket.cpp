@@ -1,5 +1,7 @@
 #include "socket.hpp"
 
+#include <unistd.h>
+
 namespace Network
 {
 
@@ -79,7 +81,7 @@ void Socket::Close()
     this->handle = 0;
 #else
 	close(this->handle);
-	this->handle = 0
+	this->handle = 0;
 #endif
 }
 
