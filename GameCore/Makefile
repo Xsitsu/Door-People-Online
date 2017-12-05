@@ -20,7 +20,7 @@ OB=$(wildcard *.cpp)
 
 OBJS=$(patsubst main.o, , $(patsubst %.cpp, %.o, $(OB)))
 
-all: $(OBJS) prog lib
+all: $(OBJS) prog $(OUT_LIB)
 
 clean:
 	rm -f $(OBJS)
@@ -32,8 +32,5 @@ $(CXXPROGS): %: %.cpp
 
 prog: $(OBJS) $(CXXPROGS)
 
-lib:
-	$(CXX) -shared $(CXXFLAGS) $(CPPFLAGS) $(INC) $(OBJS) $(LIB) $< -o $(OUT_LIB)
-
-
-
+$(OUT_LIB):
+	$(CXX) -shared $(CXXFLAGS) $(CPPFLAGS) $(INC) $(OBJS) $(LIB) $< -o $@
