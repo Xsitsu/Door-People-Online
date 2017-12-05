@@ -139,6 +139,17 @@ void Server::RemoveConnection(uint32_t conId)
 }
 
 
+void Server::ClientConnectionAdded(ClientConnection *)
+{
+
+}
+
+void Server::ClientConnectionRemoving(ClientConnection *)
+{
+
+}
+
+
 
 bool Server::HandlePacket(Packet::Base *packet, const Address &)
 {
@@ -180,6 +191,8 @@ bool Server::HandlePacket(Packet::Connect *packet, const Address &sender)
 
             std::string message = "Client connected with address: " + sender.ToString() + "\n";
             Util::Logger::Instance()->Log(logChannelName, message);
+
+            this->ClientConnectionAdded(this->GetConnection(conId));
         }
         return true;
     }
@@ -196,9 +209,13 @@ bool Server::HandlePacket(Packet::Disconnect *packet, const Address &sender)
         {
             if (connection->GetAddress() == sender)
             {
+                this->ClientConnectionRemoving(connection);
+
                 this->RemoveConnection(conId);
                 Packet::Disconnect packet(0, PacketAction::ACTION_ACCEPT);
                 this->SendPacket(&packet, sender);
+
+                delete connection;
 
                 std::string message = "Client disconnected with address: " + sender.ToString() + "\n";
                 Util::Logger::Instance()->Log(logChannelName, message);

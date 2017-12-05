@@ -35,6 +35,9 @@ public:
     void RemoveConnection(uint32_t conId);
 
 protected:
+    virtual void ClientConnectionAdded(ClientConnection *connection);
+    virtual void ClientConnectionRemoving(ClientConnection *connection);
+
     virtual bool HandlePacket(Packet::Base *packet, const Address &sender);
     virtual bool HandlePacket(Packet::Connect *packet, const Address &sender);
     virtual bool HandlePacket(Packet::Disconnect *packet, const Address &sender);

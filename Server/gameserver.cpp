@@ -35,22 +35,23 @@ void GameServer::Run()
     }
 }
 
-bool GameServer::HandlePacket(Network::Packet::Connect *packet, const Network::Address &sender)
+void GameServer::ClientConnectionAdded(Network::ClientConnection *connection)
 {
-    bool wasHandled = Server::HandlePacket(packet, sender);
-    if (wasHandled)
-    {
-        Network::ClientConnection *connection = this->GetConnectionFromAddress(sender);
-        if (connection)
-        {
-            Game::PlayerList *playerList = this->dataModel.GetPlayerList();
-            Game::Player *player = new Game::Player();
-            player->SetNetworkOwner(connection->GetConnectionId());
-            playerList->AddPlayer(player);
-        }
-    }
+    Game::PlayerList *playerList = this->dataModel.GetPlayerList();
+    Game::Player *player = new Game::Player();
+    player->SetNetworkOwner(connection->GetConnectionId());
+    playerList->AddPlayer(player);
+}
 
-    return wasHandled;
+void GameServer::ClientConnectionRemoving(Network::ClientConnection *connection)
+{
+    Game::PlayerList *playerList = this->dataModel.GetPlayerList();
+    Game::Player *player = playerList->GetPlayerWithNetworkId(connection->GetConnectionId());
+    if (player)
+    {
+        playerList->RemovePlayer(player);
+        delete player;
+    }
 }
 
 bool GameServer::HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender)

@@ -17,7 +17,9 @@ public:
     void Run();
 
 protected:
-    bool HandlePacket(Network::Packet::Connect *packet, const Network::Address &sender);
+    virtual void ClientConnectionAdded(Network::ClientConnection *connection);
+    virtual void ClientConnectionRemoving(Network::ClientConnection *connection);
+
     bool HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender);
 
     Game::DataModel dataModel;
