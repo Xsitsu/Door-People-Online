@@ -151,18 +151,32 @@ void World::LoadWorld()
     Terrain *terrainObj;
 
     terrainObj = new Platform();
-    terrainObj->SetSize(Vector2(400, 20));
-    terrainObj->SetPosition(Vector2(-200, 0));
+    terrainObj->SetSize(Vector2(800, 20));
+    terrainObj->SetPosition(Vector2(-300, 0));
     this->AddTerrain(terrainObj);
 
     terrainObj = new Wall();
     terrainObj->SetSize(Vector2(40, 200));
-    terrainObj->SetPosition(Vector2(-200, 200));
+    terrainObj->SetPosition(Vector2(-300, 200));
     this->AddTerrain(terrainObj);
+
+    terrainObj = new Wall();
+    terrainObj->SetSize(Vector2(40, 200));
+    terrainObj->SetPosition(Vector2(460, 200));
+    this->AddTerrain(terrainObj);
+
+    for (int i = 0; i < 4; i++)
+    {
+        terrainObj = new Platform();
+        int s = 60 * (5-i);
+        terrainObj->SetSize(Vector2(s, 20));
+        terrainObj->SetPosition(Vector2(460 - s, 40 * (i + 1)));
+        this->AddTerrain(terrainObj);
+    }
 
     terrainObj = new Platform();
     terrainObj->SetSize(Vector2(600, 20));
-    terrainObj->SetPosition(Vector2(300, 20));
+    terrainObj->SetPosition(Vector2(500, 200));
     this->AddTerrain(terrainObj);
 
     this->SetTerrainIsLoaded(true);
