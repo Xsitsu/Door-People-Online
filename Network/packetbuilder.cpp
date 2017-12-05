@@ -1,6 +1,6 @@
 #include "packetbuilder.hpp"
 
-#include "network/packetall.hpp"
+#include "Network/packetall.hpp"
 
 namespace Network
 {

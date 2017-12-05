@@ -6,7 +6,7 @@
 #include "allegro5/allegro_ttf.h"
 #include "allegro5/allegro_native_dialog.h"
 
-#include "util/logger.hpp"
+#include "Util/logger.hpp"
 #include "gameclient.hpp"
 
 int main()

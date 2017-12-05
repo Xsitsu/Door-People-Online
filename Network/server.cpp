@@ -1,8 +1,8 @@
 #include "server.hpp"
 
-#include "network/packetall.hpp"
+#include "Network/packetall.hpp"
 
-#include "util/logger.hpp"
+#include "Util/logger.hpp"
 
 static const char *logChannelName = "server";
 static const char *logChannelTag = "SRVR";

@@ -1,6 +1,6 @@
 #include "gameserver.hpp"
 
-#include "util/logger.hpp"
+#include "Util/logger.hpp"
 
 GameServer::GameServer() : Server(), dataModel(), isRunning(false)
 {

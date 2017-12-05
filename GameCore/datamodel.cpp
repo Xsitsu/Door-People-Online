@@ -1,7 +1,7 @@
 #include "datamodel.hpp"
 
-#include "gamecore/world.hpp"
-#include "gamecore/playerlist.hpp"
+#include "GameCore/world.hpp"
+#include "GameCore/playerlist.hpp"
 
 namespace Game
 {

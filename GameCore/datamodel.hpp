@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-#include "util/serviceprovider.hpp"
+#include "Util/serviceprovider.hpp"
 
 #include "world.hpp"
 #include "playerlist.hpp"

@@ -1,12 +1,12 @@
 #include "gameclient.hpp"
 
-#include "util/logger.hpp"
-#include "util/timer.hpp"
+#include "Util/logger.hpp"
+#include "Util/timer.hpp"
 
-#include "gamecore/world.hpp"
-#include "gamecore/terrain.hpp"
-#include "gamecore/platform.hpp"
-#include "gamecore/wall.hpp"
+#include "GameCore/world.hpp"
+#include "GameCore/terrain.hpp"
+#include "GameCore/platform.hpp"
+#include "GameCore/wall.hpp"
 
 #include "actordrawer.hpp"
 #include "terraindrawer.hpp"

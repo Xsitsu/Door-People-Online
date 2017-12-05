@@ -1,12 +1,12 @@
 #ifndef GAMESERVER_HPP_INCLUDE
 #define GAMESERVER_HPP_INCLUDE
 
-#include "network/server.hpp"
-#include "network/packetall.hpp"
+#include "Network/server.hpp"
+#include "Network/packetall.hpp"
 
-#include "gamecore/datamodel.hpp"
+#include "GameCore/datamodel.hpp"
 
-#include "util/timer.hpp"
+#include "Util/timer.hpp"
 
 class GameServer : public Network::Server
 {

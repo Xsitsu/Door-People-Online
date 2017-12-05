@@ -1,8 +1,8 @@
 #include "client.hpp"
 
-#include "util/logger.hpp"
+#include "Util/logger.hpp"
 
-#include "network/packetall.hpp"
+#include "Network/packetall.hpp"
 
 static const char *logChannelName = "client";
 static const char *logChannelTag = "CLNT";

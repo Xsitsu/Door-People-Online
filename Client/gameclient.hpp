@@ -7,11 +7,11 @@
 #include "allegro5/allegro_ttf.h"
 #include "allegro5/allegro_native_dialog.h"
 
-#include "network/client.hpp"
-#include "network/packetall.hpp"
+#include "Network/client.hpp"
+#include "Network/packetall.hpp"
 
-#include "gamecore/datamodel.hpp"
-#include "gamecore/player.hpp"
+#include "Gamecore/datamodel.hpp"
+#include "GameCore/player.hpp"
 
 class GameClient : public Network::Client
 {
