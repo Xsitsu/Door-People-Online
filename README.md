@@ -1,7 +1,7 @@
-# Networks-Final-Lab
+# Online Platformer Game
 Also known as Door People Online. (because of how the characters turned out)
 
-Final lab for my networks class written in C++.
+Final lab for my networks class written in C++. (December 2017)
 
 ## About
 This project is a 2D online platformer written for my networks lab over around 4 days.
