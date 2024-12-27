@@ -13,8 +13,6 @@ obj/
 *.log
 *.so
 
-server
-
 /.idea/
 /cmake-build-*/
 
