@@ -15,3 +15,5 @@ obj/
 
 server
 
+/.idea/
+/cmake-build-*/

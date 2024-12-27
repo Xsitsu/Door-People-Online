@@ -1,7 +1,7 @@
 #ifndef SERVER_HPP_INCLUDE
 #define SERVER_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include <unordered_map>
 
@@ -12,11 +12,7 @@
 namespace Network
 {
 
-#ifdef _WIN32
 class DLL_EXPORT Server : public NetworkPeer
-#else
-class Server : public NetworkPeer
-#endif // _WIN32
 {
 public:
     Server();

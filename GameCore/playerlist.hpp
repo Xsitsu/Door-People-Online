@@ -10,11 +10,7 @@
 namespace Game
 {
 
-#ifdef _WIN32
 class DLL_EXPORT PlayerList : public Util::Service
-#else
-class PlayerList : public Util::Service
-#endif // _WIN32
 {
 public:
     PlayerList();

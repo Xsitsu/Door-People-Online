@@ -1,7 +1,7 @@
 #ifndef SERVICEPROVIDER_HPP_INCLUDE
 #define SERVICEPROVIDER_HPP_INCLUDE
 
-#include "main.h"
+#include "Util_dll-export.h"
 
 #include <string>
 #include <unordered_map>
@@ -11,11 +11,7 @@
 namespace Util
 {
 
-#ifdef _WIN32
 class DLL_EXPORT ServiceProvider
-#else
-class ServiceProvider
-#endif // _WIN32
 {
 public:
     ServiceProvider();

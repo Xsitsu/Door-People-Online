@@ -1,7 +1,7 @@
 #ifndef PACKETCONNECT_HPP_INCLUDE
 #define PACKETCONNECT_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include "packet.hpp"
 
@@ -11,11 +11,7 @@ namespace Network
 namespace Packet
 {
 
-#ifdef _WIN32
 class DLL_EXPORT Connect : public Packet::Base
-#else
-class Connect : public Packet::Base
-#endif // _WIN32
 {
 public:
     Connect(uint32_t conId, PacketAction action);

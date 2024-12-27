@@ -1,18 +1,14 @@
 #ifndef CLIENT_HPP_INCLUDE
 #define CLIENT_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include "networkpeer.hpp"
 
 namespace Network
 {
 
-#ifdef _WIN32
 class DLL_EXPORT Client : public NetworkPeer
-#else
-class Client : public NetworkPeer
-#endif // _WIN32
 {
 public:
     Client();

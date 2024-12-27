@@ -1,7 +1,7 @@
 #ifndef TERRAIN_HPP_INCLUDE
 #define TERRAIN_HPP_INCLUDE
 
-#include "main.h"
+#include "GameCore_dll-export.h"
 
 #include "vector2.hpp"
 
@@ -14,11 +14,7 @@ enum TerrainType
     TYPE_WALL = 2,
 };
 
-#ifdef _WIN32
 class DLL_EXPORT Terrain
-#else
-class Terrain
-#endif // _WIN32
 {
 public:
     Terrain(TerrainType type);

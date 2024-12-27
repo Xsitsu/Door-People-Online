@@ -1,16 +1,12 @@
 #ifndef VECTOR2_HPP_INCLUDE
 #define VECTOR2_HPP_INCLUDE
 
-#include "main.h"
+#include "GameCore_dll-export.h"
 
 namespace Game
 {
 
-#ifdef _WIN32
 struct DLL_EXPORT Vector2
-#else
-struct Vector2
-#endif // _WIN32
 {
     double x;
     double y;

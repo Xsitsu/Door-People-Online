@@ -1,7 +1,7 @@
 #ifndef PACKETPLAYER_HPP_INCLUDE
 #define PACKETPLAYER_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include <list>
 
@@ -13,11 +13,7 @@ namespace Network
 namespace Packet
 {
 
-#ifdef _WIN32
 class DLL_EXPORT Player : public Packet::Base
-#else
-class Player : public Packet::Base
-#endif // _WIN32
 {
 public:
     struct PlayerData

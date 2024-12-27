@@ -1,18 +1,14 @@
 #ifndef LOGCHANNEL_HPP_INCLUDE
 #define LOGCHANNEL_HPP_INCLUDE
 
-#include "main.h"
+#include "Util_dll-export.h"
 
 #include <string>
 
 namespace Util
 {
 
-#ifdef _WIN32
 class DLL_EXPORT LogChannel
-#else
-class LogChannel
-#endif // _WIN32
 {
 public:
     LogChannel(std::string logTag, FILE* fileDesc);

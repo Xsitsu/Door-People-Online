@@ -1,18 +1,14 @@
 #ifndef SERVICE_HPP_INCLUDE
 #define SERVICE_HPP_INCLUDE
 
-#include "main.h"
+#include "Util_dll-export.h"
 
 namespace Util
 {
 
 class ServiceProvider;
 
-#ifdef _WIN32
 class DLL_EXPORT Service
-#else
-class Service
-#endif // _WIN32
 {
 public:
     Service();

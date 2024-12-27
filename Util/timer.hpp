@@ -3,16 +3,12 @@
 
 #include <chrono>
 
-#include "main.h"
+#include "Util_dll-export.h"
 
 namespace Util
 {
 
-#ifdef _WIN32
 class DLL_EXPORT Timer
-#else
-class Timer
-#endif // _WIN32
 {
 public:
     Timer();

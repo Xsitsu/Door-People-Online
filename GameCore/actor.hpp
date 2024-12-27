@@ -1,18 +1,14 @@
 #ifndef ACTOR_HPP_INCLUDE
 #define ACTOR_HPP_INCLUDE
 
-#include "main.h"
+#include "GameCore_dll-export.h"
 
 #include "vector2.hpp"
 
 namespace Game
 {
 
-#ifdef _WIN32
 class DLL_EXPORT Actor
-#else
-class Actor
-#endif // _WIN32
 {
 public:
     enum Direction

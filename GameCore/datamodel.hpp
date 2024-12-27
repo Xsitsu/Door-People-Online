@@ -1,7 +1,7 @@
 #ifndef DATAMODEL_HPP_INCLUDE
 #define DATAMODEL_HPP_INCLUDE
 
-#include "main.h"
+#include "GameCore_dll-export.h"
 
 #include "Util/serviceprovider.hpp"
 
@@ -11,11 +11,7 @@
 namespace Game
 {
 
-#ifdef _WIN32
 class DLL_EXPORT DataModel : public Util::ServiceProvider
-#else
-class DataModel : public Util::ServiceProvider
-#endif // _WIN32
 {
 public:
     DataModel();

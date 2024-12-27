@@ -1,18 +1,14 @@
 #ifndef PACKETBUILDER_HPP_INCLUDE
 #define PACKETBUILDER_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include "packet.hpp"
 
 namespace Network
 {
 
-#ifdef _WIN32
 class DLL_EXPORT PacketBuilder
-#else
-class PacketBuilder
-#endif // _WIN32
 {
 public:
     static void BuildPacket(Packet::Base *packet, void *data);
