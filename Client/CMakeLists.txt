@@ -1,3 +1,5 @@
+find_package(Freetype REQUIRED)
+
 set(target "Client")
 
 add_executable(${target}
@@ -18,5 +20,8 @@ target_link_libraries(${target}
 		GameCore
 		Network
 		Util
+
+		# freetype must happen before allegro
+		freetype
 		allegro_monolith
 )
