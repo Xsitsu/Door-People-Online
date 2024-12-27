@@ -10,7 +10,7 @@
 #include "Network/client.hpp"
 #include "Network/packetall.hpp"
 
-#include "Gamecore/datamodel.hpp"
+#include "GameCore/datamodel.hpp"
 #include "GameCore/player.hpp"
 
 class GameClient : public Network::Client

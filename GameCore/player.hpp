@@ -3,7 +3,7 @@
 
 #include "GameCore_dll-export.h"
 
-#include <string> // uint32_t
+#include <cstdint>
 
 #include "actor.hpp"
 
