@@ -22,7 +22,7 @@ function(target_project_api)
 	foreach(target IN LISTS ARGN)
 		target_include_directories(${target}
 			PUBLIC
-			$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
+				$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
 		)
 	endforeach()
 endfunction()

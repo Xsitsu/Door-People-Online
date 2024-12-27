@@ -17,3 +17,5 @@ server
 
 /.idea/
 /cmake-build-*/
+
+_dependency-cache/

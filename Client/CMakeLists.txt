@@ -18,4 +18,5 @@ target_link_libraries(${target}
 		GameCore
 		Network
 		Util
+		allegro_monolith
 )

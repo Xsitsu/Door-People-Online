@@ -36,10 +36,9 @@ namespace Network {
 
 	void NetworkPeer::SendPacket(Packet::Base *packet, const Address &destination) {
 		unsigned int dataSize = packet->GetPacketSize();
-		std::vector<char> charbuffer(dataSize);
+		std::vector<char> charbuffer(dataSize, 0);
 
 		char *buffer = charbuffer.data();
-		memset(buffer, 0, sizeof(buffer));
 		PacketBuilder::BuildPacket(packet, buffer);
 		this->socket.Send(destination, buffer, dataSize);
 	}
