@@ -1,7 +1,7 @@
 #ifndef SOCKET_HPP_INCLUDE
 #define SOCKET_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include "address.hpp"
 
@@ -16,19 +16,10 @@
 namespace Network
 {
 
-#ifdef _WIN32
 bool DLL_EXPORT InitializeSockets();
 void DLL_EXPORT ShutdownSockets();
-#else
-bool InitializeSockets();
-void ShutdownSockets();
-#endif // _WIN32
 
-#ifdef _WIN32
 class DLL_EXPORT Socket
-#else
-class Socket
-#endif // _WIN32
 {
 public:
 	Socket();

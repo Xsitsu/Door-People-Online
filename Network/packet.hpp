@@ -1,7 +1,7 @@
 #ifndef PACKET_HPP_INCLUDE
 #define PACKET_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include <string>
 
@@ -36,11 +36,7 @@ std::string PacketActionToString(PacketAction action);
 namespace Packet
 {
 
-#ifdef _WIN32
 class DLL_EXPORT Base
-#else
-class Base
-#endif // _WIN32
 {
 public:
     Base(uint32_t conId, PacketFamily family, PacketAction action);

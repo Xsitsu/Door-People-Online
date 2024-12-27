@@ -1,7 +1,7 @@
 #ifndef ADDRESS_HPP_INCLUDE
 #define ADDRESS_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include <string>
 
@@ -16,11 +16,7 @@
 namespace Network
 {
 
-#ifdef _WIN32
 class DLL_EXPORT Address
-#else
-class Address
-#endif // _WIN32
 {
 public:
 	Address();

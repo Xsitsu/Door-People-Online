@@ -1,7 +1,7 @@
 #ifndef NETWORKPEER_HPP_INCLUDE
 #define NETWORKPEER_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include "socket.hpp"
 #include "packetall.hpp"
@@ -9,11 +9,7 @@
 namespace Network
 {
 
-#ifdef _WIN32
 class DLL_EXPORT NetworkPeer
-#else
-class NetworkPeer
-#endif // _WIN32
 {
 public:
     NetworkPeer();
@@ -21,8 +17,6 @@ public:
 
     Packet::Base* ReceivePacket(Address &sender);
     void SendPacket(Packet::Base* packet, const Address &destination);
-
-    void SetMaxPacketSize(int buffSize);
 
 protected:
     bool DoHandlePacket(Packet::Base *packet, const Address &sender);
@@ -33,8 +27,6 @@ protected:
     virtual bool HandlePacket(Packet::Player *packet, const Address &sender) = 0;
 
     Socket socket;
-    int maxPacketSize;
-
 };
 
 }

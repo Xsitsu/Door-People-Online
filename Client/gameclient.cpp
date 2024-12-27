@@ -258,6 +258,8 @@ bool GameClient::HandlePacket(Network::Packet::Disconnect *packet, const Network
     {
         this->isRunning = false;
     }
+
+    return true;
 }
 
 bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender)

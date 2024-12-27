@@ -1,7 +1,7 @@
 #ifndef LOGGER_HPP_INCLUDE
 #define LOGGER_HPP_INCLUDE
 
-#include "main.h"
+#include "Util_dll-export.h"
 
 #include <string>
 #include <unordered_map>
@@ -20,11 +20,7 @@ struct LogEntry
     std::string message = "";
 };
 
-#ifdef _WIN32
 class DLL_EXPORT Logger
-#else
-class Logger
-#endif // _WIN32
 {
 public:
     static Logger* Instance();

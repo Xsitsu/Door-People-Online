@@ -1,18 +1,14 @@
 #ifndef PACKETREADER_HPP_INCLUDE
 #define PACKETREADER_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include "packet.hpp"
 
 namespace Network
 {
 
-#ifdef _WIN32
 class DLL_EXPORT PacketReader
-#else
-class PacketReader
-#endif // _WIN32
 {
 public:
     static Packet::Base* ReadPacket(unsigned int packetSize, void *data);

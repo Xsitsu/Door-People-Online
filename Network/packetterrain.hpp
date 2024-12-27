@@ -1,7 +1,7 @@
 #ifndef PACKETTERRAIN_HPP_INCLUDE
 #define PACKETTERRAIN_HPP_INCLUDE
 
-#include "main.h"
+#include "Network_dll-export.h"
 
 #include <list>
 
@@ -13,11 +13,7 @@ namespace Network
 namespace Packet
 {
 
-#ifdef _WIN32
 class DLL_EXPORT Terrain : public Packet::Base
-#else
-class Terrain : public Packet::Base
-#endif // _WIN32
 {
 public:
     struct TerrainData

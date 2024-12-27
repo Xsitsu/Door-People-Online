@@ -1,0 +1,15 @@
+include(@CPM_FILE@)
+CPMAddPackage(NAME freetype
+	GITHUB_REPOSITORY freetype/freetype
+	GIT_TAG master
+	OPTIONS "FT_DISABLE_HARFBUZZ ON"
+	EXCLUDE_FROM_ALL TRUE
+	SYSTEM TRUE
+)
+set(Freetype_FOUND TRUE)
+set(Freetype_INCLUDE_DIRS "@CPM_PACKAGE_freetype_SOURCE_DIR@/include")
+set(Freetype_LIBRARIES "@CPM_PACKAGE_freetype_BINARY_DIR@/freetyped.lib")
+
+set(FREETYPE_FOUND "${Freetype_FOUND}")
+set(FREETYPE_INCLUDE_DIRS "${Freetype_INCLUDE_DIRS}")
+set(FREETYPE_LIBRARIES "${Freetype_LIBRARIES}")

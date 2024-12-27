@@ -1,6 +1,8 @@
 #include "socket.hpp"
 
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 namespace Network
 {

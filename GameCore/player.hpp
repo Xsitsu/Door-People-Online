@@ -1,7 +1,7 @@
 #ifndef PLAYER_HPP_INCLUDE
 #define PLAYER_HPP_INCLUDE
 
-#include "main.h"
+#include "GameCore_dll-export.h"
 
 #include <string> // uint32_t
 
@@ -10,11 +10,7 @@
 namespace Game
 {
 
-#ifdef _WIN32
 class DLL_EXPORT Player : public Actor
-#else
-class Player : public Actor
-#endif // _WIN32
 {
 public:
     Player();
