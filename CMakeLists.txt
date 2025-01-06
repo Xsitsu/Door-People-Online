@@ -17,8 +17,8 @@ file(REAL_PATH "${PROJECT_BINARY_DIR}/../_dependency-cache" CPM_SOURCE_CACHE)
 
 include(cpm)  # CPM.cmake has to come before dependencies
 
-configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/FindFreetype.cmake.in ${CMAKE_BINARY_DIR}/CPM_modules/FindFreetype.cmake @ONLY)
-find_package(Freetype REQUIRED)
+#configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/FindFreetype.cmake.in ${CMAKE_BINARY_DIR}/CPM_modules/FindFreetype.cmake @ONLY)
+#find_package(Freetype REQUIRED)
 
 include(allegro)
 
