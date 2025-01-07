@@ -1,10 +1,10 @@
 set(target "Util")
 
 add_library(${target} STATIC
-	logchannel.cpp
-	logchannel.hpp
-	logger.cpp
-	logger.hpp
+	log/log.cpp
+	log/log.hpp
+	log/logger.cpp
+	log/logger.hpp
 	service.cpp
 	service.hpp
 	serviceprovider.cpp

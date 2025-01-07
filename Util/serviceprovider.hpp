@@ -8,6 +8,8 @@
 
 #include "service.hpp"
 
+#include "log/logger.hpp"
+
 namespace Util
 {
 
@@ -26,6 +28,8 @@ public:
 
 protected:
     std::unordered_map<std::string, Service*> services;
+
+    Log* log = nullptr;
 };
 
 }

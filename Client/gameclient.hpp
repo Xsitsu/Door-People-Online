@@ -13,6 +13,8 @@
 #include "GameCore/datamodel.hpp"
 #include "GameCore/player.hpp"
 
+#include "Util/log/logger.hpp"
+
 class GameClient : public Network::Client
 {
 public:
@@ -36,6 +38,7 @@ protected:
 
     Game::Player *player;
 
+    Util::Log* log;
 };
 
 #endif // GAMECLIENT_HPP_INCLUDE

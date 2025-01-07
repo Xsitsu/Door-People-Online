@@ -21,6 +21,7 @@ public:
 
     bool HasLog(std::string log_name);
     Log* GetLog(std::string log_name);
+    void WriteAll(FILE *fp);
 
 protected:
     Logger();

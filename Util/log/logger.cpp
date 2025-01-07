@@ -45,7 +45,7 @@ bool Logger::HasLog(std::string log_name)
     return (it != this->logs.end());
 }
 
-Log Logger::GetLog(std::string log_name)
+Log* Logger::GetLog(std::string log_name)
 {
     if (!this->HasLog(log_name))
     {
@@ -53,6 +53,14 @@ Log Logger::GetLog(std::string log_name)
     }
 
     return this->logs[log_name];
+}
+
+void Logger::WriteAll(FILE* fp)
+{
+    for (auto& it : this->logs)
+    {
+        it.second->Write(fp);
+    }
 }
 
 }

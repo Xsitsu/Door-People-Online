@@ -2,21 +2,12 @@
 
 #include "Network/packetall.hpp"
 
-#include "Util/logger.hpp"
-
-static const char *logChannelName = "server";
-static const char *logChannelTag = "SRVR";
-
 namespace Network
 {
 
 Server::Server() : conIdCounter(1), maxClients(0), connections(), connectionsPerAddr()
 {
-    if (!Util::Logger::Instance()->HasLogChannel(logChannelName))
-    {
-        Util::Logger::Instance()->CreateLogChannel(logChannelName, logChannelTag, stdout);
-        Util::Logger::Instance()->EnableLogChannel(logChannelName);
-    }
+    this->log = Util::Logger::Instance()->GetLog("Server");
 }
 
 Server::~Server()
@@ -156,7 +147,8 @@ bool Server::HandlePacket(Packet::Base *packet, const Address &)
     std::string packetFamilyName = PacketFamilyToString(packet->GetFamily());
     std::string packetActionName = PacketActionToString(packet->GetAction());
     std::string msg = "Got packet with I don't know what to do with: " + packetFamilyName + " " + packetActionName + "\n";
-    Util::Logger::Instance()->Log(logChannelName, msg);
+
+    this->log->LogMessage(msg, Util::LogLevel::Warn);
 
     return false;
 }
@@ -173,7 +165,7 @@ bool Server::HandlePacket(Packet::Connect *packet, const Address &sender)
             this->SendPacket(&response, sender);
 
             std::string message = "Refused client connection with address: " + sender.ToString() + "\n";
-            Util::Logger::Instance()->Log(logChannelName, message);
+            this->log->LogMessage(message, Util::LogLevel::Info);
         }
         else
         {
@@ -193,7 +185,7 @@ bool Server::HandlePacket(Packet::Connect *packet, const Address &sender)
                 this->SendPacket(&response, sender);
 
                 std::string message = "Client connected with address: " + sender.ToString() + "\n";
-                Util::Logger::Instance()->Log(logChannelName, message);
+                this->log->LogMessage(message, Util::LogLevel::Info);
 
                 this->ClientConnectionAdded(this->GetConnection(conId));
             }
@@ -204,7 +196,7 @@ bool Server::HandlePacket(Packet::Connect *packet, const Address &sender)
                 this->SendPacket(&response, sender);
 
                 std::string message = "Client reconnected with address: " + sender.ToString() + "\n";
-                Util::Logger::Instance()->Log(logChannelName, message);
+                this->log->LogMessage(message, Util::LogLevel::Info);
 
                 this->ClientConnectionAdded(connection);
             }
@@ -233,7 +225,7 @@ bool Server::HandlePacket(Packet::Disconnect *packet, const Address &sender)
                 delete connection;
 
                 std::string message = "Client disconnected with address: " + sender.ToString() + "\n";
-                Util::Logger::Instance()->Log(logChannelName, message);
+                this->log->LogMessage(message, Util::LogLevel::Info);
             }
         }
         return true;

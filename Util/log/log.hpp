@@ -11,17 +11,17 @@ namespace Util
 
 enum class DLL_EXPORT LogLevel
 {
-    FATAL,
-    ERROR,
-    WARN,
-    INFO,
-    DEBUG,
+    Fatal,
+    Error,
+    Warn,
+    Info,
+    Debug,
 };
 
 struct LogEntry
 {
     std::string message = "";
-    LogLevel level = LogLevel::FATAL;
+    LogLevel level = LogLevel::Fatal;
 };
 
 class DLL_EXPORT Log
@@ -38,7 +38,7 @@ protected:
 
 private:
     std::string name;
-    LogLevel level = LogLevel::FATAL;
+    LogLevel level;
     std::list<LogEntry> entries;
 };
 

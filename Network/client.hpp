@@ -5,6 +5,8 @@
 
 #include "networkpeer.hpp"
 
+#include "Util/log/logger.hpp"
+
 namespace Network
 {
 
@@ -34,6 +36,8 @@ protected:
     Address serverAddress;
     bool isConnected;
     uint32_t connectionId;
+
+    Util::Log* log;
 };
 
 }

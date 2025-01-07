@@ -1,10 +1,9 @@
 #include "gameserver.hpp"
 
-#include "Util/logger.hpp"
-
 GameServer::GameServer() : Server(), dataModel(), isRunning(false)
 {
     this->dataModel.Init();
+    this->log = Util::Logger::Instance()->GetLog("GameServer");
 }
 
 GameServer::~GameServer()
@@ -30,7 +29,7 @@ void GameServer::Run()
             this->Tick();
             world->Update(deltaT/1000);
 
-            Util::Logger::Instance()->Flush();
+            Util::Logger::Instance()->WriteAll(stdout);
         }
     }
 }

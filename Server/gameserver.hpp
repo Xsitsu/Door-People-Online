@@ -7,6 +7,7 @@
 #include "GameCore/datamodel.hpp"
 
 #include "Util/timer.hpp"
+#include "Util/log/logger.hpp"
 
 class GameServer : public Network::Server
 {
@@ -27,6 +28,7 @@ protected:
 
     bool isRunning;
 
+    Util::Log* log;
 };
 
 #endif // GAMESERVER_HPP_INCLUDE

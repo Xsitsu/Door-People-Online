@@ -6,25 +6,21 @@
 #include "allegro5/allegro_ttf.h"
 #include "allegro5/allegro_native_dialog.h"
 
-#include "Util/logger.hpp"
+#include "Util/log/logger.hpp"
 #include "gameclient.hpp"
 
 int main()
 {
     unsigned int connectPort = 50000;
-    #ifdef _DEBUG
     Network::Address serverAddress(127, 0, 0, 1, 50000);
-    #else
-    Network::Address serverAddress(172, 93, 52, 252, 50000);
-    #endif // _DEBUG
 
-    Util::Logger::Instance()->CreateLogChannel("main", "MAIN", stdout);
-    Util::Logger::Instance()->EnableLogChannel("main");
+    Util::Log* log = Util::Logger::Instance()->GetLog("Main");
 
     if (!al_init())
     {
-        Util::Logger::Instance()->Log("main", "Failed to initialize allegro!\n");
-        Util::Logger::Instance()->Flush();
+        std::string msg = "Failed to initialize allegro!\n";
+        log->LogMessage(msg, Util::LogLevel::Fatal);
+        Util::Logger::Instance()->WriteAll(stderr);
         return -1;
     }
 
@@ -42,14 +38,13 @@ int main()
         connectPort++;
         std::stringstream stream;
         stream << "Trying on port: " << connectPort << "\n";
-        Util::Logger::Instance()->Log("main", stream.str());
-        //Util::Logger::Instance()->Flush();
+        log->LogMessage(stream.str(), Util::LogLevel::Info);
     }
 
     std::stringstream stream;
     stream << "Created client on port: " << connectPort << "\n";
-    Util::Logger::Instance()->Log("main", stream.str());
-    Util::Logger::Instance()->Flush();
+    log->LogMessage(stream.str(), Util::LogLevel::Info);
+    log->Write(stdout);
 
     try
     {
@@ -58,14 +53,17 @@ int main()
     }
     catch (...)
     {
-        Util::Logger::Instance()->Log("main", "An error happened. Not sure what.\n");
+        std::string msg = "n error happened. Not sure what.\n";
+        log->LogMessage(msg, Util::LogLevel::Fatal);
+        log->Write(stderr);
+
         if (client.IsConnected())
         {
             client.Disconnect();
         }
     }
 
-    Util::Logger::Instance()->Flush();
+    Util::Logger::Instance()->WriteAll(stdout);
 
     Network::ShutdownSockets();
 

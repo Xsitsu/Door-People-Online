@@ -1,6 +1,5 @@
 #include "gameclient.hpp"
 
-#include "Util/logger.hpp"
 #include "Util/timer.hpp"
 
 #include "GameCore/world.hpp"
@@ -13,6 +12,8 @@
 
 GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false), player(nullptr)
 {
+    this->log = Util::Logger::Instance()->GetLog("GameClient");
+
     dataModel.Init();
 
     this->display = al_create_display(1152, 648);
@@ -36,6 +37,8 @@ GameClient::~GameClient()
     this->display = nullptr;
     this->event_queue = nullptr;
     this->timer = nullptr;
+
+    this->log = nullptr;
 }
 
 void GameClient::Run()
@@ -88,7 +91,7 @@ void GameClient::Run()
                 this->SendPacket(&packet, this->serverAddress);
             }
 
-            Util::Logger::Instance()->Flush();
+            Util::Logger::Instance()->WriteAll(stdout);
         }
         else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {

@@ -9,6 +9,8 @@
 #include "clientconnection.hpp"
 #include "packetall.hpp"
 
+#include "Util/log/logger.hpp"
+
 namespace Network
 {
 
@@ -44,6 +46,8 @@ protected:
     unsigned int maxClients;
     std::unordered_map<uint32_t, ClientConnection*> connections;
     std::unordered_map<unsigned int, unsigned int> connectionsPerAddr;
+
+    Util::Log* log;
 };
 
 }
