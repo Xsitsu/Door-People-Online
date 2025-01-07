@@ -1,3 +1,5 @@
+#find_package(Freetype REQUIRED)
+
 CPMAddPackage(NAME allegro
 	GITHUB_REPOSITORY liballeg/allegro5
 	GIT_TAG 5.2.10.0
@@ -5,6 +7,10 @@ CPMAddPackage(NAME allegro
 	EXCLUDE_FROM_ALL TRUE
 	SYSTEM TRUE
 )
+
+get_target_property(link_libraries allegro_monolith LINK_LIBRARIES)
+list(APPEND link_libraries freetype)
+set_target_properties(allegro_monolith PROPERTIES LINK_LIBRARIES "${link_libraries}")
 
 function(append_allegro_include_dir dir)
 	get_target_property(include_dirs allegro_monolith INTERFACE_INCLUDE_DIRECTORIES)

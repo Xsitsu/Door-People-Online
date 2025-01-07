@@ -1,12 +1,12 @@
 # Online Platformer Game
 Also known as Door People Online. (because of how the characters turned out)
 
-Final lab for my networks class written in C++. (December 2017)
+Final lab for my networks class originally written in C++. (December 2017)
 
 ## About
-This project is a 2D online platformer written for my networks lab over around 4 days.
+This project is a 2D online platformer originally written for my networks lab over around 4 days. It has since been updated to use a more modern build system.
 
-The [Code::Blocks](http://www.codeblocks.org/) IDE with the MinGW compiler was used for development of this project.
+The [Code::Blocks](http://www.codeblocks.org/) IDE with the MinGW compiler was originally used for development of this project.
 
 The [Allegro 5](http://liballeg.org/) game programming library was used in the development of this game to handle window/display creation, game timers, drawing shapes, and keyboard events.
 
@@ -21,20 +21,13 @@ Everything not handled by Allegro 5 was written in C++ from scratch. This includ
 1. Clone the repository.
 2. Run build.sh.
 
-**Note:** No client build for linux.
-
 ### Windows
 
 1. Clone the repository.
-2. Get a pre-built copy of [Allegro 5.0.10](https://www.allegro.cc/files/) and put it into the newly copied repository directory. **(version / filenames DO matter)**
-3. Open Client, Server, GameCore, Network, and Util projects in Code::Blocks.
-4. Build Client/Server.
-5. Build GameCore.
-6. Build Network.
-7. Build Util.
-8. Build Client/Server.
+2. Something with CMake (still figuring this one out)
+3. ???
+4. Profit!!
 
-**Note:** This build order is required because of post build scripts in GameCore, Network, and Util projects that copy produced DLL files to appropriate bin folders. The bin folders for projects wont exist without first building them. This is a problem that could be fixed in script, but it wont be at leasts for now.
 
 ## Game Features
 

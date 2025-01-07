@@ -1,16 +1,9 @@
 #!/bin/sh
-set -e
 
-cd ./Util/
-make -f Makefile $1
+script_dir="$(dirname -- "$(readlink -f -- "$0")")"
+build_dir="$script_dir"/cmake-build
 
-cd ../Network/
-make -f Makefile $1
+cmake -B "$build_dir" -S "$script_dir"
 
-cd ../GameCore/
-make -f Makefile $1
-
-cd ../Server/
-make -f Makefile $1
-
-:
+cmake --build "$build_dir" --target server
+cmake --build "$build_dir" --target client
