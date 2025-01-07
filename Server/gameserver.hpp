@@ -6,8 +6,8 @@
 
 #include "GameCore/datamodel.hpp"
 
-#include "Util/timer.hpp"
-#include "Util/log/logger.hpp"
+#include "util/timer.hpp"
+#include "util/log/logger.hpp"
 
 class GameServer : public Network::Server
 {

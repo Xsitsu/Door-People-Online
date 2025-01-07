@@ -1,6 +1,6 @@
 #include "gameclient.hpp"
 
-#include "Util/timer.hpp"
+#include "util/timer.hpp"
 
 #include "GameCore/world.hpp"
 #include "GameCore/terrain.hpp"

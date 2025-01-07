@@ -3,7 +3,7 @@
 
 #include "GameCore_dll-export.h"
 
-#include "Util/serviceprovider.hpp"
+#include "util/serviceprovider.hpp"
 
 #include "world.hpp"
 #include "playerlist.hpp"

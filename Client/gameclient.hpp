@@ -13,7 +13,7 @@
 #include "GameCore/datamodel.hpp"
 #include "GameCore/player.hpp"
 
-#include "Util/log/logger.hpp"
+#include "util/log/logger.hpp"
 
 class GameClient : public Network::Client
 {

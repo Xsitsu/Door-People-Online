@@ -5,7 +5,7 @@
 
 #include <list>
 
-#include "Util/service.hpp"
+#include "util/service.hpp"
 
 #include "vector2.hpp"
 #include "actor.hpp"
