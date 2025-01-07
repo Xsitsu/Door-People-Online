@@ -1,7 +1,5 @@
 #!/bin/sh
 
-script_dir="$(dirname -- "$(readlink -f -- "$0")")"
-build_dir="$script_dir"/cmake-build
+rm -rf cmake-build
+rm -rf _dependency-cache
 
-cmake -B "$build_dir" -S "$script_dir"
-rm -rf "$build_dir"
