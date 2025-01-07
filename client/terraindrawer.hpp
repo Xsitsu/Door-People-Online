@@ -4,10 +4,10 @@
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_primitives.h"
 
-#include "GameCore/terrain.hpp"
-#include "GameCore/platform.hpp"
-#include "GameCore/wall.hpp"
-#include "GameCore/vector2.hpp"
+#include "gamecore/terrain.hpp"
+#include "gamecore/platform.hpp"
+#include "gamecore/wall.hpp"
+#include "gamecore/vector2.hpp"
 
 class TerrainDrawer
 {

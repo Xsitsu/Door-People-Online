@@ -1,10 +1,10 @@
 #ifndef GAMESERVER_HPP_INCLUDE
 #define GAMESERVER_HPP_INCLUDE
 
-#include "Network/server.hpp"
-#include "Network/packetall.hpp"
+#include "network/server.hpp"
+#include "network/packetall.hpp"
 
-#include "GameCore/datamodel.hpp"
+#include "gamecore/datamodel.hpp"
 
 #include "util/timer.hpp"
 #include "util/log/logger.hpp"

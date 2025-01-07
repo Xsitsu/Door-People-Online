@@ -7,11 +7,11 @@
 #include "allegro5/allegro_ttf.h"
 #include "allegro5/allegro_native_dialog.h"
 
-#include "Network/client.hpp"
-#include "Network/packetall.hpp"
+#include "network/client.hpp"
+#include "network/packetall.hpp"
 
-#include "GameCore/datamodel.hpp"
-#include "GameCore/player.hpp"
+#include "gamecore/datamodel.hpp"
+#include "gamecore/player.hpp"
 
 #include "util/log/logger.hpp"
 

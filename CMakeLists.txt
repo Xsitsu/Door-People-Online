@@ -21,8 +21,8 @@ include(allegro)
 
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
-add_subdirectory(Client)
-add_subdirectory(GameCore)
-add_subdirectory(Network)
-add_subdirectory(Server)
+add_subdirectory(client)
+add_subdirectory(gamecore)
+add_subdirectory(network)
+add_subdirectory(server)
 add_subdirectory(util)

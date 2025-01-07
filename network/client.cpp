@@ -1,6 +1,6 @@
 #include "client.hpp"
 
-#include "Network/packetall.hpp"
+#include "network/packetall.hpp"
 
 namespace Network
 {

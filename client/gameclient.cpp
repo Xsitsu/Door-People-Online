@@ -2,10 +2,10 @@
 
 #include "util/timer.hpp"
 
-#include "GameCore/world.hpp"
-#include "GameCore/terrain.hpp"
-#include "GameCore/platform.hpp"
-#include "GameCore/wall.hpp"
+#include "gamecore/world.hpp"
+#include "gamecore/terrain.hpp"
+#include "gamecore/platform.hpp"
+#include "gamecore/wall.hpp"
 
 #include "actordrawer.hpp"
 #include "terraindrawer.hpp"

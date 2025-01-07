@@ -4,9 +4,9 @@
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_primitives.h"
 
-#include "GameCore/actor.hpp"
-#include "GameCore/player.hpp"
-#include "GameCore/vector2.hpp"
+#include "gamecore/actor.hpp"
+#include "gamecore/player.hpp"
+#include "gamecore/vector2.hpp"
 
 class ActorDrawer
 {
