@@ -1,4 +1,4 @@
-set(target "Server")
+set(target "server")
 
 add_executable(${target}
 	gameserver.cpp

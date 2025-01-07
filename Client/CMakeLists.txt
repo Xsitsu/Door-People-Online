@@ -1,6 +1,6 @@
 find_package(Freetype REQUIRED)
 
-set(target "Client")
+set(target "client")
 
 add_executable(${target}
 	actordrawer.cpp

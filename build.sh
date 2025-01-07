@@ -5,5 +5,5 @@ build_dir="$script_dir"/cmake-build
 
 cmake -B "$build_dir" -S "$script_dir"
 
-cmake --build "$build_dir" --target Server
-cmake --build "$build_dir" --target Client
+cmake --build "$build_dir" --target server
+cmake --build "$build_dir" --target client
