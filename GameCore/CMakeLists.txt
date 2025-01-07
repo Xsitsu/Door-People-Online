@@ -1,4 +1,4 @@
-set(target "GameCore")
+set(target "gamecore")
 
 add_library(${target} STATIC
 	actor.cpp
@@ -26,6 +26,6 @@ target_include_directories(${target}
 )
 target_link_libraries(${target}
 	PRIVATE
-		Util
+		util
 )
 project_dll_export(${target})

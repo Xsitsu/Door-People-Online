@@ -1,7 +1,7 @@
 #ifndef LOG_HPP_INCLUDE
 #define LOG_HPP_INCLUDE
 
-#include "Util_dll-export.h"
+#include "util_dll_export.h"
 
 #include <string>
 #include <list>

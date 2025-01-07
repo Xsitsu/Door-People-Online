@@ -1,7 +1,7 @@
 #ifndef TERRAIN_HPP_INCLUDE
 #define TERRAIN_HPP_INCLUDE
 
-#include "GameCore_dll-export.h"
+#include "gamecore_dll_export.h"
 
 #include "vector2.hpp"
 

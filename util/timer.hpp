@@ -3,7 +3,7 @@
 
 #include <chrono>
 
-#include "Util_dll-export.h"
+#include "util_dll_export.h"
 
 namespace Util
 {

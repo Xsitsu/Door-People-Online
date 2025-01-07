@@ -1,7 +1,7 @@
 #ifndef ACTOR_HPP_INCLUDE
 #define ACTOR_HPP_INCLUDE
 
-#include "GameCore_dll-export.h"
+#include "gamecore_dll_export.h"
 
 #include "vector2.hpp"
 

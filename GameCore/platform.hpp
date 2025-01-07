@@ -1,7 +1,7 @@
 #ifndef PLATFORM_HPP_INCLUDE
 #define PLATFORM_HPP_INCLUDE
 
-#include "GameCore_dll-export.h"
+#include "gamecore_dll_export.h"
 
 #include "terrain.hpp"
 

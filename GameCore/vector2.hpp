@@ -1,7 +1,7 @@
 #ifndef VECTOR2_HPP_INCLUDE
 #define VECTOR2_HPP_INCLUDE
 
-#include "GameCore_dll-export.h"
+#include "gamecore_dll_export.h"
 
 namespace Game
 {

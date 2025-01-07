@@ -1,7 +1,7 @@
 #ifndef NETWORKPEER_HPP_INCLUDE
 #define NETWORKPEER_HPP_INCLUDE
 
-#include "Network_dll-export.h"
+#include "network_dll_export.h"
 
 #include "socket.hpp"
 #include "packetall.hpp"

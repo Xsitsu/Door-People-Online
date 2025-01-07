@@ -1,7 +1,7 @@
 #ifndef PACKETBUILDER_HPP_INCLUDE
 #define PACKETBUILDER_HPP_INCLUDE
 
-#include "Network_dll-export.h"
+#include "network_dll_export.h"
 
 #include "packet.hpp"
 

@@ -1,7 +1,7 @@
 #ifndef ADDRESS_HPP_INCLUDE
 #define ADDRESS_HPP_INCLUDE
 
-#include "Network_dll-export.h"
+#include "network_dll_export.h"
 
 #include <string>
 

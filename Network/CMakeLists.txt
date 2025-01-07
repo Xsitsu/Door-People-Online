@@ -1,4 +1,4 @@
-set(target "Network")
+set(target "network")
 
 add_library(${target} STATIC
 	address.cpp
@@ -35,7 +35,7 @@ target_include_directories(${target}
 )
 target_link_libraries(${target}
 	PRIVATE
-		Util
+		util
 		$<$<PLATFORM_ID:Windows>:ws2_32>
 )
 project_dll_export(${target})

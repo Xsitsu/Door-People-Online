@@ -1,6 +1,8 @@
 #ifndef PLAYERLIST_HPP_INCLUDE
 #define PLAYERLIST_HPP_INCLUDE
 
+#include "gamecore_dll_export.h"
+
 #include <list>
 
 #include "util/service.hpp"

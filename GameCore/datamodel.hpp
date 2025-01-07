@@ -1,7 +1,7 @@
 #ifndef DATAMODEL_HPP_INCLUDE
 #define DATAMODEL_HPP_INCLUDE
 
-#include "GameCore_dll-export.h"
+#include "gamecore_dll_export.h"
 
 #include "util/serviceprovider.hpp"
 

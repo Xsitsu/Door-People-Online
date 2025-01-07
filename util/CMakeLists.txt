@@ -1,4 +1,4 @@
-set(target "Util")
+set(target "util")
 
 add_library(${target} STATIC
 	log/log.cpp

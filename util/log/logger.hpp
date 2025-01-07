@@ -1,7 +1,7 @@
 #ifndef LOGGER_HPP_INCLUDE
 #define LOGGER_HPP_INCLUDE
 
-#include "Util_dll-export.h"
+#include "util_dll_export.h"
 
 #include <string>
 #include <unordered_map>

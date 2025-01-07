@@ -11,7 +11,7 @@ target_include_directories(${target}
 )
 target_link_libraries(${target}
 	PRIVATE
-		GameCore
-		Network
-		Util
+		gamecore
+		network
+		util
 )
