@@ -25,7 +25,7 @@ GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), tim
     al_register_event_source(event_queue, al_get_keyboard_event_source());
     al_register_event_source(event_queue, al_get_mouse_event_source());
 
-    al_set_window_position(display, 10, 10);
+    al_set_window_position(display, 40, 40);
 }
 
 GameClient::~GameClient()
@@ -99,7 +99,7 @@ void GameClient::Run()
         }
         else if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
         {
-            if (this->player)
+            if (this->player != nullptr)
             {
                 if (ev.keyboard.keycode == ALLEGRO_KEY_UP)
                 {

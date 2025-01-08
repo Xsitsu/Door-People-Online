@@ -4,6 +4,7 @@
 #include "gamecore_dll_export.h"
 
 #include "vector2.hpp"
+#include "physicssettings.hpp"
 
 namespace Game
 {
@@ -36,11 +37,22 @@ public:
 
     void Jump();
 
+    void SetPhysicsSettings(const PhysicsSettings &settings);
+
+    void SetJumpPower(double power);
+    double GetJumpPower() const;
+
+    void SetWalkspeed(double speed);
+    double GetWalkspeed() const;
+
 protected:
     Vector2 size;
     Vector2 position;
     Vector2 velocity;
     Direction direction;
+
+    double jump_power;
+    double walkspeed;
 
 };
 
