@@ -7,6 +7,7 @@
 
 #include "util/service.hpp"
 
+#include "physicssettings.hpp"
 #include "vector2.hpp"
 #include "actor.hpp"
 #include "terrain.hpp"
@@ -22,8 +23,8 @@ public:
     World();
     virtual ~World();
 
-    Vector2 GetGravity() const;
-    void SetGravity(const Vector2 &gravity);
+    void SetPhysicsSettings(const PhysicsSettings &settings);
+    PhysicsSettings& GetPhysicsSettings();
 
     void Update(double deltaT);
 
@@ -42,7 +43,8 @@ public:
 protected:
     bool SegmentsOverlap(double x1, double x2, double y1, double y2) const;
 
-    Vector2 gravity;
+    PhysicsSettings physics_settings;
+
     std::list<Actor*> actors;
     std::list<Terrain*> terrain;
 
