@@ -14,6 +14,8 @@
 
 #include "util/log/logger.hpp"
 
+#include "playercontroller.hpp"
+
 class GameClient : public Network::Client
 {
 public:
@@ -35,6 +37,7 @@ protected:
     Game::DataModel dataModel;
     bool isRunning;
 
+    PlayerController* player_controller;
     Game::Player *player;
 
     Util::Log* log;
