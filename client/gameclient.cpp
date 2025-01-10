@@ -49,8 +49,6 @@ void GameClient::Run()
 
     Game::Vector2 walkSpeed(160, 0);
 
-    bool needPhysicsUpdate = false;
-
     Util::Timer uTimer;
 
     bool needsDraw = false;
@@ -73,9 +71,9 @@ void GameClient::Run()
             uTimer.Reset();
             world->Update(deltaT/1000);
 
-            if (needPhysicsUpdate)
+            if (this->player_controller->NeedsPhysicsUpdate())
             {
-                needPhysicsUpdate = false;
+                this->player_controller->ClearPhysicsUpdate();
 
                 Network::Packet::Player packet(this->connectionId, Network::PacketAction::ACTION_TELL);
 
@@ -103,32 +101,19 @@ void GameClient::Run()
             {
                 if (ev.keyboard.keycode == ALLEGRO_KEY_UP)
                 {
-                    if (this->player->GetVelocity().y == 0)
+                    if (this->player_controller->CanJump())
                     {
-                        needPhysicsUpdate = true;
-
-                        this->player->Jump();
+                        this->player_controller->Jump();
                     }
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
                 {
-                    needPhysicsUpdate = true;
-
-                    this->player->AddVelocity(-walkSpeed);
-                    if (this->player->GetDirection() != Game::Actor::Direction::DIR_LEFT)
-                    {
-                        this->player->SetDirection(Game::Actor::Direction::DIR_LEFT);
-                    }
+                    this->player_controller->Move(Game::Actor::Direction::Left);
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
                 {
-                    needPhysicsUpdate = true;
+                    this->player_controller->Move(Game::Actor::Direction::Right);
 
-                    this->player->AddVelocity(walkSpeed);
-                    if (this->player->GetDirection() != Game::Actor::Direction::DIR_RIGHT)
-                    {
-                        this->player->SetDirection(Game::Actor::Direction::DIR_RIGHT);
-                    }
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
                 {
@@ -146,15 +131,11 @@ void GameClient::Run()
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
                 {
-                    needPhysicsUpdate = true;
-
-                    this->player->AddVelocity(walkSpeed);
+                    this->player_controller->StopMoving(Game::Actor::Direction::Left);
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
                 {
-                    needPhysicsUpdate = true;
-
-                    this->player->AddVelocity(-walkSpeed);
+                    this->player_controller->StopMoving(Game::Actor::Direction::Right);
                 }
                 else if (ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
                 {
@@ -244,6 +225,7 @@ bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::A
             playerList->AddPlayer(player);
 
             this->player = player;
+            this->player_controller = new PlayerController(this->player);
         }
         else
         {

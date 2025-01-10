@@ -3,7 +3,7 @@
 namespace Game
 {
 
-Actor::Actor() : size(Vector2(40, 80)), position(Vector2(0, 200)), velocity(), direction(Actor::Direction::DIR_LEFT), jump_power(300), walkspeed(100)
+Actor::Actor() : size(Vector2(40, 80)), position(Vector2(0, 200)), velocity(), direction(Actor::Direction::Left), jump_power(300), walkspeed(100)
 {
 
 }
@@ -62,6 +62,12 @@ void Actor::AddVelocity(const Vector2 &vel)
 void Actor::Update(double deltaT)
 {
     this->position += (this->velocity * deltaT);
+}
+
+bool Actor::IsOnGround() const
+{
+    bool y_velocity_is_zero = (this->GetVelocity().y == 0);
+    return y_velocity_is_zero;
 }
 
 void Actor::Jump()

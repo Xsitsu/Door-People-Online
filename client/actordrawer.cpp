@@ -24,12 +24,12 @@ void ActorDrawer::DrawActor(Game::Actor *actor, const Game::Vector2 &drawBegin, 
     al_draw_filled_rectangle(drawStart.x, drawStart.y, drawEnd.x, drawEnd.y, col);
 
     ALLEGRO_COLOR colBlack = al_map_rgb(0, 0, 0);
-    if (actor->GetDirection() == Game::Actor::Direction::DIR_LEFT)
+    if (actor->GetDirection() == Game::Actor::Direction::Left)
     {
         al_draw_filled_rectangle(drawStart.x + 4, drawStart.y + 4, drawStart.x + 20, drawStart.y + 20, colBlack);
         al_draw_filled_rectangle(drawStart.x, drawStart.y + 28, drawStart.x + 14, drawStart.y + 32,  colBlack);
     }
-    else if (actor->GetDirection() == Game::Actor::Direction::DIR_RIGHT)
+    else if (actor->GetDirection() == Game::Actor::Direction::Right)
     {
         Game::Vector2 topRight(drawEnd.x, drawStart.y);
         al_draw_filled_rectangle(topRight.x - 20, topRight.y + 4, topRight.x - 4, topRight.y + 20, colBlack);
