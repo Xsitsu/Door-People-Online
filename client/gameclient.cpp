@@ -47,8 +47,6 @@ void GameClient::Run()
 
     Game::World *world = this->dataModel.GetWorld();
 
-    Game::Vector2 walkSpeed(160, 0);
-
     Util::Timer uTimer;
 
     bool needsDraw = false;
@@ -97,51 +95,11 @@ void GameClient::Run()
         }
         else if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
         {
-            if (this->player != nullptr)
-            {
-                if (ev.keyboard.keycode == ALLEGRO_KEY_UP)
-                {
-                    if (this->player_controller->CanJump())
-                    {
-                        this->player_controller->Jump();
-                    }
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
-                {
-                    this->player_controller->Move(Game::Actor::Direction::Left);
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-                {
-                    this->player_controller->Move(Game::Actor::Direction::Right);
-
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
-                {
-
-                }
-            }
+            this->HandleKeyDown(ev.keyboard.keycode);
         }
         else if (ev.type == ALLEGRO_EVENT_KEY_UP)
         {
-            if (this->player)
-            {
-                if (ev.keyboard.keycode == ALLEGRO_KEY_UP)
-                {
-
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
-                {
-                    this->player_controller->StopMoving(Game::Actor::Direction::Left);
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-                {
-                    this->player_controller->StopMoving(Game::Actor::Direction::Right);
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
-                {
-
-                }
-            }
+            this->HandleKeyUp(ev.keyboard.keycode);
         }
         else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES)
         {
@@ -349,4 +307,51 @@ bool GameClient::HandlePacket(Network::Packet::Player *packet, const Network::Ad
         return true;
     }
     return false;
+}
+
+
+void GameClient::HandleKeyDown(int keycode)
+{
+    bool is_controlling_character = (this->player != nullptr);
+    if (is_controlling_character)
+    {
+        if (keycode == ALLEGRO_KEY_UP)
+        {
+            this->player_controller->Jump();
+        }
+        else if (keycode == ALLEGRO_KEY_LEFT)
+        {
+            this->player_controller->Move(Game::Actor::Direction::Left);
+        }
+        else if (keycode == ALLEGRO_KEY_RIGHT)
+        {
+            this->player_controller->Move(Game::Actor::Direction::Right);
+        }
+    }
+}
+
+void GameClient::HandleKeyUp(int keycode)
+{
+    bool is_controlling_character = (this->player != nullptr);
+    if (is_controlling_character)
+    {
+        ALLEGRO_KEYBOARD_STATE keyboardState;
+        al_get_keyboard_state(&keyboardState);
+        if (keycode == ALLEGRO_KEY_LEFT)
+        {
+            this->player_controller->StopMoving(Game::Actor::Direction::Left);
+            if (al_key_down(&keyboardState, ALLEGRO_KEY_RIGHT))
+            {
+                this->player_controller->Move(Game::Actor::Direction::Right);
+            }
+        }
+        else if (keycode == ALLEGRO_KEY_RIGHT)
+        {
+            this->player_controller->StopMoving(Game::Actor::Direction::Right);
+            if (al_key_down(&keyboardState, ALLEGRO_KEY_LEFT))
+            {
+                this->player_controller->Move(Game::Actor::Direction::Left);
+            }
+        }
+    }
 }

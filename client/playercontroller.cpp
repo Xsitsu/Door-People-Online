@@ -14,8 +14,11 @@ bool PlayerController::CanJump() const
 
 void PlayerController::Jump()
 {
-    this->player->Jump();
-    this->needs_physics_update = true;
+    if (this->CanJump())
+    {
+        this->player->Jump();
+        this->needs_physics_update = true;
+    }
 }
 
 void PlayerController::UpdateDirection(Game::Actor::Direction move_dir)

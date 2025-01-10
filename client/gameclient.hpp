@@ -30,6 +30,9 @@ protected:
     bool HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender);
     bool HandlePacket(Network::Packet::Player *packet, const Network::Address &sender);
 
+    void HandleKeyDown(int keycode);
+    void HandleKeyUp(int keycode);
+
     ALLEGRO_DISPLAY *display;
     ALLEGRO_EVENT_QUEUE *event_queue;
     ALLEGRO_TIMER *timer;
