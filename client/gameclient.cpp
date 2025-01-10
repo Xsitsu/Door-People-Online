@@ -154,7 +154,7 @@ void GameClient::Run()
             }
 
 
-            al_wait_for_vsync();
+            //al_wait_for_vsync();
             al_flip_display();
             al_clear_to_color(al_map_rgb(0, 0, 0));
         }

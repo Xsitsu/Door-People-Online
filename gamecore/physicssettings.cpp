@@ -6,7 +6,7 @@ namespace Game
 PhysicsSettings::PhysicsSettings()
 {
     this->gravity = 960;
-    this->default_walkspeed = 360;
+    this->default_walkspeed = 180;
     this->default_jump_power = 320;
 }
 
