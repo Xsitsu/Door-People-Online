@@ -4,7 +4,7 @@
 #include "network_dll_export.h"
 
 #include "socket.hpp"
-#include "packetall.hpp"
+#include "packet/packetall.hpp"
 
 namespace Network
 {

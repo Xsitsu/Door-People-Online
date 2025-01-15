@@ -7,7 +7,7 @@
 
 #include "networkpeer.hpp"
 #include "clientconnection.hpp"
-#include "packetall.hpp"
+#include "packet/packetall.hpp"
 
 #include "util/log/logger.hpp"
 

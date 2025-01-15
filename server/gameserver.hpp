@@ -2,7 +2,7 @@
 #define GAMESERVER_HPP_INCLUDE
 
 #include "network/server.hpp"
-#include "network/packetall.hpp"
+#include "network/packet/packetall.hpp"
 
 #include "gamecore/datamodel.hpp"
 
