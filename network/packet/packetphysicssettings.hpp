@@ -20,7 +20,8 @@ public:
     virtual ~PhysicsSettings();
     virtual unsigned int GetPacketSize() const;
 
-    
+    void Encode(void *&data);
+    void Decode(void *&data);
 
 private:
     uint8_t num_bytes;
