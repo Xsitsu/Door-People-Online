@@ -3,8 +3,8 @@
 #include <cstring>
 #include <vector>
 
-#include "packetreader.hpp"
-#include "packetbuilder.hpp"
+#include "packet/packetreader.hpp"
+#include "packet/packetbuilder.hpp"
 
 #define MAX_PACKET_SIZE 1024
 

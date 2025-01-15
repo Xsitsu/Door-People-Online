@@ -9,21 +9,21 @@ add_library(${target} STATIC
 	clientconnection.hpp
 	networkpeer.cpp
 	networkpeer.hpp
-	packet.cpp
-	packet.hpp
-	packetall.hpp
-	packetbuilder.cpp
-	packetbuilder.hpp
-	packetconnect.cpp
-	packetconnect.hpp
-	packetdisconnect.cpp
-	packetdisconnect.hpp
-	packetplayer.cpp
-	packetplayer.hpp
-	packetreader.cpp
-	packetreader.hpp
-	packetterrain.cpp
-	packetterrain.hpp
+	packet/packet.cpp
+	packet/packet.hpp
+	packet/packetall.hpp
+	packet/packetbuilder.cpp
+	packet/packetbuilder.hpp
+	packet/packetconnect.cpp
+	packet/packetconnect.hpp
+	packet/packetdisconnect.cpp
+	packet/packetdisconnect.hpp
+	packet/packetplayer.cpp
+	packet/packetplayer.hpp
+	packet/packetreader.cpp
+	packet/packetreader.hpp
+	packet/packetterrain.cpp
+	packet/packetterrain.hpp
 	server.cpp
 	server.hpp
 	socket.cpp
