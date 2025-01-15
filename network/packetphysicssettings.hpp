@@ -3,6 +3,8 @@
 
 #include "network_dll_export.h"
 
+#include <vector>
+
 #include "packet.hpp"
 
 namespace Network
@@ -18,11 +20,12 @@ public:
     virtual ~PhysicsSettings();
     virtual unsigned int GetPacketSize() const;
 
-    const std::list<PlayerData>& GetPlayerData() const;
-    void AddPlayerData(PlayerData data);
+    
 
 private:
-    
+    uint8_t num_bytes;
+    std::vector<uint8_t> bytes;
+
 };
 
 }
