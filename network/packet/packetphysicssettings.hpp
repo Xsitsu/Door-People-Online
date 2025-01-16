@@ -20,11 +20,8 @@ public:
     virtual ~PhysicsSettings();
     virtual unsigned int GetPacketSize() const;
 
-    void Encode(void *&data);
-    void Decode(void *&data);
-
 private:
-    std::vector<uint8_t> bytes;
+    
 
 };
 

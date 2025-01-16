@@ -17,6 +17,7 @@ enum PacketFamily : uint8_t
     FAMILY_DISCONNECT = 2,
     FAMILY_TERRAIN = 3,
     FAMILY_PLAYER = 4,
+    FAMILY_PHYSICS_SETTINGS = 5,
 };
 
 enum PacketAction : uint8_t
@@ -46,9 +47,6 @@ public:
     uint32_t GetConnectionId() const;
     PacketFamily GetFamily() const;
     PacketAction GetAction() const;
-
-    virtual void Encode(void *&data) const;
-    virtual void Decode(void *&data) const;
 
 protected:
     uint32_t connectionId;

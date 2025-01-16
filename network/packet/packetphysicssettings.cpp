@@ -9,7 +9,7 @@ namespace Network
 namespace Packet
 {
 
-PhysicsSettings::PhysicsSettings()
+PhysicsSettings::PhysicsSettings() : Packet::Base(conId, PacketFamily::FAMILY_PHYSICS_SETTINGS, action)
 {
 
 }
