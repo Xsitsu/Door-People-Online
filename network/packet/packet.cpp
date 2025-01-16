@@ -1,5 +1,8 @@
 #include "packet.hpp"
 
+#include "packetbuilder.hpp"
+#include "packetreader.hpp"
+
 #include <cstring>
 
 namespace Network
@@ -90,6 +93,18 @@ PacketFamily Base::GetFamily() const
 PacketAction Base::GetAction() const
 {
     return this->action;
+}
+
+void Base::Encode(void *&data) const
+{
+    PacketBuilder::Put32(data, this->GetConnectionId());
+    PacketBuilder::PutFamily(data, this->GetFamily());
+    PacketBuilder::PutAction(data, this->GetAction());
+}
+
+void Base::Decode(void *&data) const
+{
+
 }
 
 }

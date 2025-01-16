@@ -24,7 +24,6 @@ public:
     void Decode(void *&data);
 
 private:
-    uint8_t num_bytes;
     std::vector<uint8_t> bytes;
 
 };

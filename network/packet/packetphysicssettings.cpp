@@ -21,13 +21,15 @@ PhysicsSettings::~PhysicsSettings()
 
 unsigned int PhysicsSettings::GetPacketSize() const
 {
-    return this->num_bytes + 1;
+    auto base_size = Packet::Base::GetPacketSize();
+    auto size_8 = this->bytes.size() + 1;
+    return (sizeof(uint8_t) * size_8) + base_size;
 }
 
-void PhysicsSettings::Encode(void *data)
+void PhysicsSettings::Encode(void *&data)
 {
-    PacketBuilder::PutFamily(data, packet->GetFamily());
-    PacketBuilder::PutAction(data, packet->GetAction());
+    Packet::Base::Encode(data);
+    
 }
 
 void PhysicsSettings::Decode(void *data)

@@ -47,6 +47,9 @@ public:
     PacketFamily GetFamily() const;
     PacketAction GetAction() const;
 
+    virtual void Encode(void *&data) const;
+    virtual void Decode(void *&data) const;
+
 protected:
     uint32_t connectionId;
     PacketFamily family;
