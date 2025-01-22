@@ -17,3 +17,5 @@ obj/
 /cmake-build*/
 
 _dependency-cache/
+CMakeCache.txt
+CMakeFiles/
