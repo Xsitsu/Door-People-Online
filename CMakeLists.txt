@@ -17,12 +17,16 @@ file(REAL_PATH "${PROJECT_BINARY_DIR}/../_dependency-cache" CPM_SOURCE_CACHE)
 
 include(cpm)  # CPM.cmake has to come before dependencies
 
-include(allegro)
+IF (WIN32)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/FindFreetype.cmake.in ${CMAKE_BINARY_DIR}/CPM_modules/FindFreetype.cmake @ONLY)
+ENDIF ()
+
+#include(allegro)
 
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
-add_subdirectory(client)
-add_subdirectory(gamecore)
-add_subdirectory(network)
-add_subdirectory(server)
-add_subdirectory(util)
+#add_subdirectory(client)
+#add_subdirectory(gamecore)
+#add_subdirectory(network)
+#add_subdirectory(server)
+#add_subdirectory(util)

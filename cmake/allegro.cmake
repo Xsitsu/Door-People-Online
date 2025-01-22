@@ -1,4 +1,6 @@
-#find_package(Freetype REQUIRED)
+IF (WIN32)
+	find_package(Freetype REQUIRED)
+ENDIF()
 
 CPMAddPackage(NAME allegro
 	GITHUB_REPOSITORY liballeg/allegro5
