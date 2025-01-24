@@ -4,13 +4,16 @@ script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 build_dir="$script_dir"/cmake-build
 
 mkdir -p _dependency-cache
+mkdir -p "$build_dir"
 
 cmake -B "$build_dir" -S "$script_dir" #-G "MinGW Makefiles"
 
-cmake --build "$build_dir" --target freetype
+#cd "$build_dir"
+
+#cmake --build "$build_dir" --target freetype
 
 #cmake --build "$build_dir" --target server
 #cmake --build "$build_dir" --target client
 
+cmake --build "$build_dir" --target ALL_BUILD
 
-read var1
