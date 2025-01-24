@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.17)
 
+IF (WIN32)
+    set(CMAKE_CXX_COMPILER "C:/MinGW/bin/g++.exe")
+    set(CMAKE_C_COMPILER "C:/MinGW/bin/gcc.exe")
+ENDIF ()
+
 project(DoorPeopleOnline VERSION 1.0.0 LANGUAGES C CXX)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)

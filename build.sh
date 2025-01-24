@@ -5,7 +5,7 @@ build_dir="$script_dir"/cmake-build
 
 mkdir -p _dependency-cache
 
-cmake -B "$build_dir" -S "$script_dir"
+cmake -B "$build_dir" -S "$script_dir" #-G "MinGW Makefiles"
 
 cmake --build "$build_dir" --target freetype
 
