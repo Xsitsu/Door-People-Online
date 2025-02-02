@@ -12,8 +12,7 @@ cmake -B "$build_dir" -S "$script_dir" #-G "MinGW Makefiles"
 
 #cmake --build "$build_dir" --target freetype
 
-#cmake --build "$build_dir" --target server
-#cmake --build "$build_dir" --target client
+#cmake --build "$build_dir" --target util
 
-cmake --build "$build_dir" --target ALL_BUILD
-
+cmake --build "$build_dir" --target server
+cmake --build "$build_dir" --target client
