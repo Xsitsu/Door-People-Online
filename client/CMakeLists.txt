@@ -1,5 +1,3 @@
-find_package(Freetype REQUIRED)
-
 set(target "client")
 
 add_executable(${target}
@@ -21,7 +19,7 @@ target_link_libraries(${target}
 		network
 		util
 
-		# freetype must happen before allegro
-		freetype
-		allegro_monolith
+		allegro
+		allegro_color
+		allegro_primitives
 )

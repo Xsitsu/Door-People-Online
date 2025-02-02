@@ -15,5 +15,9 @@ obj/
 
 /.idea/
 /cmake-build*/
+.vs/
+out/
 
 _dependency-cache/
+CMakeCache.txt
+CMakeFiles/

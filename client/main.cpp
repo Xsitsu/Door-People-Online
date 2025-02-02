@@ -2,8 +2,6 @@
 
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_primitives.h"
-#include "allegro5/allegro_font.h"
-#include "allegro5/allegro_ttf.h"
 #include "allegro5/allegro_native_dialog.h"
 
 #include "util/log/logger.hpp"
@@ -27,8 +25,6 @@ int main()
     al_install_keyboard();
     al_install_mouse();
     al_init_primitives_addon();
-    al_init_font_addon();
-    al_init_ttf_addon();
 
     Network::InitializeSockets();
 
