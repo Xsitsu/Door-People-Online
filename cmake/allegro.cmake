@@ -1,5 +1,3 @@
-set(CMAKE_BUILD_TYPE "DEBUG")
-
 CPMAddPackage(NAME allegro
 	GITHUB_REPOSITORY liballeg/allegro5
 	GIT_TAG 5.2.10.0

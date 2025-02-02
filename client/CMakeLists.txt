@@ -22,9 +22,4 @@ target_link_libraries(${target}
 		allegro
 		allegro_color
 		allegro_primitives
-		#allegro_main
-
-
-		#allegro5
-		#allegro5_image
 )
