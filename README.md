@@ -24,9 +24,7 @@ Everything not handled by Allegro 5 was written in C++ from scratch. This includ
 ### Windows
 
 1. Clone the repository.
-2. Something with CMake (still figuring this one out)
-3. ???
-4. Profit!!
+2. Run build.sh.
 
 
 ## Game Features
