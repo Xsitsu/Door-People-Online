@@ -13,6 +13,7 @@
 GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false), player(nullptr)
 {
     this->log = Util::Logger::Instance()->GetLog("GameClient");
+    this->log->SetLogLevel(Util::LogLevel::Debug);
 
     dataModel.Init();
 
@@ -172,15 +173,20 @@ bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::A
     bool wasHandled = Network::Client::HandlePacket(packet, sender);
     if (wasHandled)
     {
+        this->log->LogMessage("Got packet connect!", Util::LogLevel::Info);
         if (this->isConnected)
         {
+            this->log->LogMessage("Successfully connected", Util::LogLevel::Info);
+
             Network::Packet::Terrain packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
             this->SendPacket(&packet, this->serverAddress);
+            this->log->LogMessage("Sent terrain download request to server", Util::LogLevel::Info);
 
             Game::PlayerList *playerList = this->dataModel.GetPlayerList();
             Game::Player *player = new Game::Player();
             player->SetNetworkOwner(this->connectionId);
             playerList->AddPlayer(player);
+            this->log->LogMessage("Created new player for this client", Util::LogLevel::Info);
 
             this->player = player;
             this->player_controller = new PlayerController(this->player);
@@ -189,7 +195,6 @@ bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::A
         {
             this->isRunning = false;
         }
-
     }
     return wasHandled;
 }
