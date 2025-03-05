@@ -8,6 +8,7 @@ namespace Network
 Client::Client() : serverAddress(), isConnected(false), connectionId(0)
 {
     this->log = Util::Logger::Instance()->GetLog("Client");
+    this->log->SetLogLevel(Util::LogLevel::Debug);
 }
 
 Client::~Client()
@@ -35,8 +36,10 @@ bool Client::Init(unsigned short port)
 
 void Client::Connect(const Address &serverAddress)
 {
+    this->log->LogMessage("Client::Connect", Util::LogLevel::Debug);
     if (!this->IsConnected())
     {
+        this->log->LogMessage("Sending connection request to server!", Util::LogLevel::Info);
         this->serverAddress = serverAddress;
 
         Packet::Connect packet(0, PacketAction::ACTION_REQUEST);
@@ -51,8 +54,10 @@ bool Client::IsConnected() const
 
 void Client::Disconnect()
 {
+    this->log->LogMessage("Client::Disconnect()", Util::LogLevel::Debug);
     if (this->isConnected)
     {
+        this->log->LogMessage("Sending disconnect request to server", Util::LogLevel::Info);
         Packet::Disconnect packet(this->connectionId, PacketAction::ACTION_REQUEST);
         this->SendPacket(&packet, this->serverAddress);
 
@@ -97,6 +102,7 @@ bool Client::HandlePacket(Packet::Base *packet, const Address &)
 
 bool Client::HandlePacket(Packet::Connect *packet, const Address &)
 {
+    this->log->LogMessage("Client::HandlePacket(Packet::Connect)", Util::LogLevel::Debug);
     if (packet->GetAction() == Network::PacketAction::ACTION_ACCEPT)
     {
         this->connectionId = packet->GetAssignedId();
