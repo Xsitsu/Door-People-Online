@@ -70,7 +70,7 @@ void GameClient::Run()
             uTimer.Reset();
             world->Update(deltaT/1000);
 
-            if (this->player_controller->NeedsPhysicsUpdate())
+            if (this->player != nullptr && this->player_controller->NeedsPhysicsUpdate())
             {
                 this->player_controller->ClearPhysicsUpdate();
 
@@ -173,20 +173,20 @@ bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::A
     bool wasHandled = Network::Client::HandlePacket(packet, sender);
     if (wasHandled)
     {
-        this->log->LogMessage("Got packet connect!", Util::LogLevel::Info);
+        this->log->LogMessage("Got packet connect!\n", Util::LogLevel::Info);
         if (this->isConnected)
         {
-            this->log->LogMessage("Successfully connected", Util::LogLevel::Info);
+            this->log->LogMessage("Successfully connected\n", Util::LogLevel::Info);
 
             Network::Packet::Terrain packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
             this->SendPacket(&packet, this->serverAddress);
-            this->log->LogMessage("Sent terrain download request to server", Util::LogLevel::Info);
+            this->log->LogMessage("Sent terrain download request to server\n", Util::LogLevel::Info);
 
             Game::PlayerList *playerList = this->dataModel.GetPlayerList();
             Game::Player *player = new Game::Player();
             player->SetNetworkOwner(this->connectionId);
             playerList->AddPlayer(player);
-            this->log->LogMessage("Created new player for this client", Util::LogLevel::Info);
+            this->log->LogMessage("Created new player for this client\n", Util::LogLevel::Info);
 
             this->player = player;
             this->player_controller = new PlayerController(this->player);
