@@ -7,7 +7,7 @@
 #include "packet/packetreader.hpp"
 #include "packet/packetbuilder.hpp"
 
-#include "util/log/logger.hpP"
+#include "util/log/logger.hpp"
 
 #define MAX_PACKET_SIZE 1024
 
