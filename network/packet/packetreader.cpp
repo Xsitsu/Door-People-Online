@@ -21,6 +21,38 @@ Packet::Base* PacketReader::ReadPacket(unsigned int packetSize, void *data)
     PacketFamily family = PacketReader::ReadFamily(data);
     PacketAction action = PacketReader::ReadAction(data);
 
+    Packet::Base *packet = nullptr;
+    switch (family)
+    {
+    case PacketFamily::FAMILY_CONNECT:
+        packet = new Packet::Connect(connectionId, action);
+        break;
+    case PacketFamily::FAMILY_DISCONNECT:
+        packet = new Packet::Disconnect(connectionId, action);
+        break;
+    case PacketFamily::FAMILY_TERRAIN:
+        packet = new Packet::Terrain(connectionId, action);
+        break;
+    case PacketFamily::FAMILY_PLAYER:
+        packet = new Packet::Player(connectionId, action);
+        break;
+    case PacketFamily::FAMILY_PHYSICS_SETTINGS:
+        // TODO
+        break;
+    }
+
+    if (packet != nullptr)
+        packet->Decode(packetSize, data);
+        
+    return packet;
+}
+
+Packet::Base* OLD_ReadPacket(unsigned int packetSize, void *data)
+{
+    uint32_t connectionId = PacketReader::Read32(data);
+    PacketFamily family = PacketReader::ReadFamily(data);
+    PacketAction action = PacketReader::ReadAction(data);
+
     Packet::Base *ret = nullptr;
 
     switch (family)
@@ -77,12 +109,14 @@ Packet::Base* PacketReader::ReadPacket(unsigned int packetSize, void *data)
         ret = packet;
         break;
         }
+/*
     default:
         {
         Packet::Base *packet = new Packet::Base(connectionId, family, action);
         ret = packet;
         break;
         }
+*/
     }
 
     return ret;

@@ -1,12 +1,15 @@
 #include "packetplayer.hpp"
 
+#include "packetbuilder.hpp"
+#include "packetreader.hpp"
+
 namespace Network
 {
 
 namespace Packet
 {
 
-Player::Player(uint32_t conId, PacketAction action) : Packet::Base(conId, PacketFamily::FAMILY_PLAYER, action), playerData()
+Player::Player(uint32_t conId, PacketAction action) : Packet::Base(conId, action), playerData()
 {
 
 }
@@ -21,6 +24,48 @@ unsigned int Player::GetPacketSize() const
     int dataSize = sizeof(uint8_t) + (sizeof(uint32_t) * 5);
     int numData = this->playerData.size();
     return sizeof(uint8_t) + (dataSize * numData) + Packet::Base::GetPacketSize();
+}
+
+PacketFamily Player::GetFamily() const
+{
+    return PacketFamily::FAMILY_PLAYER;
+}
+
+void Player::Encode(void *data) const
+{
+    Packet::Base::Encode(data);
+
+    const std::list<Packet::Player::PlayerData> &player_data = this->GetPlayerData();
+    uint8_t num_players = player_data.size();
+
+    PacketBuilder::Put8(data, num_players);
+    for (Packet::Player::PlayerData p_data : player_data)
+    {
+        PacketBuilder::Put32(data, p_data.playerId);
+        PacketBuilder::Put8(data, p_data.direction);
+        PacketBuilder::Put32(data, p_data.posX);
+        PacketBuilder::Put32(data, p_data.posY);
+        PacketBuilder::Put32(data, p_data.velX);
+        PacketBuilder::Put32(data, p_data.velY);
+    }
+}
+
+void Player::Decode(unsigned int packet_size, void *data)
+{
+    Packet::Base::Decode(packet_size, data);
+
+    uint8_t num_players = PacketReader::Read8(data);
+    for (auto i = 0; i < num_players; i++)
+    {
+        Packet::Player::PlayerData p_data;
+        p_data.playerId = PacketReader::Read32(data);
+        p_data.direction = PacketReader::Read8(data);
+        p_data.posX = PacketReader::Read32(data);
+        p_data.posY = PacketReader::Read32(data);
+        p_data.velX = PacketReader::Read32(data);
+        p_data.velY = PacketReader::Read32(data);
+        this->AddPlayerData(p_data);
+    }
 }
 
 const std::list<Player::PlayerData>& Player::GetPlayerData() const

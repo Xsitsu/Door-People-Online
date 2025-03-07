@@ -17,6 +17,11 @@ PacketBuilder::~PacketBuilder()
 
 void PacketBuilder::BuildPacket(Packet::Base *packet, void *data)
 {
+    packet->Encode(data);
+}
+
+void OLD_BuildPacket(Packet::Base *packet, void *data)
+{
     PacketFamily family = packet->GetFamily();
     PacketAction action = packet->GetAction();
 
@@ -69,7 +74,7 @@ void PacketBuilder::BuildPacket(Packet::Base *packet, void *data)
     }
 }
 
-void PacketBuilder::PacketBuilder::PutFamily(void *&data, PacketFamily value)
+const void PacketBuilder::PacketBuilder::PutFamily(void *&data, PacketFamily value)
 {
     PacketFamily *d = static_cast<PacketFamily*>(data);
     *d = value;
@@ -77,7 +82,7 @@ void PacketBuilder::PacketBuilder::PutFamily(void *&data, PacketFamily value)
     data = d;
 }
 
-void PacketBuilder::PutAction(void *&data, PacketAction value)
+const void PacketBuilder::PutAction(void *&data, PacketAction value)
 {
     PacketAction *d = static_cast<PacketAction*>(data);
     *d = value;
@@ -85,7 +90,7 @@ void PacketBuilder::PutAction(void *&data, PacketAction value)
     data = d;
 }
 
-void PacketBuilder::Put32(void *&data, uint32_t value)
+const void PacketBuilder::Put32(void *&data, uint32_t value)
 {
     uint32_t *d = static_cast<uint32_t*>(data);
     *d = htonl(value);
@@ -93,7 +98,7 @@ void PacketBuilder::Put32(void *&data, uint32_t value)
     data = d;
 }
 
-void PacketBuilder::Put16(void *&data, uint16_t value)
+const void PacketBuilder::Put16(void *&data, uint16_t value)
 {
     uint16_t *d = static_cast<uint16_t*>(data);
     *d = htons(value);
@@ -101,7 +106,7 @@ void PacketBuilder::Put16(void *&data, uint16_t value)
     data = d;
 }
 
-void PacketBuilder::Put8(void *&data, uint8_t value)
+const void PacketBuilder::Put8(void *&data, uint8_t value)
 {
     uint8_t *d = static_cast<uint8_t*>(data);
     *d = value;

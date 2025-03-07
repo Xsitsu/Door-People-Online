@@ -65,7 +65,7 @@ std::string PacketActionToString(PacketAction action)
 namespace Packet
 {
 
-Base::Base(uint32_t conId, PacketFamily family, PacketAction action) : connectionId(conId), family(family), action(action)
+Base::Base(uint32_t conId, PacketAction action) : connectionId(conId), action(action)
 {
 
 }
@@ -85,14 +85,23 @@ uint32_t Base::GetConnectionId() const
     return this->connectionId;
 }
 
-PacketFamily Base::GetFamily() const
-{
-    return this->family;
-}
-
 PacketAction Base::GetAction() const
 {
     return this->action;
+}
+
+void Base::Encode(void *data) const
+{
+    PacketBuilder::Put32(data, this->GetConnectionId());
+    PacketBuilder::PutFamily(data, this->GetFamily());
+    PacketBuilder::PutAction(data, this->GetAction());
+}
+
+void Base::Decode(unsigned int packet_size, void *data)
+{
+    //uint32_t connectionId = PacketReader::Read32(data);
+    //PacketFamily family = PacketReader::ReadFamily(data);
+    //PacketAction action = PacketReader::ReadAction(data);
 }
 
 }

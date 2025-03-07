@@ -40,17 +40,19 @@ namespace Packet
 class DLL_EXPORT Base
 {
 public:
-    Base(uint32_t conId, PacketFamily family, PacketAction action);
+    Base(uint32_t conId, PacketAction action);
     virtual ~Base();
     virtual unsigned int GetPacketSize() const;
 
     uint32_t GetConnectionId() const;
-    PacketFamily GetFamily() const;
+    virtual PacketFamily GetFamily() const = 0;
     PacketAction GetAction() const;
+
+    virtual void Encode(void *data) const;
+    virtual void Decode(unsigned int packet_size, void *data);
 
 protected:
     uint32_t connectionId;
-    PacketFamily family;
     PacketAction action;
 };
 
