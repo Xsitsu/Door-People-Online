@@ -3,6 +3,8 @@
 #include "packetbuilder.hpp"
 #include "packetreader.hpp"
 
+#include <sstream>
+
 namespace Network
 {
 
@@ -55,7 +57,7 @@ void Player::Decode(unsigned int packet_size, void *data)
     Packet::Base::Decode(packet_size, data);
 
     uint8_t num_players = PacketReader::Read8(data);
-    for (auto i = 0; i < num_players; i++)
+    for (uint8_t i = 0; i < num_players; i++)
     {
         Packet::Player::PlayerData p_data;
         p_data.playerId = PacketReader::Read32(data);
@@ -76,6 +78,17 @@ const std::list<Player::PlayerData>& Player::GetPlayerData() const
 void Player::AddPlayerData(PlayerData data)
 {
     this->playerData.push_back(data);
+}
+
+std::string Player::ToStrBody() const
+{
+    int num_players = this->GetPlayerData().size();
+
+    std::stringstream ss;
+    ss << Packet::Base::ToStrBody();
+    ss << ", NumPlayers=";
+    ss << num_players;
+    return ss.str();
 }
 
 }

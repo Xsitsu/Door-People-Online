@@ -51,6 +51,13 @@ public:
     virtual void Encode(void *data) const;
     virtual void Decode(unsigned int packet_size, void *data);
 
+    std::string ToStr() const;
+
+protected:
+    std::string ToStrHeader() const;
+    std::string ToStrFooter() const;
+    virtual std::string ToStrBody() const;
+
 protected:
     uint32_t connectionId;
     PacketAction action;

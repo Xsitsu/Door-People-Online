@@ -41,12 +41,16 @@ Logger& Logger::operator= (const Logger&)
 
 bool Logger::HasLog(std::string log_name)
 {
+    log_name = "Main";
+
     auto it = this->logs.find(log_name);
     return (it != this->logs.end());
 }
 
 Log* Logger::GetLog(std::string log_name)
 {
+    log_name = "Main";
+    
     if (!this->HasLog(log_name))
     {
         this->logs[log_name] = new Log(log_name);

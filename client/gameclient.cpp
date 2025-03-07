@@ -73,19 +73,7 @@ void GameClient::Run()
             if (this->player != nullptr && this->player_controller->NeedsPhysicsUpdate())
             {
                 this->player_controller->ClearPhysicsUpdate();
-
-                Network::Packet::Player packet(this->connectionId, Network::PacketAction::ACTION_TELL);
-
-                Network::Packet::Player::PlayerData npData;
-                npData.playerId = this->player->GetNetworkOwner();
-                npData.direction = static_cast<uint8_t>(this->player->GetDirection());
-                npData.posX = (int)this->player->GetPosition().x;
-                npData.posY = (int)this->player->GetPosition().y;
-                npData.velX = (int)this->player->GetVelocity().x;
-                npData.velY = (int)this->player->GetVelocity().y;
-                packet.AddPlayerData(npData);
-
-                this->SendPacket(&packet, this->serverAddress);
+                this->SendPhysicsUpdateToServer();
             }
 
             Util::Logger::Instance()->WriteAll(stdout);
@@ -170,6 +158,8 @@ void GameClient::Run()
 
 bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::Address &sender)
 {
+    this->log->LogMessage("GameClient::HandlePacket(Packet::Connect)\n", Util::LogLevel::Debug);
+
     bool wasHandled = Network::Client::HandlePacket(packet, sender);
     if (wasHandled)
     {
@@ -177,19 +167,8 @@ bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::A
         if (this->isConnected)
         {
             this->log->LogMessage("Successfully connected\n", Util::LogLevel::Info);
-
-            Network::Packet::Terrain packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
-            this->SendPacket(&packet, this->serverAddress);
-            this->log->LogMessage("Sent terrain download request to server\n", Util::LogLevel::Info);
-
-            Game::PlayerList *playerList = this->dataModel.GetPlayerList();
-            Game::Player *player = new Game::Player();
-            player->SetNetworkOwner(this->connectionId);
-            playerList->AddPlayer(player);
-            this->log->LogMessage("Created new player for this client\n", Util::LogLevel::Info);
-
-            this->player = player;
-            this->player_controller = new PlayerController(this->player);
+            this->RequestTerrainFromServer();
+            this->CreatePlayerForClient();
         }
         else
         {
@@ -202,6 +181,8 @@ bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::A
 
 bool GameClient::HandlePacket(Network::Packet::Disconnect *packet, const Network::Address &sender)
 {
+    this->log->LogMessage("GameClient::HandlePacket(Packet::Disconnect)\n", Util::LogLevel::Debug);
+
     if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
     {
         this->isRunning = false;
@@ -212,6 +193,8 @@ bool GameClient::HandlePacket(Network::Packet::Disconnect *packet, const Network
 
 bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender)
 {
+    this->log->LogMessage("GameClient::HandlePacket(Packet::Terrain)\n", Util::LogLevel::Debug);
+
     if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
     {
         Game::World* world = this->dataModel.GetWorld();
@@ -253,6 +236,8 @@ bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::A
 
 bool GameClient::HandlePacket(Network::Packet::Player *packet, const Network::Address &sender)
 {
+    this->log->LogMessage("GameClient::HandlePacket(Packet::Player)\n", Util::LogLevel::Debug);
+
     Game::PlayerList *playerList = this->dataModel.GetPlayerList();
     if (packet->GetAction() == Network::PacketAction::ACTION_ADD)
     {
@@ -359,4 +344,44 @@ void GameClient::HandleKeyUp(int keycode)
             }
         }
     }
+}
+
+
+void GameClient::RequestTerrainFromServer()
+{
+    Network::Packet::Terrain packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
+    this->SendPacket(&packet, this->serverAddress);
+    this->log->LogMessage("Sent terrain download request to server\n", Util::LogLevel::Info);
+}
+
+void GameClient::CreatePlayerForClient()
+{
+    Game::PlayerList *playerList = this->dataModel.GetPlayerList();
+    Game::Player *player = new Game::Player();
+    player->SetNetworkOwner(this->connectionId);
+    playerList->AddPlayer(player);
+
+    this->player = player;
+    this->player_controller = new PlayerController(this->player);
+
+    this->log->LogMessage("Created new player for this client\n", Util::LogLevel::Info);
+}
+
+
+void GameClient::SendPhysicsUpdateToServer()
+{
+    this->log->LogMessage("GameClient::SendPhysicsUpdateToServer()\n", Util::LogLevel::Debug);
+
+    Network::Packet::Player packet(this->connectionId, Network::PacketAction::ACTION_TELL);
+
+    Network::Packet::Player::PlayerData npData;
+    npData.playerId = this->player->GetNetworkOwner();
+    npData.direction = static_cast<uint8_t>(this->player->GetDirection());
+    npData.posX = (int)this->player->GetPosition().x;
+    npData.posY = (int)this->player->GetPosition().y;
+    npData.velX = (int)this->player->GetVelocity().x;
+    npData.velY = (int)this->player->GetVelocity().y;
+    packet.AddPlayerData(npData);
+
+    this->SendPacket(&packet, this->serverAddress);
 }

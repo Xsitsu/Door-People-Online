@@ -4,6 +4,7 @@
 #include "packetreader.hpp"
 
 #include <cstring>
+#include <sstream>
 
 namespace Network
 {
@@ -102,6 +103,31 @@ void Base::Decode(unsigned int packet_size, void *data)
     //uint32_t connectionId = PacketReader::Read32(data);
     //PacketFamily family = PacketReader::ReadFamily(data);
     //PacketAction action = PacketReader::ReadAction(data);
+}
+
+std::string Base::ToStr() const
+{
+    return this->ToStrHeader() + this->ToStrBody() + this->ToStrFooter();
+}
+
+std::string Base::ToStrHeader() const
+{
+    return "Packet(";
+}
+
+std::string Base::ToStrFooter() const
+{
+    return ")";
+}
+
+std::string Base::ToStrBody() const
+{
+    std::stringstream ss;
+    ss << "Family=";
+    ss << Network::PacketFamilyToString(this->GetFamily());
+    ss << ", Action=";
+    ss << Network::PacketActionToString(this->GetAction());
+    return ss.str();
 }
 
 }

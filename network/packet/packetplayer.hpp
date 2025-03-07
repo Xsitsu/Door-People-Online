@@ -39,6 +39,9 @@ public:
     void AddPlayerData(PlayerData data);
 
 protected:
+    virtual std::string ToStrBody() const;
+
+protected:
     std::list<PlayerData> playerData;
 
 };

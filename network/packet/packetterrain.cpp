@@ -54,7 +54,7 @@ void Terrain::Decode(unsigned int packet_size, void *data)
     Packet::Base::Decode(packet_size, data);
 
     uint8_t terrain_size = PacketReader::Read8(data);
-    for (auto i = 0; i < terrain_size; i++)
+    for (uint8_t i = 0; i < terrain_size; i++)
     {
         Packet::Terrain::TerrainData t_data;
         t_data.type = PacketReader::Read8(data);
