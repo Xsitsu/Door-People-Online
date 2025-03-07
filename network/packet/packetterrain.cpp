@@ -31,7 +31,7 @@ PacketFamily Terrain::GetFamily() const
     return PacketFamily::FAMILY_TERRAIN;
 }
 
-void Terrain::Encode(void *data) const
+void Terrain::Encode(void *&data) const
 {
     Packet::Base::Encode(data);
 
@@ -49,7 +49,7 @@ void Terrain::Encode(void *data) const
     }
 }
 
-void Terrain::Decode(unsigned int packet_size, void *data)
+void Terrain::Decode(unsigned int packet_size, void *&data)
 {
     Packet::Base::Decode(packet_size, data);
 

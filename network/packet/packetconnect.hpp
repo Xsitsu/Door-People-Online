@@ -20,8 +20,8 @@ public:
 
     virtual PacketFamily GetFamily() const;
 
-    virtual void Encode(void *data) const;
-    virtual void Decode(unsigned int packet_size, void *data);
+    virtual void Encode(void *&data) const;
+    virtual void Decode(unsigned int packet_size, void *&data);
 
     uint32_t GetAssignedId() const;
     void SetAssignedId(uint32_t id);

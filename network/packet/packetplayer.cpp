@@ -33,7 +33,7 @@ PacketFamily Player::GetFamily() const
     return PacketFamily::FAMILY_PLAYER;
 }
 
-void Player::Encode(void *data) const
+void Player::Encode(void *&data) const
 {
     Packet::Base::Encode(data);
 
@@ -52,7 +52,7 @@ void Player::Encode(void *data) const
     }
 }
 
-void Player::Decode(unsigned int packet_size, void *data)
+void Player::Decode(unsigned int packet_size, void *&data)
 {
     Packet::Base::Decode(packet_size, data);
 

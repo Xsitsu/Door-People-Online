@@ -26,12 +26,12 @@ PacketFamily Disconnect::GetFamily() const
     return PacketFamily::FAMILY_DISCONNECT;
 }
 
-void Disconnect::Encode(void *data) const
+void Disconnect::Encode(void *&data) const
 {
     Packet::Base::Encode(data);
 }
 
-void Disconnect::Decode(unsigned int packet_size, void *data)
+void Disconnect::Decode(unsigned int packet_size, void *&data)
 {
     Packet::Base::Decode(packet_size, data);
 }

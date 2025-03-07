@@ -48,8 +48,8 @@ public:
     virtual PacketFamily GetFamily() const = 0;
     PacketAction GetAction() const;
 
-    virtual void Encode(void *data) const;
-    virtual void Decode(unsigned int packet_size, void *data);
+    virtual void Encode(void *&data) const;
+    virtual void Decode(unsigned int packet_size, void *&data);
 
     std::string ToStr() const;
 

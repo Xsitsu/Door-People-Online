@@ -29,13 +29,13 @@ PacketFamily Connect::GetFamily() const
     return PacketFamily::FAMILY_CONNECT;
 }
 
-void Connect::Encode(void *data) const
+void Connect::Encode(void *&data) const
 {
     Packet::Base::Encode(data);
     PacketBuilder::Put32(data, this->GetAssignedId());
 }
 
-void Connect::Decode(unsigned int packet_size, void *data)
+void Connect::Decode(unsigned int packet_size, void *&data)
 {
     Packet::Base::Decode(packet_size, data);
     this->SetAssignedId(PacketReader::Read32(data));
