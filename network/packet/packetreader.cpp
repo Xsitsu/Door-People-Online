@@ -37,7 +37,7 @@ Packet::Base* PacketReader::ReadPacket(unsigned int packetSize, void *data)
         packet = new Packet::Player(connectionId, action);
         break;
     case PacketFamily::FAMILY_PHYSICS_SETTINGS:
-        // TODO
+        packet = new Packet::PhysicsSettings(connectionId, action);
         break;
     }
 
