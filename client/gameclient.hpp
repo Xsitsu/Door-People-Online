@@ -29,12 +29,14 @@ protected:
     bool HandlePacket(Network::Packet::Disconnect *packet, const Network::Address &sender);
     bool HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender);
     bool HandlePacket(Network::Packet::Player *packet, const Network::Address &sender);
+    bool HandlePacket(Network::Packet::PhysicsSettings *packet, const Network::Address &sender);
 
     void HandleKeyDown(int keycode);
     void HandleKeyUp(int keycode);
 
 protected:
     void RequestTerrainFromServer();
+    void RequestPhysicsSettingsFromServer();
     void CreatePlayerForClient();
     void SendPhysicsUpdateToServer();
 

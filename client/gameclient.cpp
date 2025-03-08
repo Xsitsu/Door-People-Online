@@ -168,6 +168,7 @@ bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::A
         {
             this->log->LogMessage("Successfully connected\n", Util::LogLevel::Info);
             this->RequestTerrainFromServer();
+            this->RequestPhysicsSettingsFromServer();
             this->CreatePlayerForClient();
         }
         else
@@ -299,6 +300,20 @@ bool GameClient::HandlePacket(Network::Packet::Player *packet, const Network::Ad
     return false;
 }
 
+bool GameClient::HandlePacket(Network::Packet::PhysicsSettings *packet, const Network::Address &sender)
+{
+    this->log->LogMessage("GameClient::HandlePacket(Packet::PhysicsSettings)\n", Util::LogLevel::Debug);
+
+    if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
+    {
+        this->dataModel.GetWorld()->SetPhysicsSettings(packet->GetPhysicsSettings());
+        this->log->LogMessage("Updated physics settings downloaded from server\n", Util::LogLevel::Info);
+
+        return true;
+    }
+    return false;
+}
+
 
 void GameClient::HandleKeyDown(int keycode)
 {
@@ -352,6 +367,13 @@ void GameClient::RequestTerrainFromServer()
     Network::Packet::Terrain packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
     this->SendPacket(&packet, this->serverAddress);
     this->log->LogMessage("Sent terrain download request to server\n", Util::LogLevel::Info);
+}
+
+void GameClient::RequestPhysicsSettingsFromServer()
+{
+    Network::Packet::PhysicsSettings packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
+    this->SendPacket(&packet, this->serverAddress);
+    this->log->LogMessage("Sent physics settings request to server\n", Util::LogLevel::Info);
 }
 
 void GameClient::CreatePlayerForClient()

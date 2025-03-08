@@ -136,4 +136,10 @@ bool Client::HandlePacket(Packet::Player *, const Address &)
     return false;
 }
 
+bool Client::HandlePacket(Packet::PhysicsSettings *, const Address &)
+{
+    return false;
+}
+
+
 }

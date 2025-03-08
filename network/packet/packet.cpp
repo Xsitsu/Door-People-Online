@@ -28,6 +28,9 @@ std::string PacketFamilyToString(PacketFamily family)
     case PacketFamily::FAMILY_PLAYER:
         return "FAMILY_PLAYER";
 
+    case PacketFamily::FAMILY_PHYSICS_SETTINGS:
+        return "FAMILY_PHYSICS_SETTINGS";
+
     default:
         return "N/A";
     }

@@ -48,7 +48,7 @@ void PhysicsSettings::Decode(unsigned int packet_size, void *&data)
     this->settings.default_jump_power = (int)(PacketReader::Read32(data));
 }
 
-void PhysicsSettings::SetPhysicsSettings(Game::PhysicsSettings settings)
+void PhysicsSettings::SetPhysicsSettings(const Game::PhysicsSettings &settings)
 {
     this->settings = settings;
 }

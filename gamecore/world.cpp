@@ -20,6 +20,11 @@ void World::SetPhysicsSettings(const PhysicsSettings &settings)
     this->physics_settings = settings;
 }
 
+PhysicsSettings& World::GetPhysicsSettings()
+{
+    return this->physics_settings;
+}
+
 void World::Update(double deltaT)
 {
     if (!this->actors.empty())

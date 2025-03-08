@@ -243,4 +243,9 @@ bool Server::HandlePacket(Packet::Player *, const Address &)
     return false;
 }
 
+bool Server::HandlePacket(Packet::PhysicsSettings *, const Address &)
+{
+    return false;
+}
+
 }

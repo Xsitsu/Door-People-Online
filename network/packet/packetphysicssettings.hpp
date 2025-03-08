@@ -27,7 +27,7 @@ public:
     virtual void Encode(void *&data) const;
     virtual void Decode(unsigned int packet_size, void *&data);
     
-    void SetPhysicsSettings(Game::PhysicsSettings settings);
+    void SetPhysicsSettings(const Game::PhysicsSettings &settings);
     Game::PhysicsSettings GetPhysicsSettings() const;
 
 private:

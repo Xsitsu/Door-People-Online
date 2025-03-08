@@ -192,3 +192,15 @@ bool GameServer::HandlePacket(Network::Packet::Player *packet, const Network::Ad
     return false;
 }
 
+bool GameServer::HandlePacket(Network::Packet::PhysicsSettings *packet, const Network::Address &sender)
+{
+    if (packet->GetAction() == Network::PacketAction::ACTION_REQUEST)
+    {
+        Network::Packet::PhysicsSettings packet(0, Network::PacketAction::ACTION_TELL);
+        packet.SetPhysicsSettings(this->dataModel.GetWorld()->GetPhysicsSettings());
+        this->SendPacket(&packet, sender);
+        
+        return true;
+    }
+    return false;
+}

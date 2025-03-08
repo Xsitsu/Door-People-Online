@@ -23,6 +23,7 @@ protected:
 
     bool HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender);
     bool HandlePacket(Network::Packet::Player *packet, const Network::Address &sender);
+    bool HandlePacket(Network::Packet::PhysicsSettings *packet, const Network::Address &sender);
 
     Game::DataModel dataModel;
 

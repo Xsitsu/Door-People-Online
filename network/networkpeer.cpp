@@ -65,6 +65,8 @@ namespace Network {
 			wasHandled = this->HandlePacket(static_cast<Packet::Terrain *>(packet), sender);
 		} else if (packet->GetFamily() == PacketFamily::FAMILY_PLAYER) {
 			wasHandled = this->HandlePacket(static_cast<Packet::Player *>(packet), sender);
+		} else if (packet->GetFamily() == PacketFamily::FAMILY_PHYSICS_SETTINGS) {
+			wasHandled = this->HandlePacket(static_cast<Packet::PhysicsSettings *>(packet), sender);
 		} else {
 			wasHandled = this->HandlePacket(packet, sender);
 		}

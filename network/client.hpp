@@ -32,6 +32,7 @@ protected:
     virtual bool HandlePacket(Packet::Disconnect *packet, const Address &sender);
     virtual bool HandlePacket(Packet::Terrain *packet, const Address &sender);
     virtual bool HandlePacket(Packet::Player *packet, const Address &sender);
+    virtual bool HandlePacket(Packet::PhysicsSettings *packet, const Address &sender);
 
     Address serverAddress;
     bool isConnected;
