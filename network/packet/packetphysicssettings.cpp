@@ -9,7 +9,7 @@ namespace Network
 namespace Packet
 {
 
-PhysicsSettings::PhysicsSettings() : Packet::Base(conId, PacketFamily::FAMILY_PHYSICS_SETTINGS, action)
+PhysicsSettings::PhysicsSettings(uint32_t conId, PacketAction action) : Packet::Base(conId, action)
 {
 
 }
@@ -22,19 +22,40 @@ PhysicsSettings::~PhysicsSettings()
 unsigned int PhysicsSettings::GetPacketSize() const
 {
     auto base_size = Packet::Base::GetPacketSize();
-    auto size_8 = this->bytes.size() + 1;
-    return (sizeof(uint8_t) * size_8) + base_size;
+    return base_size + (sizeof(uint32_t) * 3);
 }
 
-void PhysicsSettings::Encode(void *&data)
+PacketFamily PhysicsSettings::GetFamily() const
+{
+    return PacketFamily::FAMILY_PHYSICS_SETTINGS;
+}
+
+void PhysicsSettings::Encode(void *&data) const
 {
     Packet::Base::Encode(data);
     
+    PacketBuilder::Put32(data, (uint32_t)(this->settings.GetGravity()));
+    PacketBuilder::Put32(data, (uint32_t)(this->settings.GetDefaultWalkspeed()));
+    PacketBuilder::Put32(data, (uint32_t)(this->settings.GetDefaultJumpPower()));
 }
 
-void PhysicsSettings::Decode(void *data)
+void PhysicsSettings::Decode(unsigned int packet_size, void *&data)
 {
+    Packet::Base::Decode(packet_size, data);
 
+    this->settings.gravity = (int)(PacketReader::Read32(data));
+    this->settings.default_walkspeed = (int)(PacketReader::Read32(data));
+    this->settings.default_jump_power = (int)(PacketReader::Read32(data));
+}
+
+void PhysicsSettings::SetPhysicsSettings(Game::PhysicsSettings settings)
+{
+    this->settings = settings;
+}
+
+Game::PhysicsSettings PhysicsSettings::GetPhysicsSettings() const
+{
+    return this->settings;
 }
 
 }

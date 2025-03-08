@@ -10,17 +10,17 @@ PhysicsSettings::PhysicsSettings()
     this->default_jump_power = 320;
 }
 
-double PhysicsSettings::GetGravity() const
+int PhysicsSettings::GetGravity() const
 {
     return this->gravity;
 }
 
-double PhysicsSettings::GetDefaultWalkspeed() const
+int PhysicsSettings::GetDefaultWalkspeed() const
 {
     return this->default_walkspeed;
 }
 
-double PhysicsSettings::GetDefaultJumpPower() const
+int PhysicsSettings::GetDefaultJumpPower() const
 {
     return this->default_jump_power;
 }

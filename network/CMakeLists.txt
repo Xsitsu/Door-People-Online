@@ -24,6 +24,8 @@ add_library(${target} STATIC
 	packet/packetreader.hpp
 	packet/packetterrain.cpp
 	packet/packetterrain.hpp
+	packet/packetphysicssettings.cpp
+	packet/packetphysicssettings.hpp
 	server.cpp
 	server.hpp
 	socket.cpp
@@ -36,6 +38,7 @@ target_include_directories(${target}
 target_link_libraries(${target}
 	PRIVATE
 		util
+		gamecore
 		$<$<PLATFORM_ID:Windows>:ws2_32>
 )
 project_dll_export(${target})

@@ -7,6 +7,8 @@
 
 #include "packet.hpp"
 
+#include "gamecore/physicssettings.hpp"
+
 namespace Network
 {
 
@@ -20,8 +22,16 @@ public:
     virtual ~PhysicsSettings();
     virtual unsigned int GetPacketSize() const;
 
-private:
+    virtual PacketFamily GetFamily() const;
+
+    virtual void Encode(void *&data) const;
+    virtual void Decode(unsigned int packet_size, void *&data);
     
+    void SetPhysicsSettings(Game::PhysicsSettings settings);
+    Game::PhysicsSettings GetPhysicsSettings() const;
+
+private:
+    Game::PhysicsSettings settings;
 
 };
 

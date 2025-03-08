@@ -13,14 +13,14 @@ class DLL_EXPORT PhysicsSettings
 public:
     PhysicsSettings();
 
-    double GetGravity() const;
-    double GetDefaultWalkspeed() const;
-    double GetDefaultJumpPower() const;
+    int GetGravity() const;
+    int GetDefaultWalkspeed() const;
+    int GetDefaultJumpPower() const;
 
 public:
-    double gravity;
-    double default_walkspeed;
-    double default_jump_power;
+    int gravity;
+    int default_walkspeed;
+    int default_jump_power;
 
 };
 
