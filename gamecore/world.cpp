@@ -18,6 +18,11 @@ World::~World()
 void World::SetPhysicsSettings(const PhysicsSettings &settings)
 {
     this->physics_settings = settings;
+
+    for (auto actor : this->actors)
+    {
+        actor->SetPhysicsSettings(this->physics_settings);
+    }
 }
 
 PhysicsSettings& World::GetPhysicsSettings()

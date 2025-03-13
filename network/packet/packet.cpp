@@ -103,6 +103,8 @@ void Base::Encode(void *&data) const
 
 void Base::Decode(unsigned int packet_size, void *&data)
 {
+    // This is already read and set in the PacketReader class
+
     //uint32_t connectionId = PacketReader::Read32(data);
     //PacketFamily family = PacketReader::ReadFamily(data);
     //PacketAction action = PacketReader::ReadAction(data);

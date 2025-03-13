@@ -307,7 +307,9 @@ bool GameClient::HandlePacket(Network::Packet::PhysicsSettings *packet, const Ne
     if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
     {
         this->dataModel.GetWorld()->SetPhysicsSettings(packet->GetPhysicsSettings());
-        this->log->LogMessage("Updated physics settings downloaded from server\n", Util::LogLevel::Info);
+
+        std::string phys_str = this->dataModel.GetWorld()->GetPhysicsSettings().ToStr();
+        this->log->LogMessage("Updated physics settings downloaded from server: " + phys_str + "\n", Util::LogLevel::Info);
 
         return true;
     }

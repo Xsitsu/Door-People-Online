@@ -5,6 +5,8 @@
 
 #include "vector2.hpp"
 
+#include <string>
+
 namespace Game
 {
 
@@ -16,6 +18,8 @@ public:
     int GetGravity() const;
     int GetDefaultWalkspeed() const;
     int GetDefaultJumpPower() const;
+
+    std::string ToStr() const;
 
 public:
     int gravity;
