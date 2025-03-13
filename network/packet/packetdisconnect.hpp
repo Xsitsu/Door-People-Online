@@ -18,6 +18,11 @@ public:
     virtual ~Disconnect();
     virtual unsigned int GetPacketSize() const;
 
+    virtual PacketFamily GetFamily() const;
+
+    virtual void Encode(void *&data) const;
+    virtual void Decode(unsigned int packet_size, void *&data);
+
 protected:
 
 };

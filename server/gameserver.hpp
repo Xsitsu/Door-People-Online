@@ -2,7 +2,7 @@
 #define GAMESERVER_HPP_INCLUDE
 
 #include "network/server.hpp"
-#include "network/packetall.hpp"
+#include "network/packet/packetall.hpp"
 
 #include "gamecore/datamodel.hpp"
 
@@ -23,6 +23,7 @@ protected:
 
     bool HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender);
     bool HandlePacket(Network::Packet::Player *packet, const Network::Address &sender);
+    bool HandlePacket(Network::Packet::PhysicsSettings *packet, const Network::Address &sender);
 
     Game::DataModel dataModel;
 

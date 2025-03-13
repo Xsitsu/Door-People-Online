@@ -13,6 +13,7 @@
 GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false), player(nullptr)
 {
     this->log = Util::Logger::Instance()->GetLog("GameClient");
+    this->log->SetLogLevel(Util::LogLevel::Debug);
 
     dataModel.Init();
 
@@ -25,7 +26,7 @@ GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), tim
     al_register_event_source(event_queue, al_get_keyboard_event_source());
     al_register_event_source(event_queue, al_get_mouse_event_source());
 
-    al_set_window_position(display, 10, 10);
+    al_set_window_position(display, 40, 40);
 }
 
 GameClient::~GameClient()
@@ -46,10 +47,6 @@ void GameClient::Run()
     Game::Vector2 drawBegin(1152 / 2, 648 * 0.8);
 
     Game::World *world = this->dataModel.GetWorld();
-
-    Game::Vector2 walkSpeed(160, 0);
-
-    bool needPhysicsUpdate = false;
 
     Util::Timer uTimer;
 
@@ -73,22 +70,10 @@ void GameClient::Run()
             uTimer.Reset();
             world->Update(deltaT/1000);
 
-            if (needPhysicsUpdate)
+            if (this->player != nullptr && this->player_controller->NeedsPhysicsUpdate())
             {
-                needPhysicsUpdate = false;
-
-                Network::Packet::Player packet(this->connectionId, Network::PacketAction::ACTION_TELL);
-
-                Network::Packet::Player::PlayerData npData;
-                npData.playerId = this->player->GetNetworkOwner();
-                npData.direction = static_cast<uint8_t>(this->player->GetDirection());
-                npData.posX = (int)this->player->GetPosition().x;
-                npData.posY = (int)this->player->GetPosition().y;
-                npData.velX = (int)this->player->GetVelocity().x;
-                npData.velY = (int)this->player->GetVelocity().y;
-                packet.AddPlayerData(npData);
-
-                this->SendPacket(&packet, this->serverAddress);
+                this->player_controller->ClearPhysicsUpdate();
+                this->SendPhysicsUpdateToServer();
             }
 
             Util::Logger::Instance()->WriteAll(stdout);
@@ -99,68 +84,11 @@ void GameClient::Run()
         }
         else if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
         {
-            if (this->player)
-            {
-                if (ev.keyboard.keycode == ALLEGRO_KEY_UP)
-                {
-                    if (this->player->GetVelocity().y == 0)
-                    {
-                        needPhysicsUpdate = true;
-
-                        this->player->Jump();
-                    }
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
-                {
-                    needPhysicsUpdate = true;
-
-                    this->player->AddVelocity(-walkSpeed);
-                    if (this->player->GetDirection() != Game::Actor::Direction::DIR_LEFT)
-                    {
-                        this->player->SetDirection(Game::Actor::Direction::DIR_LEFT);
-                    }
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-                {
-                    needPhysicsUpdate = true;
-
-                    this->player->AddVelocity(walkSpeed);
-                    if (this->player->GetDirection() != Game::Actor::Direction::DIR_RIGHT)
-                    {
-                        this->player->SetDirection(Game::Actor::Direction::DIR_RIGHT);
-                    }
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
-                {
-
-                }
-            }
+            this->HandleKeyDown(ev.keyboard.keycode);
         }
         else if (ev.type == ALLEGRO_EVENT_KEY_UP)
         {
-            if (this->player)
-            {
-                if (ev.keyboard.keycode == ALLEGRO_KEY_UP)
-                {
-
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
-                {
-                    needPhysicsUpdate = true;
-
-                    this->player->AddVelocity(walkSpeed);
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-                {
-                    needPhysicsUpdate = true;
-
-                    this->player->AddVelocity(-walkSpeed);
-                }
-                else if (ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
-                {
-
-                }
-            }
+            this->HandleKeyUp(ev.keyboard.keycode);
         }
         else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES)
         {
@@ -215,7 +143,7 @@ void GameClient::Run()
             }
 
 
-            al_wait_for_vsync();
+            //al_wait_for_vsync();
             al_flip_display();
             al_clear_to_color(al_map_rgb(0, 0, 0));
         }
@@ -230,26 +158,23 @@ void GameClient::Run()
 
 bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::Address &sender)
 {
+    this->log->LogMessage("GameClient::HandlePacket(Packet::Connect)\n", Util::LogLevel::Debug);
+
     bool wasHandled = Network::Client::HandlePacket(packet, sender);
     if (wasHandled)
     {
+        this->log->LogMessage("Got packet connect!\n", Util::LogLevel::Info);
         if (this->isConnected)
         {
-            Network::Packet::Terrain packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
-            this->SendPacket(&packet, this->serverAddress);
-
-            Game::PlayerList *playerList = this->dataModel.GetPlayerList();
-            Game::Player *player = new Game::Player();
-            player->SetNetworkOwner(this->connectionId);
-            playerList->AddPlayer(player);
-
-            this->player = player;
+            this->log->LogMessage("Successfully connected\n", Util::LogLevel::Info);
+            this->RequestTerrainFromServer();
+            this->RequestPhysicsSettingsFromServer();
+            this->CreatePlayerForClient();
         }
         else
         {
             this->isRunning = false;
         }
-
     }
     return wasHandled;
 }
@@ -257,6 +182,8 @@ bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::A
 
 bool GameClient::HandlePacket(Network::Packet::Disconnect *packet, const Network::Address &sender)
 {
+    this->log->LogMessage("GameClient::HandlePacket(Packet::Disconnect)\n", Util::LogLevel::Debug);
+
     if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
     {
         this->isRunning = false;
@@ -267,6 +194,8 @@ bool GameClient::HandlePacket(Network::Packet::Disconnect *packet, const Network
 
 bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::Address &sender)
 {
+    this->log->LogMessage("GameClient::HandlePacket(Packet::Terrain)\n", Util::LogLevel::Debug);
+
     if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
     {
         Game::World* world = this->dataModel.GetWorld();
@@ -308,6 +237,8 @@ bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::A
 
 bool GameClient::HandlePacket(Network::Packet::Player *packet, const Network::Address &sender)
 {
+    this->log->LogMessage("GameClient::HandlePacket(Packet::Player)\n", Util::LogLevel::Debug);
+
     Game::PlayerList *playerList = this->dataModel.GetPlayerList();
     if (packet->GetAction() == Network::PacketAction::ACTION_ADD)
     {
@@ -367,4 +298,114 @@ bool GameClient::HandlePacket(Network::Packet::Player *packet, const Network::Ad
         return true;
     }
     return false;
+}
+
+bool GameClient::HandlePacket(Network::Packet::PhysicsSettings *packet, const Network::Address &sender)
+{
+    this->log->LogMessage("GameClient::HandlePacket(Packet::PhysicsSettings)\n", Util::LogLevel::Debug);
+
+    if (packet->GetAction() == Network::PacketAction::ACTION_TELL)
+    {
+        this->dataModel.GetWorld()->SetPhysicsSettings(packet->GetPhysicsSettings());
+
+        std::string phys_str = this->dataModel.GetWorld()->GetPhysicsSettings().ToStr();
+        this->log->LogMessage("Updated physics settings downloaded from server: " + phys_str + "\n", Util::LogLevel::Info);
+
+        return true;
+    }
+    return false;
+}
+
+
+void GameClient::HandleKeyDown(int keycode)
+{
+    bool is_controlling_character = (this->player != nullptr);
+    if (is_controlling_character)
+    {
+        if (keycode == ALLEGRO_KEY_UP)
+        {
+            this->player_controller->Jump();
+        }
+        else if (keycode == ALLEGRO_KEY_LEFT)
+        {
+            this->player_controller->Move(Game::Actor::Direction::Left);
+        }
+        else if (keycode == ALLEGRO_KEY_RIGHT)
+        {
+            this->player_controller->Move(Game::Actor::Direction::Right);
+        }
+    }
+}
+
+void GameClient::HandleKeyUp(int keycode)
+{
+    bool is_controlling_character = (this->player != nullptr);
+    if (is_controlling_character)
+    {
+        ALLEGRO_KEYBOARD_STATE keyboardState;
+        al_get_keyboard_state(&keyboardState);
+        if (keycode == ALLEGRO_KEY_LEFT)
+        {
+            this->player_controller->StopMoving(Game::Actor::Direction::Left);
+            if (al_key_down(&keyboardState, ALLEGRO_KEY_RIGHT))
+            {
+                this->player_controller->Move(Game::Actor::Direction::Right);
+            }
+        }
+        else if (keycode == ALLEGRO_KEY_RIGHT)
+        {
+            this->player_controller->StopMoving(Game::Actor::Direction::Right);
+            if (al_key_down(&keyboardState, ALLEGRO_KEY_LEFT))
+            {
+                this->player_controller->Move(Game::Actor::Direction::Left);
+            }
+        }
+    }
+}
+
+
+void GameClient::RequestTerrainFromServer()
+{
+    Network::Packet::Terrain packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
+    this->SendPacket(&packet, this->serverAddress);
+    this->log->LogMessage("Sent terrain download request to server\n", Util::LogLevel::Info);
+}
+
+void GameClient::RequestPhysicsSettingsFromServer()
+{
+    Network::Packet::PhysicsSettings packet(this->connectionId, Network::PacketAction::ACTION_REQUEST);
+    this->SendPacket(&packet, this->serverAddress);
+    this->log->LogMessage("Sent physics settings request to server\n", Util::LogLevel::Info);
+}
+
+void GameClient::CreatePlayerForClient()
+{
+    Game::PlayerList *playerList = this->dataModel.GetPlayerList();
+    Game::Player *player = new Game::Player();
+    player->SetNetworkOwner(this->connectionId);
+    playerList->AddPlayer(player);
+
+    this->player = player;
+    this->player_controller = new PlayerController(this->player);
+
+    this->log->LogMessage("Created new player for this client\n", Util::LogLevel::Info);
+}
+
+
+void GameClient::SendPhysicsUpdateToServer()
+{
+    this->log->LogMessage("GameClient::SendPhysicsUpdateToServer()\n", Util::LogLevel::Debug);
+
+    Network::Packet::Player packet(this->connectionId, Network::PacketAction::ACTION_TELL);
+
+    Network::Packet::Player::PlayerData npData;
+    npData.playerId = this->player->GetNetworkOwner();
+    npData.direction = static_cast<uint8_t>(this->player->GetDirection());
+    npData.posX = (int)this->player->GetPosition().x;
+    npData.posY = (int)this->player->GetPosition().y;
+    npData.velX = (int)this->player->GetVelocity().x;
+    npData.velY = (int)this->player->GetVelocity().y;
+    packet.AddPlayerData(npData);
+
+    this->SendPacket(&packet, this->serverAddress);
 }

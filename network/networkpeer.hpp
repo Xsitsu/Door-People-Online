@@ -4,7 +4,7 @@
 #include "network_dll_export.h"
 
 #include "socket.hpp"
-#include "packetall.hpp"
+#include "packet/packetall.hpp"
 
 namespace Network
 {
@@ -25,6 +25,7 @@ protected:
     virtual bool HandlePacket(Packet::Disconnect *packet, const Address &sender) = 0;
     virtual bool HandlePacket(Packet::Terrain *packet, const Address &sender) = 0;
     virtual bool HandlePacket(Packet::Player *packet, const Address &sender) = 0;
+    virtual bool HandlePacket(Packet::PhysicsSettings *packet, const Address &sender) = 0;
 
     Socket socket;
 };

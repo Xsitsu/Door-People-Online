@@ -6,5 +6,6 @@
 #include "packetdisconnect.hpp"
 #include "packetterrain.hpp"
 #include "packetplayer.hpp"
+#include "packetphysicssettings.hpp"
 
 #endif // PACKETALL_HPP_INCLUDE

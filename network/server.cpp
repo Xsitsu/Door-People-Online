@@ -1,6 +1,6 @@
 #include "server.hpp"
 
-#include "network/packetall.hpp"
+#include "network/packet/packetall.hpp"
 
 namespace Network
 {
@@ -239,6 +239,11 @@ bool Server::HandlePacket(Packet::Terrain *, const Address &)
 }
 
 bool Server::HandlePacket(Packet::Player *, const Address &)
+{
+    return false;
+}
+
+bool Server::HandlePacket(Packet::PhysicsSettings *, const Address &)
 {
     return false;
 }

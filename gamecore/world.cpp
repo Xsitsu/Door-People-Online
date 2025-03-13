@@ -5,9 +5,9 @@
 namespace Game
 {
 
-World::World() : gravity(), actors(), terrain(), terrainIsLoaded(false)
+World::World() : actors(), terrain(), terrainIsLoaded(false)
 {
-    this->SetGravity(Vector2(0, -480));
+
 }
 
 World::~World()
@@ -15,14 +15,19 @@ World::~World()
 
 }
 
-Vector2 World::GetGravity() const
+void World::SetPhysicsSettings(const PhysicsSettings &settings)
 {
-    return this->gravity;
+    this->physics_settings = settings;
+
+    for (auto actor : this->actors)
+    {
+        actor->SetPhysicsSettings(this->physics_settings);
+    }
 }
 
-void World::SetGravity(const Vector2 &gravity)
+PhysicsSettings& World::GetPhysicsSettings()
 {
-    this->gravity = gravity;
+    return this->physics_settings;
 }
 
 void World::Update(double deltaT)
@@ -41,7 +46,8 @@ void World::Update(double deltaT)
                 actor->AddVelocity(Vector2(0, -actor->GetVelocity().y));
             }
 
-            actor->AddVelocity(this->gravity * deltaT);
+            Vector2 addGrav(0, -this->physics_settings.gravity);
+            actor->AddVelocity(addGrav * deltaT);
             actor->Update(deltaT);
             Vector2 after = actor->GetPosition();
 
@@ -133,6 +139,7 @@ void World::Update(double deltaT)
 
 void World::AddActor(Actor *actor)
 {
+    actor->SetPhysicsSettings(this->physics_settings);
     this->actors.push_back(actor);
 }
 

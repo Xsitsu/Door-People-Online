@@ -49,7 +49,7 @@ int main()
     }
     catch (...)
     {
-        std::string msg = "n error happened. Not sure what.\n";
+        std::string msg = "An error happened. Not sure what.\n";
         log->LogMessage(msg, Util::LogLevel::Fatal);
         log->Write(stderr);
 

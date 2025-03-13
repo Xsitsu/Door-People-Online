@@ -8,6 +8,8 @@ add_executable(${target}
 	main.cpp
 	terraindrawer.cpp
 	terraindrawer.hpp
+	playercontroller.hpp
+	playercontroller.cpp
 )
 target_include_directories(${target}
 	PUBLIC

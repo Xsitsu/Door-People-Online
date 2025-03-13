@@ -1,6 +1,10 @@
 #include "packet.hpp"
 
+#include "packetbuilder.hpp"
+#include "packetreader.hpp"
+
 #include <cstring>
+#include <sstream>
 
 namespace Network
 {
@@ -23,6 +27,9 @@ std::string PacketFamilyToString(PacketFamily family)
 
     case PacketFamily::FAMILY_PLAYER:
         return "FAMILY_PLAYER";
+
+    case PacketFamily::FAMILY_PHYSICS_SETTINGS:
+        return "FAMILY_PHYSICS_SETTINGS";
 
     default:
         return "N/A";
@@ -62,7 +69,7 @@ std::string PacketActionToString(PacketAction action)
 namespace Packet
 {
 
-Base::Base(uint32_t conId, PacketFamily family, PacketAction action) : connectionId(conId), family(family), action(action)
+Base::Base(uint32_t conId, PacketAction action) : connectionId(conId), action(action)
 {
 
 }
@@ -82,14 +89,50 @@ uint32_t Base::GetConnectionId() const
     return this->connectionId;
 }
 
-PacketFamily Base::GetFamily() const
-{
-    return this->family;
-}
-
 PacketAction Base::GetAction() const
 {
     return this->action;
+}
+
+void Base::Encode(void *&data) const
+{
+    PacketBuilder::Put32(data, this->GetConnectionId());
+    PacketBuilder::PutFamily(data, this->GetFamily());
+    PacketBuilder::PutAction(data, this->GetAction());
+}
+
+void Base::Decode(unsigned int packet_size, void *&data)
+{
+    // This is already read and set in the PacketReader class
+
+    //uint32_t connectionId = PacketReader::Read32(data);
+    //PacketFamily family = PacketReader::ReadFamily(data);
+    //PacketAction action = PacketReader::ReadAction(data);
+}
+
+std::string Base::ToStr() const
+{
+    return this->ToStrHeader() + this->ToStrBody() + this->ToStrFooter();
+}
+
+std::string Base::ToStrHeader() const
+{
+    return "Packet(";
+}
+
+std::string Base::ToStrFooter() const
+{
+    return ")";
+}
+
+std::string Base::ToStrBody() const
+{
+    std::stringstream ss;
+    ss << "Family=";
+    ss << Network::PacketFamilyToString(this->GetFamily());
+    ss << ", Action=";
+    ss << Network::PacketActionToString(this->GetAction());
+    return ss.str();
 }
 
 }

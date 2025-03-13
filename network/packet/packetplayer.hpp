@@ -30,8 +30,16 @@ public:
     virtual ~Player();
     virtual unsigned int GetPacketSize() const;
 
+    virtual PacketFamily GetFamily() const;
+
+    virtual void Encode(void *&data) const;
+    virtual void Decode(unsigned int packet_size, void *&data);
+    
     const std::list<PlayerData>& GetPlayerData() const;
     void AddPlayerData(PlayerData data);
+
+protected:
+    virtual std::string ToStrBody() const;
 
 protected:
     std::list<PlayerData> playerData;
