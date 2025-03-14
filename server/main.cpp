@@ -9,7 +9,6 @@ int main(int argc, char *argv[])
     Network::InitializeSockets();
 
     Util::Log* log = Util::Logger::Instance()->GetLog("Main");
-    FILE* log_file = stdout;
 
     unsigned int bindPort = 50000;
     GameServer server;
@@ -18,14 +17,14 @@ int main(int argc, char *argv[])
         std::stringstream stream;
         stream << "Unable to bind to port: " << bindPort << "!\n";
         log->LogMessage(stream.str(), Util::LogLevel::Fatal);
-        Util::Logger::Instance()->WriteAll(log_file);
+        Util::Logger::Instance()->WriteAll();
         return -1;
     }
 
     std::stringstream stream;
     stream << "Successfully bound to port: " << bindPort << "!\n";
     log->LogMessage(stream.str(), Util::LogLevel::Info);
-    log->Write(log_file);
+    Util::Logger::Instance()->WriteAll();
 
     try
     {
@@ -36,7 +35,7 @@ int main(int argc, char *argv[])
 
     }
 
-    Util::Logger::Instance()->WriteAll(log_file);
+    Util::Logger::Instance()->WriteAll();
 
     Network::ShutdownSockets();
 

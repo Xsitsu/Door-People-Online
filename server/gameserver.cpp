@@ -35,8 +35,10 @@ void GameServer::Run()
             timer.Reset();
             this->Tick();
             world->Update(deltaT/1000);
-
-            Util::Logger::Instance()->WriteAll(stdout);
+        }
+        else
+        {
+            Util::Logger::Instance()->WriteAll();
         }
     }
 }

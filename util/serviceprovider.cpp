@@ -43,7 +43,6 @@ Service* ServiceProvider::GetService(std::string serviceName)
     {
         std::string msg = "Tried to get invalid service: " + serviceName + "\n";
         this->log->LogMessage(msg, Util::LogLevel::Error);
-        this->log->Write(stdout);
         return nullptr;
     }
 }

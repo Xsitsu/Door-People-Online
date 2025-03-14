@@ -21,7 +21,7 @@ public:
 
     bool HasLog(std::string log_name);
     Log* GetLog(std::string log_name);
-    void WriteAll(FILE *fp);
+    void WriteAll();
 
 protected:
     Logger();
@@ -29,7 +29,12 @@ protected:
     Logger(const Logger&);
     Logger& operator= (const Logger&);
 
+protected:
+    void WriteEntryToFile(const LogEntry &entry);
+
+protected:
     std::unordered_map<std::string, Log*> logs;
+    std::list<LogEntry> entries;
 
     static Logger* i_logger;
 };
