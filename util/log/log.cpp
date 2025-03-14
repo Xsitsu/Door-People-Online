@@ -26,7 +26,7 @@ Log::Log(std::string name, std::list<LogEntry> *entries_ptr)
 {
     this->fp = stdout;
     this->name = name;
-    this->level = LogLevel::Debug;
+    this->level = LogLevel::Info;
     this->entries_ptr = entries_ptr;
 }
 

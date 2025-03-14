@@ -13,7 +13,7 @@
 GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false), player(nullptr)
 {
     this->log = Util::Logger::Instance()->GetLog("GameClient");
-    this->log->SetLogLevel(Util::LogLevel::Debug);
+    this->log->SetLogLevel(Util::LogLevel::Info);
 
     dataModel.Init();
 
@@ -163,10 +163,8 @@ bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::A
     bool wasHandled = Network::Client::HandlePacket(packet, sender);
     if (wasHandled)
     {
-        this->log->LogMessage("Got packet connect!\n", Util::LogLevel::Info);
         if (this->isConnected)
         {
-            this->log->LogMessage("Successfully connected\n", Util::LogLevel::Info);
             this->RequestTerrainFromServer();
             this->RequestPhysicsSettingsFromServer();
             this->CreatePlayerForClient();
@@ -227,6 +225,7 @@ bool GameClient::HandlePacket(Network::Packet::Terrain *packet, const Network::A
         }
 
         world->SetTerrainIsLoaded(true);
+        this->log->LogMessage("Loaded terrain downloaded from server\n", Util::LogLevel::Info);
 
         return true;
     }
