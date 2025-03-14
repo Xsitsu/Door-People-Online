@@ -29,13 +29,13 @@ namespace Network {
 			if (bytesRead <= 0) {
 				reading = false;
 			} else if (bytesRead <= MAX_PACKET_SIZE) {
-				Util::Logger::Instance()->GetLog("Network")->LogMessage("Reading packet\n", Util::LogLevel::Info);	
+				Util::Logger::Instance()->GetLog("Network")->LogMessage("Reading packet\n", Util::LogLevel::Debug);
 				packet = PacketReader::ReadPacket(bytesRead, buffer);
 				reading = false;
 
 				std::stringstream ss;
 				ss << "Got Packet: " << packet->ToStr() << std::endl;
-				Util::Logger::Instance()->GetLog("Network")->LogMessage(ss.str(), Util::LogLevel::Info);		
+				Util::Logger::Instance()->GetLog("Network")->LogMessage(ss.str(), Util::LogLevel::Debug);
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace Network {
 
 		std::stringstream ss;
 		ss << "Sent Packet: " << packet->ToStr() << std::endl;
-		Util::Logger::Instance()->GetLog("Network")->LogMessage(ss.str(), Util::LogLevel::Info);	
+		Util::Logger::Instance()->GetLog("Network")->LogMessage(ss.str(), Util::LogLevel::Debug);
 	}
 
 	bool NetworkPeer::DoHandlePacket(Packet::Base *packet, const Address &sender) {

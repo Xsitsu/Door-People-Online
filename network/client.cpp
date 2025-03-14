@@ -8,7 +8,7 @@ namespace Network
 Client::Client() : serverAddress(), isConnected(false), connectionId(0)
 {
     this->log = Util::Logger::Instance()->GetLog("Client");
-    this->log->SetLogLevel(Util::LogLevel::Debug);
+    this->log->SetLogLevel(Util::LogLevel::Info);
 }
 
 Client::~Client()
