@@ -49,18 +49,36 @@ Log* Logger::GetLog(std::string log_name)
 {
     if (!this->HasLog(log_name))
     {
-        this->logs[log_name] = new Log(log_name);
+        this->logs[log_name] = new Log(log_name, &(this->entries));
     }
 
     return this->logs[log_name];
 }
 
-void Logger::WriteAll(FILE* fp)
+void Logger::WriteAll()
 {
-    for (auto& it : this->logs)
+    auto entries_clone(this->entries);
+    this->entries.clear();
+
+    for (auto entry : entries_clone)
     {
-        it.second->Write(fp);
+        this->WriteEntryToFile(entry);
     }
 }
+
+void Logger::WriteEntryToFile(const LogEntry &entry)
+{
+    std::string format = "[%s %s] %s";
+    std::string level_str = LogLevelToString(entry.level);
+    fprintf(
+        entry.source_log->GetOutputFile(),
+        format.c_str(),
+
+        entry.source_log->GetLogName().c_str(),
+        level_str.c_str(),
+        entry.message.c_str()
+    );
+}
+
 
 }

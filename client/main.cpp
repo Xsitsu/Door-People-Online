@@ -18,7 +18,7 @@ int main()
     {
         std::string msg = "Failed to initialize allegro!\n";
         log->LogMessage(msg, Util::LogLevel::Fatal);
-        Util::Logger::Instance()->WriteAll(stderr);
+        Util::Logger::Instance()->WriteAll();
         return -1;
     }
 
@@ -40,7 +40,7 @@ int main()
     std::stringstream stream;
     stream << "Created client on port: " << connectPort << "\n";
     log->LogMessage(stream.str(), Util::LogLevel::Info);
-    log->Write(stdout);
+    Util::Logger::Instance()->WriteAll();
 
     try
     {
@@ -51,7 +51,7 @@ int main()
     {
         std::string msg = "An error happened. Not sure what.\n";
         log->LogMessage(msg, Util::LogLevel::Fatal);
-        log->Write(stderr);
+        Util::Logger::Instance()->WriteAll();
 
         if (client.IsConnected())
         {
@@ -59,7 +59,7 @@ int main()
         }
     }
 
-    Util::Logger::Instance()->WriteAll(stdout);
+    Util::Logger::Instance()->WriteAll();
 
     Network::ShutdownSockets();
 

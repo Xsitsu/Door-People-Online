@@ -76,7 +76,7 @@ void GameClient::Run()
                 this->SendPhysicsUpdateToServer();
             }
 
-            Util::Logger::Instance()->WriteAll(stdout);
+            Util::Logger::Instance()->WriteAll();
         }
         else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {
