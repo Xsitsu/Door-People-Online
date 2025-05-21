@@ -4,8 +4,8 @@
 #include "gamecore_dll_export.h"
 
 #include "vector2.hpp"
-#include "physicssettings.hpp"
 
+#include "physics/physicssettings.hpp"
 #include "physics/physicshandler.hpp"
 
 namespace Game

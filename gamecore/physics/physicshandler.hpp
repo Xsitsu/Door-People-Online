@@ -6,7 +6,7 @@
 #include "physicssettings.hpp"
 #include "physicsobject.hpp"
 
-#include <map>
+#include <vector>
 
 namespace Game::Physics
 {
@@ -26,10 +26,13 @@ public:
     void Tick(const double &deltaT);
 
 protected:
+    void ReserveSpace(int num_items);
+
+protected:
     PhysicsSettings settings;
 
-    std::map<phys_obj_handle, bool> availability_map;
-    int num_physics_objects;
+    int max_physics_objects;
+    std::vector<bool> availability;
     PhysicsObject *physics_objects;
 };
 
