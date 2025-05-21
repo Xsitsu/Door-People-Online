@@ -5,8 +5,16 @@ add_library(${target} STATIC
 	actor.hpp
 	datamodel.cpp
 	datamodel.hpp
-	physicssettings.cpp
-	physicssettings.hpp
+
+	physics/physicshandler.cpp
+	physics/physicshandler.hpp
+
+	physics/physicsobject.cpp
+	physics/physicsobject.hpp
+
+	physics/physicssettings.cpp
+	physics/physicssettings.hpp
+
 	platform.cpp
 	platform.hpp
 	player.cpp

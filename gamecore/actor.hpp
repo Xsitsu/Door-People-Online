@@ -6,6 +6,8 @@
 #include "vector2.hpp"
 #include "physicssettings.hpp"
 
+#include "physics/physicshandler.hpp"
+
 namespace Game
 {
 
@@ -25,16 +27,8 @@ public:
 
     virtual bool IsPlayer() const;
 
-    Vector2 GetSize() const;
-    Vector2 GetPosition() const;
-    Vector2 GetVelocity() const;
     Direction GetDirection() const;
-
     void SetDirection(Direction dir);
-    void SetPosition(const Vector2 &pos);
-    void SetVelocity(const Vector2 &vel);
-    void AddVelocity(const Vector2 &vel);
-    void Update(double deltaT);
 
     bool IsOnGround() const;
     void Jump();
@@ -48,10 +42,8 @@ public:
     double GetWalkspeed() const;
 
 protected:
-    Vector2 size;
-    Vector2 position;
-    Vector2 velocity;
     Direction direction;
+    Physics::phys_obj_handle physics_object;
 
     double jump_power;
     double walkspeed;

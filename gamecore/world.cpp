@@ -32,6 +32,9 @@ PhysicsSettings& World::GetPhysicsSettings()
 
 void World::Update(double deltaT)
 {
+    this->UpdatePhysics(deltaT);
+    this->ResolveCollisions(deltaT);
+
     if (!this->actors.empty())
     {
         for (auto actor : this->actors)
@@ -137,14 +140,34 @@ void World::Update(double deltaT)
     }
 }
 
+void World::UpdatePhysics(double deltaT)
+{
+    this->physics_handler.Tick(deltaT);
+}
+
+void World::ResolveCollisions(double deltaT)
+{
+
+}
+
+
 void World::AddActor(Actor *actor)
 {
+    auto *obj = this->physics_handler.CreatePhysicsObject();
+    actor->RegisterPhysicsObject(obj);
+
     actor->SetPhysicsSettings(this->physics_settings);
     this->actors.push_back(actor);
 }
 
 void World::RemoveActor(Actor *actor)
 {
+    auto *obj = actor->GetPhysicsObject();
+    if (obj != nullptr)
+    {
+        actor->UnregisterPhysicsObject();
+        this->physics_handler.DestroyPhysicsObject(obj);
+    }
     this->actors.remove(actor);
 }
 

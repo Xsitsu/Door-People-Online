@@ -14,6 +14,8 @@
 #include "platform.hpp"
 #include "wall.hpp"
 
+#include "physics/physicshandler.hpp"
+
 namespace Game
 {
 
@@ -43,6 +45,10 @@ public:
 protected:
     bool SegmentsOverlap(double x1, double x2, double y1, double y2) const;
 
+    void UpdatePhysics(double deltaT);
+    void ResolveCollisions(double deltaT);
+
+    Physics::PhysicsHandler physics_handler;
     PhysicsSettings physics_settings;
 
     std::list<Actor*> actors;
