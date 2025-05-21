@@ -6,6 +6,8 @@
 #include "physicssettings.hpp"
 #include "physicsobject.hpp"
 
+#include <map>
+
 namespace Game::Physics
 {
 
@@ -26,6 +28,7 @@ public:
 protected:
     PhysicsSettings settings;
 
+    std::map<phys_obj_handle, bool> availability_map;
     int num_physics_objects;
     PhysicsObject *physics_objects;
 };
