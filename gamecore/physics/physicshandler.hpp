@@ -26,11 +26,13 @@ public:
     void Tick(const double &deltaT);
 
 protected:
+    bool HandleInRange(const phys_obj_handle &handle);
     void ReserveSpace(int num_items);
 
 protected:
     PhysicsSettings settings;
 
+    int cur_num_physics_objects;
     int max_physics_objects;
     std::vector<bool> availability;
     PhysicsObject *physics_objects;
