@@ -3,7 +3,7 @@
 namespace Game
 {
 
-Actor::Actor() : phys_obj(nullptr), direction(Actor::Direction::Left), jump_power(300), walkspeed(100)
+Actor::Actor() : direction(Actor::Direction::Left), jump_power(300), walkspeed(100)
 {
 
 }
@@ -30,19 +30,13 @@ void Actor::SetDirection(Direction dir)
 
 bool Actor::IsOnGround() const
 {
-    bool y_velocity_is_zero = (this->phys_obj->GetVelocity().y == 0);
+    bool y_velocity_is_zero = (this->GetPhysicsObject()->GetVelocity().y == 0);
     return y_velocity_is_zero;
 }
 
 void Actor::Jump()
 {
-    this->phys_obj->AddVelocity(Vector2(0, this->jump_power));
-}
-
-void Actor::SetPhysicsSettings(const PhysicsSettings &settings)
-{
-    this->SetJumpPower(settings.GetDefaultJumpPower());
-    this->SetWalkspeed(settings.GetDefaultWalkspeed());
+    this->GetPhysicsObject()->AddVelocity(Vector2(0, this->jump_power));
 }
 
 
@@ -70,6 +64,27 @@ void Actor::SetWalkspeed(double speed)
 double Actor::GetWalkspeed() const
 {
     return this->walkspeed;
+}
+
+Physics::phys_obj_handle Actor::GetPhysicsObjectHandle() const
+{
+    return this->physics_object
+}
+
+void Actor::SetPhysicsObjectHandle(Physics::phys_obj_handle handle)
+{
+    this->physics_object = handle;
+}
+
+
+Physics::PhysicsObject* Actor::GetPhysicsObject()
+{
+    return nullptr;
+}
+
+const Physics::PhysicsObject* Actor::GetPhysicsObject() const
+{
+    return nullptr;
 }
 
 }

@@ -2,8 +2,8 @@
 
 namespace Game
 {
- 
-Transform::Transform() : size(), position()
+
+Transform::Transform() : position()
 {}
 
 }

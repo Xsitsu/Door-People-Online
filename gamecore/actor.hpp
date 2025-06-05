@@ -5,8 +5,8 @@
 
 #include "vector2.hpp"
 
-#include "physics/physicssettings.hpp"
 #include "physics/physicshandler.hpp"
+#include "physics/physicsobject.hpp"
 
 namespace Game
 {
@@ -33,13 +33,18 @@ public:
     bool IsOnGround() const;
     void Jump();
 
-    void SetPhysicsSettings(const PhysicsSettings &settings);
-
     void SetJumpPower(double power);
     double GetJumpPower() const;
 
     void SetWalkspeed(double speed);
     double GetWalkspeed() const;
+
+    Physics::phys_obj_handle GetPhysicsObjectHandle() const;
+    void SetPhysicsObjectHandle(Physics::phys_obj_handle handle);
+
+protected:
+    Physics::PhysicsObject* GetPhysicsObject();
+    const Physics::PhysicsObject* GetPhysicsObject() const;
 
 protected:
     Direction direction;

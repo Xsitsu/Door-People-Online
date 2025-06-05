@@ -49,7 +49,7 @@ void PhysicsHandler::DestroyPhysicsObject(const phys_obj_handle &handle)
 PhysicsObject* PhysicsHandler::GetPhysicsObject(const phys_obj_handle &handle)
 {
     if (this->HandleInRange(handle) && this->availability[handle])
-        return this->physics_objects[handle];
+        return this->physics_objects += handle;
     return nullptr;
 }
 
@@ -62,12 +62,6 @@ void PhysicsHandler::Tick(const double &deltaT)
     {
         PhysicsObject &obj = this->physics_objects[i];
         obj.AddVelocity(gravity_update);
-        
-    }
-
-    for (auto &obj : this->objects)
-    {
-        obj.AddPosition(obj.GetVelocity() * deltaT);
     }
 }
 
@@ -83,7 +77,7 @@ void PhysicsHandler::ReserveSpace(int num_items)
     if (needs_to_grow)
     {
         this->availability.reserve(num_items);
-        for (int i = this->max_physics_objects; i < num_size; i++)
+        for (int i = this->max_physics_objects; i < num_items; i++)
         {
             this->availability[i] = true;
         }

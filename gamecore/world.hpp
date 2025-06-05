@@ -7,7 +7,6 @@
 
 #include "util/service.hpp"
 
-#include "physicssettings.hpp"
 #include "vector2.hpp"
 #include "actor.hpp"
 #include "terrain.hpp"
@@ -24,9 +23,6 @@ class DLL_EXPORT World : public Util::Service
 public:
     World();
     virtual ~World();
-
-    void SetPhysicsSettings(const PhysicsSettings &settings);
-    PhysicsSettings& GetPhysicsSettings();
 
     void Update(double deltaT);
 
@@ -49,7 +45,6 @@ protected:
     void ResolveCollisions(double deltaT);
 
     Physics::PhysicsHandler physics_handler;
-    PhysicsSettings physics_settings;
 
     std::list<Actor*> actors;
     std::list<Terrain*> terrain;
