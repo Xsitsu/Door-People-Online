@@ -141,21 +141,20 @@ void World::ResolveCollisions(double deltaT)
 
 void World::AddActor(Actor *actor)
 {
-    auto *obj = this->physics_handler.CreatePhysicsObject();
-    actor->RegisterPhysicsObject(obj);
-
-    actor->SetPhysicsSettings(this->physics_settings);
+    Physics::phys_obj_handle handle = this->physics_handler.CreatePhysicsObject();
+    actor->SetPhysicsObjectHandle(handle);
     this->actors.push_back(actor);
 }
 
 void World::RemoveActor(Actor *actor)
 {
-    auto *obj = actor->GetPhysicsObject();
-    if (obj != nullptr)
+    Physics::phys_obj_handle handle = actor->GetPhysicsObjectHandle();
+    if (handle != -1)
     {
-        actor->UnregisterPhysicsObject();
-        this->physics_handler.DestroyPhysicsObject(obj);
+        actor->SetPhysicsObjectHandle(-1);
+        this->physics_handler.DestroyPhysicsObject(handle);
     }
+
     this->actors.remove(actor);
 }
 

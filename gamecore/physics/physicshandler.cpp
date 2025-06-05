@@ -22,7 +22,7 @@ phys_obj_handle PhysicsHandler::CreatePhysicsObject()
     {
         look_index = this->max_physics_objects;
         int new_size = (this->max_physics_objects * 2) + 10;
-        this->ReserveSpace(new_size)
+        this->ReserveSpace(new_size);
     }
 
     while (this->availability[look_index] == false)

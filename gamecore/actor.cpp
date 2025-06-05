@@ -3,7 +3,7 @@
 namespace Game
 {
 
-Actor::Actor() : direction(Actor::Direction::Left), jump_power(300), walkspeed(100)
+Actor::Actor() : direction(Actor::Direction::Left), jump_power(300), walkspeed(100), physics_object(-1)
 {
 
 }
@@ -68,7 +68,7 @@ double Actor::GetWalkspeed() const
 
 Physics::phys_obj_handle Actor::GetPhysicsObjectHandle() const
 {
-    return this->physics_object
+    return this->physics_object;
 }
 
 void Actor::SetPhysicsObjectHandle(Physics::phys_obj_handle handle)

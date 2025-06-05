@@ -7,7 +7,7 @@
 
 #include "packet.hpp"
 
-#include "gamecore/physicssettings.hpp"
+#include "gamecore/physics/physicssettings.hpp"
 
 namespace Network
 {
