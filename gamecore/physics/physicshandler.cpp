@@ -5,7 +5,7 @@
 namespace Game::Physics
 {
 
-PhysicsHandler::PhysicsHandler() : cur_num_physics_objects(0), max_physics_objects(0), availability(), physics_objects(nullptr)
+PhysicsHandler::PhysicsHandler() : physics_objects()
 {
 
 }
