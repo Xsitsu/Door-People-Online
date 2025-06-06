@@ -91,4 +91,16 @@ void ResourceManager<T>::ReserveSpace(int num_items)
     }
 }
 
+template <typename T>
+int ResourceManager<T>::MaxNumResources() const
+{
+    return this->max_num_resources;
+}
+
+template <typename T>
+int ResourceManager<T>::CurNumResources() const
+{
+    return this->cur_num_resources;
+}
+
 }

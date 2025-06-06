@@ -13,14 +13,16 @@ typedef int res_handle;
 template <typename T>
 class ResourceManager
 {
+public:
     ResourceManager();
     ~ResourceManager();
 
     res_handle CreateResource();
     void DestroyResource(const res_handle &handle);
     T* GetResource(const res_handle &handle);
-
     bool ResourceExists(const res_handle &handle);
+    int MaxNumResources() const;
+    int CurNumResources() const;
 
 private:
     bool HandleIsInRange(const res_handle &handle);
