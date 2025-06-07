@@ -3,7 +3,7 @@
 namespace Game
 {
 
-Transform::Transform() : position()
+Transform::Transform() : position(0, 0), size(1, 1)
 {}
 
 }

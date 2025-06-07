@@ -11,6 +11,7 @@ namespace Game
 struct DLL_EXPORT Transform
 {
     Vector2 position;
+    Vector2 size;
 
     Transform();
 };
