@@ -22,6 +22,10 @@ public:
     void RemovePlayer(Player *player);
     std::list<Player*> GetPlayers();
     Player* GetPlayerWithNetworkId(uint32_t id);
+    const Player* GetPlayerWithNetworkId(uint32_t id) const;
+
+    bool PlayerExists(uint32_t id) const;
+
 
 protected:
     std::list<Player*> players;

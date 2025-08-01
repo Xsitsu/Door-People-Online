@@ -47,13 +47,14 @@ void GameServer::Run()
 void GameServer::ClientConnectionAdded(Network::ClientConnection *connection)
 {
     Game::PlayerList *playerList = this->dataModel.GetPlayerList();
-    Game::Player *player = playerList->GetPlayerWithNetworkId(connection->GetConnectionId());
-    if (!player)
-    {
-        player = new Game::Player();
-        player->SetNetworkOwner(connection->GetConnectionId());
-        playerList->AddPlayer(player);
-    }
+
+    if (playerList->PlayerExists(connection->GetConnectionId()))
+        return;
+
+    Game::Player *player = new Game::Player();
+    player->SetNetworkOwner(connection->GetConnectionId());
+    playerList->AddPlayer(player);
+
 
     Network::Packet::Player curPacket = Network::Packet::Player(0, Network::PacketAction::ACTION_ADD);
     for (Game::Player *other : playerList->GetPlayers())

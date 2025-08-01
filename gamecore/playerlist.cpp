@@ -50,5 +50,22 @@ Player* PlayerList::GetPlayerWithNetworkId(uint32_t id)
     return nullptr;
 }
 
+const Player* PlayerList::GetPlayerWithNetworkId(uint32_t id) const
+{
+    for (Player* player : this->players)
+    {
+        if (player->GetNetworkOwner() == id)
+        {
+            return player;
+        }
+    }
+    return nullptr;
+}
+
+bool PlayerList::PlayerExists(uint32_t id) const
+{
+    return (this->GetPlayerWithNetworkId(id) == nullptr);
+}
+
 
 }
