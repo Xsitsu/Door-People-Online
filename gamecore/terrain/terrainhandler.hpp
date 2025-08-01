@@ -27,6 +27,11 @@ private:
     ResourceManager<TerrainObject> walls;
     ResourceManager<TerrainObject> platforms;
 
+    void CreateTerrainObject(ResourceManager<TerrainObject>& res, const GameObject &obj);
+
+private:
+    void LoadMockTerrain();
+
 };
 
 }

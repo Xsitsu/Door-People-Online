@@ -14,6 +14,7 @@ struct DLL_EXPORT GameObject
     Vector2 size;
 
     GameObject();
+    GameObject(const Vector2 &position, const Vector2 &size);
 };
 
 }
