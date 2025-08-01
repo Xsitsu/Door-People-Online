@@ -3,6 +3,8 @@
 
 #include "gamecore_dll_export.h"
 
+#include <string>
+
 #include "resourcemanager.hpp"
 #include "terrainobject.hpp"
 

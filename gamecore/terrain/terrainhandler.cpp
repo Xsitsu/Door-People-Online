@@ -23,7 +23,7 @@ const ResourceManager<TerrainObject>& TerrainHandler::GetPlatforms() const
     return this->platforms;
 }
 
-void LoadTerrTerrainHandler::ain(std::string terrain_data)
+void TerrainHandler::LoadTerrain(std::string terrain_data)
 {
 
 }
@@ -35,8 +35,8 @@ void TerrainHandler::UnloadTerrain()
 
 void TerrainHandler::CreateTerrainObject(ResourceManager<TerrainObject>& res, const GameObject &obj)
 {
-    res_handle = res.CreateResource();
-    res.GetResource(res_handle)->SetGameObject(obj);
+    res_handle handle = res.CreateResource();
+    res.GetResource(handle)->SetGameObject(obj);
 }
 
 

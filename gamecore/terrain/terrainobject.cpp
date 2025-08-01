@@ -1,24 +1,24 @@
-#include "terrain.hpp"
+#include "terrainobject.hpp"
 
 namespace Game::Terrain
 {
 
-TerrainObject::Terrain() : game_object()
+TerrainObject::TerrainObject() : game_object()
 {
 
 }
 
-TerrainObject::~Terrain()
+TerrainObject::~TerrainObject()
 {
 
 }
 
-const GameObject& GetGameObject() const
+const GameObject& TerrainObject::GetGameObject() const
 {
     return this->game_object;
 }
 
-void SetGameObject(const GameObject &obj)
+void TerrainObject::SetGameObject(const GameObject &obj)
 {
     this->game_object = obj;
 }

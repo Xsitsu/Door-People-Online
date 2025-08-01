@@ -5,7 +5,7 @@
 namespace Game
 {
 
-World::World() : actors(), terrain(), terrainIsLoaded(false)
+World::World() : actors()
 {
 
 }

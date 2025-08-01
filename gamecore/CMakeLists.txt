@@ -15,18 +15,19 @@ add_library(${target} STATIC
 	physics/physicssettings.cpp
 	physics/physicssettings.hpp
 
-	platform.cpp
-	platform.hpp
 	player.cpp
 	player.hpp
 	playerlist.cpp
 	playerlist.hpp
-	terrain.cpp
-	terrain.hpp
+
+	terrain/terrainobject.cpp
+	terrain/terrainobject.hpp
+
+	terrain/terrainhandler.cpp
+	terrain/terrainhandler.hpp
+
 	vector2.cpp
 	vector2.hpp
-	wall.cpp
-	wall.hpp
 	world.cpp
 	world.hpp
 )
