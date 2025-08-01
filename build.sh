@@ -20,7 +20,7 @@ build_dir="$script_dir"/cmake-build
 mkdir -p _dependency-cache
 mkdir -p "$build_dir"
 
-cmake -B "$build_dir" -S "$script_dir" -DCMAKE_BUILD_TYPE="$build_mode"
+cmake -B "$build_dir" -S "$script_dir" -DCMAKE_BUILD_TYPE="$build_mode" -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
 cmake --build "$build_dir" --target server --config "$build_mode"
 cmake --build "$build_dir" --target client --config "$build_mode"
