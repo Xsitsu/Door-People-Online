@@ -4,6 +4,7 @@
 #include "gamecore_dll_export.h"
 
 #include "vector2.hpp"
+#include "gameobject/gameobject.hpp"
 
 namespace Game::Physics
 {
@@ -15,8 +16,13 @@ public:
     void SetVelocity(const Vector2 &val);
     void AddVelocity(const Vector2 &val);
 
+    const GameObject& GetGameObject() const;
+    void UpdatePosition(const Vector2 &val);
+
+
 protected:
     Vector2 velocity;
+    GameObject game_object;
 };
 
 }

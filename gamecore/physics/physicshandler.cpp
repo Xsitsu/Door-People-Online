@@ -40,7 +40,7 @@ void PhysicsHandler::Tick(const double &deltaT)
         if (obj != nullptr)
         {
             obj->AddVelocity(gravity_update);
-            // TODO: Update transform position
+            obj->UpdatePosition(obj->GetVelocity());
         }
     }
 }
