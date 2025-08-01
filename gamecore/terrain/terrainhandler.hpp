@@ -24,15 +24,18 @@ public:
 
     void LoadTerrain(std::string terrain_data);
     void UnloadTerrain();
+    bool TerrainIsLoaded() const;
+
+
+    void LoadMockTerrain();
+
+
 
 private:
     ResourceManager<TerrainObject> walls;
     ResourceManager<TerrainObject> platforms;
 
     void CreateTerrainObject(ResourceManager<TerrainObject>& res, const GameObject &obj);
-
-private:
-    void LoadMockTerrain();
 
 };
 

@@ -30,6 +30,16 @@ PhysicsObject* PhysicsHandler::GetPhysicsObject(const phys_obj_handle &handle)
     return this->physics_objects.GetResource(handle);
 }
 
+const PhysicsSettings& PhysicsHandler::GetPhysicsSettings() const
+{
+    return this->settings;
+}
+
+void PhysicsHandler::SetPhysicsSettings(const PhysicsSettings& settings)
+{
+    this->settings = settings;
+}
+
 void PhysicsHandler::Tick(const double &deltaT)
 {
     Vector2 gravity_update = Vector2(0, this->settings.gravity * deltaT);

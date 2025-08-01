@@ -33,6 +33,12 @@ void TerrainHandler::UnloadTerrain()
 
 }
 
+bool TerrainHandler::TerrainIsLoaded() const
+{
+    return (this->walls.CurNumResources() > 0 || this->platforms.CurNumResources() > 0);
+}
+
+
 void TerrainHandler::CreateTerrainObject(ResourceManager<TerrainObject>& res, const GameObject &obj)
 {
     res_handle handle = res.CreateResource();

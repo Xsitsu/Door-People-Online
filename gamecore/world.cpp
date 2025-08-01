@@ -163,6 +163,18 @@ std::list<Actor*> World::GetActors()
     return this->actors;
 }
 
+Physics::PhysicsHandler& World::GetPhysicsHandler()
+{
+    return this->physics_handler;
+}
+
+
+Terrain::TerrainHandler& World::GetTerrainHandler()
+{
+    return this->terrain_handler;
+}
+
+
 bool World::SegmentsOverlap(double x1, double x2, double y1, double y2) const
 {
     return (x2 > y1 && y2 > x1);

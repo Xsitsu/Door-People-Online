@@ -10,7 +10,7 @@ GameServer::GameServer() : Server(), dataModel(), isRunning(false)
     pSettings.default_walkspeed = 180;
     pSettings.default_jump_power = 320;
 
-    this->dataModel.GetWorld()->SetPhysicsSettings(pSettings);
+    this->dataModel.GetWorld()->GetPhysicsHandler().SetPhysicsSettings(pSettings);
 }
 
 GameServer::~GameServer()
@@ -21,7 +21,8 @@ GameServer::~GameServer()
 void GameServer::Run()
 {
     Game::World *world = this->dataModel.GetWorld();
-    world->LoadWorld();
+    world->GetTerrainHandler().LoadMockTerrain();
+
 
     Util::Timer timer;
     timer.Start();

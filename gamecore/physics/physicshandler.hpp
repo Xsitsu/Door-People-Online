@@ -23,6 +23,9 @@ public:
     void DestroyPhysicsObject(const phys_obj_handle &handle);
     PhysicsObject* GetPhysicsObject(const phys_obj_handle &handle);
 
+    const PhysicsSettings& GetPhysicsSettings() const;
+    void SetPhysicsSettings(const PhysicsSettings& settings);
+
     void Tick(const double &deltaT);
 
 protected:

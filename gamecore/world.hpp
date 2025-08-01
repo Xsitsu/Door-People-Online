@@ -27,6 +27,9 @@ public:
     void RemoveActor(Actor *actor);
     std::list<Actor*> GetActors();
 
+    Physics::PhysicsHandler& GetPhysicsHandler();
+    Terrain::TerrainHandler& GetTerrainHandler();
+
 protected:
     bool SegmentsOverlap(double x1, double x2, double y1, double y2) const;
 
