@@ -7,11 +7,12 @@
 #include "gamecore/actor.hpp"
 #include "gamecore/player.hpp"
 #include "gamecore/vector2.hpp"
+#include "gamecore/world.hpp"
 
 class ActorDrawer
 {
 public:
-    static void DrawActor(Game::Actor *actor, const Game::Vector2 &drawBegin, ALLEGRO_COLOR col);
+    static void DrawActor(Game::World *world, Game::Actor *actor, const Game::Vector2 &drawBegin, ALLEGRO_COLOR col);
 
 protected:
     ActorDrawer();

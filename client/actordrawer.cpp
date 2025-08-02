@@ -1,21 +1,17 @@
 #include "actordrawer.hpp"
 
-#include <iostream>
-
 ActorDrawer::ActorDrawer()
-{
-
-}
+{}
 
 ActorDrawer::~ActorDrawer()
-{
+{}
 
-}
-
-void ActorDrawer::DrawActor(Game::Actor *actor, const Game::Vector2 &drawBegin, ALLEGRO_COLOR col)
+void ActorDrawer::DrawActor(Game::World *world, Game::Actor *actor, const Game::Vector2 &drawBegin, ALLEGRO_COLOR col)
 {
-    Game::Vector2 size = actor->GetSize();
-    Game::Vector2 position = actor->GetPosition();
+    Game::Physics::PhysicsObject *object = world->GetPhysicsHandler().GetPhysicsObject(actor->GetPhysicsObjectHandle());
+
+    Game::Vector2 size = object->GetGameObject().size;
+    Game::Vector2 position = object->GetGameObject().position;
 
     Game::Vector2 posAdder(position.x, -position.y);
 

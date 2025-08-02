@@ -4,19 +4,20 @@
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_primitives.h"
 
-#include "gamecore/terrain.hpp"
-#include "gamecore/platform.hpp"
-#include "gamecore/wall.hpp"
+#include "gamecore/terrain/terrainhandler.hpp"
 #include "gamecore/vector2.hpp"
 
 class TerrainDrawer
 {
 public:
-    static void DrawTerrain(Game::Terrain *terrain, const Game::Vector2 &drawBegin, ALLEGRO_COLOR col);
+    static void DrawTerrain(const Game::Terrain::Terrainhandler &handler, const Game::Vector2 &drawBegin);
 
 protected:
     TerrainDrawer();
     ~TerrainDrawer();
+
+protected:
+    static void DrawGeneric(const Game::Terrain::TerrainObject *obj, const Game::Vector2 &drawBegin, ALLEGRO_COLOR col);
 
 };
 

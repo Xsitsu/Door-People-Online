@@ -3,9 +3,6 @@
 #include "util/timer.hpp"
 
 #include "gamecore/world.hpp"
-#include "gamecore/terrain.hpp"
-#include "gamecore/platform.hpp"
-#include "gamecore/wall.hpp"
 
 #include "actordrawer.hpp"
 #include "terraindrawer.hpp"
@@ -107,25 +104,16 @@ void GameClient::Run()
         {
             needsDraw = false;
 
-            if (world->IsTerrainLoaded() && this->player)
+            if (this->player)
             {
                 Game::Vector2 drawFocus = drawBegin - Game::Vector2(player->GetPosition().x, 0);
+                this->DrawTerrain(drawFocus);
+            }
 
-                std::list<Game::Terrain*> terrain = world->GetTerrain();
-                for (Game::Terrain *terrainObj : terrain)
-                {
-                    ALLEGRO_COLOR col = al_map_rgb(255, 255, 255);
-                    if (terrainObj->GetTerrainType() == Game::TerrainType::TYPE_PLATFORM)
-                    {
-                        col = al_map_rgb(20, 20, 220);
-                    }
-                    else if (terrainObj->GetTerrainType() == Game::TerrainType::TYPE_WALL)
-                    {
-                        col = al_map_rgb(20, 220, 20);
-                    }
-                    TerrainDrawer::DrawTerrain(terrainObj, drawFocus, col);
-                }
 
+            bool canDrawActors = false;
+            if (canDrawActors)
+            {
                 std::list<Game::Actor*> actors = world->GetActors();
                 for (Game::Actor *actor : actors)
                 {
@@ -134,12 +122,12 @@ void GameClient::Run()
                         Game::Player *player = static_cast<Game::Player*>(actor);
                         if (player != this->player)
                         {
-                            ActorDrawer::DrawActor(player, drawFocus, al_map_rgb(0, 255, 255));
+                            ActorDrawer::DrawActor(this->world, player, drawFocus, al_map_rgb(0, 255, 255));
                         }
                     }
                 }
 
-                ActorDrawer::DrawActor(this->player, drawFocus, al_map_rgb(255, 255, 0));
+                ActorDrawer::DrawActor(this->world, this->player, drawFocus, al_map_rgb(255, 255, 0));
             }
 
 
@@ -155,6 +143,15 @@ void GameClient::Run()
         this->Disconnect();
     }
 }
+
+
+void GameClient::DrawTerrain(const Game::Vector2 &drawBegin)
+{
+    const Game::Terrain::TerrainHandler &handler = this->GetWorld().GetTerrainHandler();
+    TerrainDrawer::DrawTerrain(handler, drawBegin);
+}
+
+
 
 bool GameClient::HandlePacket(Network::Packet::Connect *packet, const Network::Address &sender)
 {
