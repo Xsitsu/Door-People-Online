@@ -10,7 +10,7 @@
 class TerrainDrawer
 {
 public:
-    static void DrawTerrain(const Game::Terrain::Terrainhandler &handler, const Game::Vector2 &drawBegin);
+    static void DrawTerrain(const Game::Terrain::TerrainHandler &handler, const Game::Vector2 &drawBegin);
 
 protected:
     TerrainDrawer();

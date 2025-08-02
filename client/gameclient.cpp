@@ -106,29 +106,31 @@ void GameClient::Run()
 
             if (this->player)
             {
-                Game::Vector2 drawFocus = drawBegin - Game::Vector2(player->GetPosition().x, 0);
+                Game::Physics::PhysicsObject *obj = this->dataModel.GetWorld()->GetPhysicsHandler().GetPhysicsObject(this->player->GetPhysicsObjectHandle());
+
+                Game::Vector2 drawFocus = drawBegin - Game::Vector2(obj->GetGameObject().position.x, 0);
                 this->DrawTerrain(drawFocus);
             }
 
 
-            bool canDrawActors = false;
-            if (canDrawActors)
-            {
-                std::list<Game::Actor*> actors = world->GetActors();
-                for (Game::Actor *actor : actors)
-                {
-                    if (actor->IsPlayer())
-                    {
-                        Game::Player *player = static_cast<Game::Player*>(actor);
-                        if (player != this->player)
-                        {
-                            ActorDrawer::DrawActor(this->world, player, drawFocus, al_map_rgb(0, 255, 255));
-                        }
-                    }
-                }
+            // bool canDrawActors = false;
+            // if (canDrawActors)
+            // {
+            //     std::list<Game::Actor*> actors = world->GetActors();
+            //     for (Game::Actor *actor : actors)
+            //     {
+            //         if (actor->IsPlayer())
+            //         {
+            //             Game::Player *player = static_cast<Game::Player*>(actor);
+            //             if (player != this->player)
+            //             {
+            //                 ActorDrawer::DrawActor(this->world, player, drawFocus, al_map_rgb(0, 255, 255));
+            //             }
+            //         }
+            //     }
 
-                ActorDrawer::DrawActor(this->world, this->player, drawFocus, al_map_rgb(255, 255, 0));
-            }
+            //     ActorDrawer::DrawActor(this->world, this->player, drawFocus, al_map_rgb(255, 255, 0));
+            // }
 
 
             //al_wait_for_vsync();
@@ -147,7 +149,7 @@ void GameClient::Run()
 
 void GameClient::DrawTerrain(const Game::Vector2 &drawBegin)
 {
-    const Game::Terrain::TerrainHandler &handler = this->GetWorld().GetTerrainHandler();
+    const Game::Terrain::TerrainHandler &handler = this->dataModel.GetWorld()->GetTerrainHandler();
     TerrainDrawer::DrawTerrain(handler, drawBegin);
 }
 

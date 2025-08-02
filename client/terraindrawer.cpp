@@ -6,7 +6,7 @@ TerrainDrawer::TerrainDrawer()
 TerrainDrawer::~TerrainDrawer()
 {}
 
-void TerrainDrawer::DrawTerrain(const Game::Terrain::Terrainhandler &handler, const Game::Vector2 &drawBegin)
+void TerrainDrawer::DrawTerrain(const Game::Terrain::TerrainHandler &handler, const Game::Vector2 &drawBegin)
 {
     const ResourceManager<TerrainObject> &platforms = handler.GetPlatforms();
     for (res_handle handle = 0; handle < platforms.CurNumResources(); handle++)
