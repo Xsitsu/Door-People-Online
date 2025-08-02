@@ -72,10 +72,9 @@ void Client::Tick()
     while (packet != nullptr)
     {
         if (sender == this->serverAddress)
-        {
             this->DoHandlePacket(packet, sender);
-            packet = this->ReceivePacket(sender);
-        }
+
+        packet = this->ReceivePacket(sender);
     }
 }
 
