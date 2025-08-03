@@ -55,6 +55,15 @@ T* ResourceManager<T>::GetResource(const res_handle &handle)
     return nullptr;
 }
 
+
+template <typename T>
+const T* ResourceManager<T>::GetResource(const res_handle &handle) const
+{
+    if (this->HandleIsInRange(handle) && this->ResourceExists(handle))
+        return this->resources + handle;
+    return nullptr;
+}
+
 template <typename T>
 bool ResourceManager<T>::ResourceExists(const res_handle &handle)
 {

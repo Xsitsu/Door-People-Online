@@ -20,6 +20,7 @@ public:
     res_handle CreateResource();
     void DestroyResource(const res_handle &handle);
     T* GetResource(const res_handle &handle);
+    const T* GetResource(const res_handle &handle) const;
     bool ResourceExists(const res_handle &handle);
     int MaxNumResources() const;
     int CurNumResources() const;

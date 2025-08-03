@@ -30,7 +30,7 @@ namespace Network {
 			{
 				reading = false;
 			}
-			else if (bytesRead <= MAX_PACKET_SIZE)
+			else if (bytesRead <= PACKET_BUFFER_SIZE)
 			{
 				Util::Logger::Instance()->GetLog("Network")->LogMessage("Reading packet\n", Util::LogLevel::Debug);
 				packet = PacketReader::ReadPacket(bytesRead, buffer);
