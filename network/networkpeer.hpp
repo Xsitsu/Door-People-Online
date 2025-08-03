@@ -9,6 +9,8 @@
 namespace Network
 {
 
+#define PACKET_BUFFER_SIZE 1024
+
 class DLL_EXPORT NetworkPeer
 {
 public:
@@ -28,6 +30,8 @@ protected:
     virtual bool HandlePacket(Packet::PhysicsSettings *packet, const Address &sender) = 0;
 
     Socket socket;
+    char buffer[PACKET_BUFFER_SIZE];
+
 };
 
 }

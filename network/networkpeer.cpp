@@ -9,26 +9,29 @@
 
 #include "util/log/logger.hpp"
 
-#define MAX_PACKET_SIZE 1024
 
 namespace Network {
-	NetworkPeer::NetworkPeer() {
-	}
+	NetworkPeer::NetworkPeer()
+	{}
 
-	NetworkPeer::~NetworkPeer() {
-	}
+	NetworkPeer::~NetworkPeer()
+	{}
 
-	Packet::Base *NetworkPeer::ReceivePacket(Address &sender) {
-		char buffer[MAX_PACKET_SIZE];
+	Packet::Base *NetworkPeer::ReceivePacket(Address &sender)
+	{
 		Packet::Base *packet = nullptr;
 
 		int bytesRead = 0;
 		bool reading = true;
-		while (reading) {
-			bytesRead = this->socket.Receive(sender, buffer, sizeof(buffer));
-			if (bytesRead <= 0) {
+		while (reading)
+		{
+			bytesRead = this->socket.Receive(sender, this->buffer, sizeof(buffer));
+			if (bytesRead <= 0)
+			{
 				reading = false;
-			} else if (bytesRead <= MAX_PACKET_SIZE) {
+			}
+			else if (bytesRead <= MAX_PACKET_SIZE)
+			{
 				Util::Logger::Instance()->GetLog("Network")->LogMessage("Reading packet\n", Util::LogLevel::Debug);
 				packet = PacketReader::ReadPacket(bytesRead, buffer);
 				reading = false;
