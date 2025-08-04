@@ -1,13 +1,15 @@
 set(target "client")
 
 add_executable(${target}
-	actordrawer.cpp
-	actordrawer.hpp
+	graphics/actordrawer.cpp
+	graphics/actordrawer.hpp
+
+	graphics/terraindrawer.cpp
+	graphics/terraindrawer.hpp
+
 	gameclient.cpp
 	gameclient.hpp
 	main.cpp
-	terraindrawer.cpp
-	terraindrawer.hpp
 	playercontroller.hpp
 	playercontroller.cpp
 )

@@ -4,8 +4,8 @@
 
 #include "gamecore/world.hpp"
 
-#include "actordrawer.hpp"
-#include "terraindrawer.hpp"
+#include "graphics/actordrawer.hpp"
+#include "graphics/terraindrawer.hpp"
 
 GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false), player(nullptr)
 {
