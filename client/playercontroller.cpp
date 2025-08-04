@@ -44,7 +44,7 @@ void PlayerController::Move(Game::Actor::Direction move_dir)
     if (!this->IsMoving(move_dir))
     {
         int x_speed = this->player->GetWalkspeed() * (int)move_dir;
-        this->player->AddVelocity(Game::Vector2(x_speed, 0));
+        this->player->GetPhysicsObject()->AddVelocity(Game::Vector2(x_speed, 0));
 
         this->needs_physics_update = true;
     }
@@ -55,7 +55,7 @@ void PlayerController::StopMoving(Game::Actor::Direction move_dir)
     if (this->IsMoving(move_dir))
     {
         int x_speed = this->player->GetWalkspeed() * (int)move_dir;
-        this->player->AddVelocity(Game::Vector2(-x_speed, 0));
+        this->player->GetPhysicsObject()->AddVelocity(Game::Vector2(-x_speed, 0));
 
         this->needs_physics_update = true;
     }
@@ -64,7 +64,7 @@ void PlayerController::StopMoving(Game::Actor::Direction move_dir)
 bool PlayerController::IsMoving(Game::Actor::Direction move_dir) const
 {
     bool is_same_dir = (this->player->GetDirection() == move_dir);
-    bool has_x_speed = (this->player->GetVelocity().x != 0);
+    bool has_x_speed = (this->player->GetPhysicsObject()->GetVelocity().x != 0);
 
     return (is_same_dir && has_x_speed);
 }

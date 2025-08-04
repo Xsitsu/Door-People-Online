@@ -42,7 +42,6 @@ public:
     Physics::phys_obj_handle GetPhysicsObjectHandle() const;
     void SetPhysicsObjectHandle(Physics::phys_obj_handle handle);
 
-protected:
     Physics::PhysicsObject* GetPhysicsObject();
     const Physics::PhysicsObject* GetPhysicsObject() const;
 
