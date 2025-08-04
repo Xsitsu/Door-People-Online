@@ -1,10 +1,15 @@
 #ifndef PLAYER_CONTROLLER_HPP_INCLUDE
 #define PLAYER_CONTROLLER_HPP_INCLUDE
 
+#include "input_dll_export.h"
+
 #include "gamecore/actor.hpp"
 #include "gamecore/player.hpp"
 
-class PlayerController
+namespace Input
+{
+
+class DLL_EXPORT PlayerController
 {
 public:
     PlayerController(Game::Player *player);
@@ -25,5 +30,6 @@ private:
     void UpdateDirection(Game::Actor::Direction move_dir);
 };
 
+}
 
 #endif // PLAYER_CONTROLLER_HPP_INCLUDE

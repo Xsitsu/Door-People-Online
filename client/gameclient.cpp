@@ -384,7 +384,7 @@ void GameClient::CreatePlayerForClient()
     playerList->AddPlayer(player);
 
     this->player = player;
-    this->player_controller = new PlayerController(this->player);
+    this->player_controller = new Input::PlayerController(this->player);
 
     this->log->LogMessage("Created new player for this client\n", Util::LogLevel::Info);
 }

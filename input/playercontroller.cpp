@@ -2,6 +2,9 @@
 
 #include "gamecore/vector2.hpp"
 
+namespace Input
+{
+
 PlayerController::PlayerController(Game::Player *player): needs_physics_update(false)
 {
     this->player = player;
@@ -77,4 +80,6 @@ bool PlayerController::NeedsPhysicsUpdate() const
 void PlayerController::ClearPhysicsUpdate()
 {
     this->needs_physics_update = false;
+}
+
 }

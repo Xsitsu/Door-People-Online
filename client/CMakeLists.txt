@@ -4,8 +4,6 @@ add_executable(${target}
 	gameclient.cpp
 	gameclient.hpp
 	main.cpp
-	playercontroller.hpp
-	playercontroller.cpp
 )
 target_include_directories(${target}
 	PUBLIC
@@ -15,6 +13,7 @@ target_link_libraries(${target}
 	PRIVATE
 		gamecore
 		graphics
+		input
 		network
 		util
 
