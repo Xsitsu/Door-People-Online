@@ -23,6 +23,7 @@ include(allegro)
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 add_subdirectory(client)
+add_subdirectory(client-standalone)
 add_subdirectory(gamecore)
 add_subdirectory(graphics)
 add_subdirectory(input)
