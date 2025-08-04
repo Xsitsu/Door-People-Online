@@ -1,5 +1,8 @@
 #include "actordrawer.hpp"
 
+namespace Graphics
+{
+
 ActorDrawer::ActorDrawer()
 {}
 
@@ -31,4 +34,6 @@ void ActorDrawer::DrawActor(Game::World *world, Game::Actor *actor, const Game::
         al_draw_filled_rectangle(topRight.x - 20, topRight.y + 4, topRight.x - 4, topRight.y + 20, colBlack);
         al_draw_filled_rectangle(topRight.x - 14, topRight.y + 28, topRight.x, topRight.y + 32, colBlack);
     }
+}
+
 }

@@ -24,6 +24,7 @@ include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 add_subdirectory(client)
 add_subdirectory(gamecore)
+add_subdirectory(graphics)
 add_subdirectory(network)
 add_subdirectory(server)
 add_subdirectory(util)

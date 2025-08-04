@@ -1,5 +1,8 @@
 #include "terraindrawer.hpp"
 
+namespace Graphics
+{
+
 TerrainDrawer::TerrainDrawer()
 {}
 
@@ -31,4 +34,6 @@ void TerrainDrawer::DrawGeneric(const Game::Terrain::TerrainObject *obj, const G
     Game::Vector2 drawStart = drawBegin + posAdder;
     Game::Vector2 drawEnd = drawStart + size;
     al_draw_filled_rectangle(drawStart.x, drawStart.y, drawEnd.x, drawEnd.y, col);
+}
+
 }

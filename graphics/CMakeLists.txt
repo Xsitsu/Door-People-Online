@@ -1,11 +1,11 @@
-set(target "client")
+set(target "graphics")
 
-add_executable(${target}
-	gameclient.cpp
-	gameclient.hpp
-	main.cpp
-	playercontroller.hpp
-	playercontroller.cpp
+add_library(${target} STATIC
+	drawer/actordrawer.cpp
+	drawer/actordrawer.hpp
+
+	drawer/terraindrawer.cpp
+	drawer/terraindrawer.hpp
 )
 target_include_directories(${target}
 	PUBLIC
@@ -14,11 +14,10 @@ target_include_directories(${target}
 target_link_libraries(${target}
 	PRIVATE
 		gamecore
-		graphics
-		network
 		util
 
 		allegro
 		allegro_color
 		allegro_primitives
 )
+project_dll_export(${target})

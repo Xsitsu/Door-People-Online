@@ -4,8 +4,8 @@
 
 #include "gamecore/world.hpp"
 
-#include "graphics/actordrawer.hpp"
-#include "graphics/terraindrawer.hpp"
+#include "graphics/drawer/actordrawer.hpp"
+#include "graphics/drawer/terraindrawer.hpp"
 
 GameClient::GameClient() : Client(), display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false), player(nullptr)
 {
@@ -150,7 +150,7 @@ void GameClient::Run()
 void GameClient::DrawTerrain(const Game::Vector2 &drawBegin)
 {
     const Game::Terrain::TerrainHandler &handler = this->dataModel.GetWorld()->GetTerrainHandler();
-    TerrainDrawer::DrawTerrain(handler, drawBegin);
+    Graphics::TerrainDrawer::DrawTerrain(handler, drawBegin);
 }
 
 
