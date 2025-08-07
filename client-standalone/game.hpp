@@ -27,6 +27,9 @@ protected:
     void HandleKeyDown(int keycode);
     void HandleKeyUp(int keycode);
 
+protected:
+    void CreatePlayerForClient();
+
     // ALLEGRO Variables
 protected:
     ALLEGRO_DISPLAY *display;

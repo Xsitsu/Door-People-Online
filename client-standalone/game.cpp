@@ -7,12 +7,18 @@
 #include "graphics/drawer/actordrawer.hpp"
 #include "graphics/drawer/terraindrawer.hpp"
 
+#include <iostream>
+
 GameStandalone::GameStandalone(): display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false), player(nullptr)
 {
     this->log = Util::Logger::Instance()->GetLog("GameClient");
     this->log->SetLogLevel(Util::LogLevel::Info);
 
     this->dataModel.Init();
+
+    std::cout << "here" << std::endl;
+    this->dataModel.GetWorld()->GetTerrainHandler().LoadMockTerrain();
+    std::cout << "loaded" << std::endl;
 
     this->display = al_create_display(1152, 648);
     this->event_queue = al_create_event_queue();
@@ -44,6 +50,8 @@ void GameStandalone::Run()
     Game::Vector2 drawBegin(1152 / 2, 648 * 0.8);
 
     Game::World *world = this->dataModel.GetWorld();
+
+    // this->CreatePlayerForClient();
 
     Util::Timer uTimer;
 
@@ -107,6 +115,11 @@ void GameStandalone::Run()
                 Game::Physics::PhysicsObject *obj = this->dataModel.GetWorld()->GetPhysicsHandler().GetPhysicsObject(this->player->GetPhysicsObjectHandle());
 
                 Game::Vector2 drawFocus = drawBegin - Game::Vector2(obj->GetGameObject().position.x, 0);
+                this->DrawTerrain(drawFocus);
+            }
+            else
+            {
+                Game::Vector2 drawFocus(0, 0);
                 this->DrawTerrain(drawFocus);
             }
 
@@ -189,4 +202,17 @@ void GameStandalone::HandleKeyUp(int keycode)
             }
         }
     }
+}
+
+void GameStandalone::CreatePlayerForClient()
+{
+    Game::PlayerList *playerList = this->dataModel.GetPlayerList();
+    Game::Player *player = new Game::Player();
+    player->SetNetworkOwner(0);
+    playerList->AddPlayer(player);
+
+    this->player = player;
+    this->player_controller = new Input::PlayerController(this->player);
+
+    this->log->LogMessage("Created new player for this client\n", Util::LogLevel::Info);
 }
