@@ -6,6 +6,9 @@ add_library(${target} STATIC
 	datamodel.cpp
 	datamodel.hpp
 
+	gameobject/gameobject.cpp
+	gameobject/gameobject.hpp
+
 	physics/physicshandler.cpp
 	physics/physicshandler.hpp
 
