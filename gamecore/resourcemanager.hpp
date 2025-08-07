@@ -4,6 +4,7 @@
 #include "gamecore_dll_export.h"
 
 #include <vector>
+#include <cstring>
 
 namespace Game
 {
@@ -68,9 +69,9 @@ res_handle ResourceManager<T>::CreateResource()
     }
 
     // TODO: Make allocation not O(n)
-    while (this->availability[look_index] == true)
+    while (this->availability[look_index] == false)
         look_index++;
-    
+
     this->availability[look_index] = false;
     this->cur_num_resources++;
 
@@ -95,7 +96,6 @@ T* ResourceManager<T>::GetResource(const res_handle &handle)
     return nullptr;
 }
 
-
 template <typename T>
 const T* ResourceManager<T>::GetResource(const res_handle &handle) const
 {
@@ -107,7 +107,7 @@ const T* ResourceManager<T>::GetResource(const res_handle &handle) const
 template <typename T>
 bool ResourceManager<T>::ResourceExists(const res_handle &handle) const
 {
-    return (this->availability[handle] == false);
+    return (this->HandleIsInRange(handle) && (this->availability[handle] == false));
 }
 
 template <typename T>
@@ -122,7 +122,8 @@ void ResourceManager<T>::ReserveSpace(int num_items)
     bool needs_to_grow = (this->availability.size() < num_items);
     if (needs_to_grow)
     {
-        this->availability.reserve(num_items);
+        this->availability.resize(num_items);
+
         for (int i = this->max_num_resources; i < num_items; i++)
         {
             this->availability[i] = true;

@@ -22,7 +22,8 @@ protected:
     ~TerrainDrawer();
 
 protected:
-    static void DrawGeneric(const Game::Terrain::TerrainObject *obj, const Game::Vector2 &drawBegin, ALLEGRO_COLOR col);
+    static void DrawAllInResourceHandler(const Game::ResourceManager<Game::Terrain::TerrainObject> &handler, const Game::Vector2 &drawBegin, const ALLEGRO_COLOR &col);
+    static void DrawGeneric(const Game::Terrain::TerrainObject *obj, const Game::Vector2 &drawBegin, const ALLEGRO_COLOR &col);
 
 };
 

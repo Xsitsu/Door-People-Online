@@ -7,18 +7,13 @@
 #include "graphics/drawer/actordrawer.hpp"
 #include "graphics/drawer/terraindrawer.hpp"
 
-#include <iostream>
-
 GameStandalone::GameStandalone(): display(nullptr), event_queue(nullptr), timer(nullptr), dataModel(), isRunning(false), player(nullptr)
 {
     this->log = Util::Logger::Instance()->GetLog("GameClient");
     this->log->SetLogLevel(Util::LogLevel::Info);
 
     this->dataModel.Init();
-
-    std::cout << "here" << std::endl;
     this->dataModel.GetWorld()->GetTerrainHandler().LoadMockTerrain();
-    std::cout << "loaded" << std::endl;
 
     this->display = al_create_display(1152, 648);
     this->event_queue = al_create_event_queue();
@@ -119,7 +114,7 @@ void GameStandalone::Run()
             }
             else
             {
-                Game::Vector2 drawFocus(0, 0);
+                Game::Vector2 drawFocus = drawBegin;
                 this->DrawTerrain(drawFocus);
             }
 

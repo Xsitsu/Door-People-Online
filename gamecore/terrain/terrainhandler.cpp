@@ -64,7 +64,7 @@ void TerrainHandler::LoadMockTerrain()
 
     // Walls
     this->CreateTerrainObject(this->walls, GameObject(Vector2(-300, 200), Vector2(40, 200)));
-    this->CreateTerrainObject(this->walls, GameObject(Vector2(-460, 200), Vector2(40, 200)));
+    this->CreateTerrainObject(this->walls, GameObject(Vector2(460, 200), Vector2(40, 200)));
 
 
 }
