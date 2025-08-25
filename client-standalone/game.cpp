@@ -220,7 +220,7 @@ void GameStandalone::CreatePlayerForClient()
     this->dataModel.GetWorld()->AddActor(player);
 
     this->player = player;
-    this->player_controller = new Input::PlayerController(this->player);
+    this->player_controller = new Input::PlayerController(this->player, this->dataModel.GetWorld());
 
     this->log->LogMessage("Created new player for this client\n", Util::LogLevel::Info);
 }

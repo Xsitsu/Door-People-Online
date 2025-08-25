@@ -30,9 +30,6 @@ public:
     Direction GetDirection() const;
     void SetDirection(Direction dir);
 
-    bool IsOnGround() const;
-    void Jump();
-
     void SetJumpPower(double power);
     double GetJumpPower() const;
 

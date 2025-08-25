@@ -28,18 +28,6 @@ void Actor::SetDirection(Direction dir)
     this->direction = dir;
 }
 
-bool Actor::IsOnGround() const
-{
-    bool y_velocity_is_zero = (this->GetPhysicsObject()->GetVelocity().y == 0);
-    return y_velocity_is_zero;
-}
-
-void Actor::Jump()
-{
-    this->GetPhysicsObject()->AddVelocity(Vector2(0, this->jump_power));
-}
-
-
 void Actor::SetJumpPower(double power)
 {
     if (power > 0)
