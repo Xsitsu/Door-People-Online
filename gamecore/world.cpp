@@ -18,7 +18,7 @@ World::~World()
 
 void World::Update(double deltaT)
 {
-    this->UpdatePhysics(deltaT / 1000);
+    this->UpdatePhysics(deltaT / 10);
     this->ResolveCollisions(deltaT);
 
 /*
