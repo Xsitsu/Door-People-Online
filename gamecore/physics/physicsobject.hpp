@@ -17,6 +17,7 @@ public:
     void AddVelocity(const Vector2 &val);
 
     const GameObject& GetGameObject() const;
+    GameObject& GetGameObject();
     void UpdatePosition(const Vector2 &val);
 
 

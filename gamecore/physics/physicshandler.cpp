@@ -42,7 +42,7 @@ void PhysicsHandler::SetPhysicsSettings(const PhysicsSettings& settings)
 
 void PhysicsHandler::Tick(const double &deltaT)
 {
-    Vector2 gravity_update = Vector2(0, this->settings.gravity * deltaT);
+    Vector2 gravity_update = Vector2(0, -this->settings.gravity * deltaT);
 
     for (int i = 0; i < this->physics_objects.MaxNumResources(); i++)
     {

@@ -23,6 +23,7 @@ public:
 
 protected:
     void DrawTerrain(const Game::Vector2 &drawBegin);
+    void DrawActors(const Game::Vector2 &drawBegin);
 
     void HandleKeyDown(int keycode);
     void HandleKeyUp(int keycode);

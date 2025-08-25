@@ -23,6 +23,11 @@ const GameObject& PhysicsObject::GetGameObject() const
     return this->game_object;
 }
 
+GameObject& PhysicsObject::GetGameObject()
+{
+    return this->game_object;
+}
+
 void PhysicsObject::UpdatePosition(const Vector2 &val)
 {
     this->game_object.position += val;

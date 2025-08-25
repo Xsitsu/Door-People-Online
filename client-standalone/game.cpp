@@ -46,7 +46,7 @@ void GameStandalone::Run()
 
     Game::World *world = this->dataModel.GetWorld();
 
-    // this->CreatePlayerForClient();
+    this->CreatePlayerForClient();
 
     Util::Timer uTimer;
 
@@ -105,19 +105,23 @@ void GameStandalone::Run()
         {
             needsDraw = false;
 
+            Game::Vector2 drawFocus = drawBegin;
+
             if (this->player)
             {
                 Game::Physics::PhysicsObject *obj = this->dataModel.GetWorld()->GetPhysicsHandler().GetPhysicsObject(this->player->GetPhysicsObjectHandle());
 
                 Game::Vector2 drawFocus = drawBegin - Game::Vector2(obj->GetGameObject().position.x, 0);
-                this->DrawTerrain(drawFocus);
-            }
-            else
-            {
-                Game::Vector2 drawFocus = drawBegin;
-                this->DrawTerrain(drawFocus);
             }
 
+            this->DrawTerrain(drawFocus);
+
+
+
+            if (this->player != nullptr)
+            {
+                this->DrawActors(drawFocus);
+            }
 
             // bool canDrawActors = false;
             // if (canDrawActors)
@@ -151,6 +155,14 @@ void GameStandalone::DrawTerrain(const Game::Vector2 &drawBegin)
 {
     const Game::Terrain::TerrainHandler &handler = this->dataModel.GetWorld()->GetTerrainHandler();
     Graphics::TerrainDrawer::DrawTerrain(handler, drawBegin);
+}
+
+void GameStandalone::DrawActors(const Game::Vector2 &drawBegin)
+{
+    Game::World *world = this->dataModel.GetWorld();
+    ALLEGRO_COLOR player_col = al_map_rgb(0, 255, 255);
+
+    Graphics::ActorDrawer::DrawActor(world, this->player, drawBegin, player_col);
 }
 
 void GameStandalone::HandleKeyDown(int keycode)
@@ -205,6 +217,7 @@ void GameStandalone::CreatePlayerForClient()
     Game::Player *player = new Game::Player();
     player->SetNetworkOwner(0);
     playerList->AddPlayer(player);
+    this->dataModel.GetWorld()->AddActor(player);
 
     this->player = player;
     this->player_controller = new Input::PlayerController(this->player);

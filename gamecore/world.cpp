@@ -18,7 +18,7 @@ World::~World()
 
 void World::Update(double deltaT)
 {
-    this->UpdatePhysics(deltaT);
+    this->UpdatePhysics(deltaT / 1000);
     this->ResolveCollisions(deltaT);
 
 /*
@@ -143,6 +143,11 @@ void World::AddActor(Actor *actor)
 {
     Physics::phys_obj_handle handle = this->physics_handler.CreatePhysicsObject();
     actor->SetPhysicsObjectHandle(handle);
+
+    Game::GameObject &obj = this->physics_handler.GetPhysicsObject(handle)->GetGameObject();
+    obj.size = Game::Vector2(40, 80);
+    obj.position = Game::Vector2(0, 200);
+
     this->actors.push_back(actor);
 }
 
