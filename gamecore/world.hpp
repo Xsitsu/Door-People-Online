@@ -36,6 +36,9 @@ protected:
     void UpdatePhysics(double deltaT);
     void ResolveCollisions(double deltaT);
 
+    void ResolveCollisionsForSingle(double deltaT, Game::Physics::PhysicsObject *obj, const ResourceManager<Game::Terrain::TerrainObject> &objects);
+
+
     Physics::PhysicsHandler physics_handler;
     Terrain::TerrainHandler terrain_handler;
 

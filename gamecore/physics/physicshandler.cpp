@@ -30,6 +30,11 @@ PhysicsObject* PhysicsHandler::GetPhysicsObject(const phys_obj_handle &handle)
     return this->physics_objects.GetResource(handle);
 }
 
+phys_obj_handle PhysicsHandler::MaxNumPhysicsObject() const
+{
+    return this->physics_objects.MaxNumResources();
+}
+
 const PhysicsSettings& PhysicsHandler::GetPhysicsSettings() const
 {
     return this->settings;

@@ -22,6 +22,7 @@ public:
     phys_obj_handle CreatePhysicsObject();
     void DestroyPhysicsObject(const phys_obj_handle &handle);
     PhysicsObject* GetPhysicsObject(const phys_obj_handle &handle);
+    phys_obj_handle MaxNumPhysicsObject() const;
 
     const PhysicsSettings& GetPhysicsSettings() const;
     void SetPhysicsSettings(const PhysicsSettings& settings);

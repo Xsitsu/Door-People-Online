@@ -33,5 +33,24 @@ void PhysicsObject::UpdatePosition(const Vector2 &val)
     this->game_object.position += val;
 }
 
+bool PhysicsObject::IsMovingUp() const
+{
+    return (this->velocity.y > 0);
+}
+
+bool PhysicsObject::IsMovingDown() const
+{
+    return (this->velocity.y < 0);
+}
+
+bool PhysicsObject::IsMovingLeft() const
+{
+    return (this->velocity.x < 0);
+}
+
+bool PhysicsObject::IsMovingRight() const
+{
+    return (this->velocity.x > 0);
+}
 
 }

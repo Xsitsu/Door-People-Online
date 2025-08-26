@@ -18,114 +18,8 @@ World::~World()
 
 void World::Update(double deltaT)
 {
-    this->UpdatePhysics(deltaT / 10);
+    this->UpdatePhysics(deltaT);
     this->ResolveCollisions(deltaT);
-
-/*
-    if (!this->actors.empty())
-    {
-        for (auto actor : this->actors)
-        {
-            Vector2 size = actor->GetSize();
-            Vector2 before = actor->GetPosition();
-
-            if (before.y < -300)
-            {
-                actor->SetPosition(Vector2(0, 300));
-                before = actor->GetPosition();
-                actor->AddVelocity(Vector2(0, -actor->GetVelocity().y));
-            }
-
-            Vector2 addGrav(0, -this->physics_settings.gravity);
-            actor->AddVelocity(addGrav * deltaT);
-            actor->Update(deltaT);
-            Vector2 after = actor->GetPosition();
-
-            Vector2 delta = after - before;
-            Vector2 velocity = actor->GetVelocity();
-
-            for (Terrain *tObj : this->terrain)
-            {
-                Vector2 objPos = tObj->GetPosition();
-                Vector2 objSize = tObj->GetSize();
-
-                Vector2 topRight(objPos.x + objSize.x, objPos.y);
-                Vector2 bottomLeft(objPos.x, objPos.y - objSize.y);
-                Vector2 bottomRight(topRight.x, bottomLeft.y);
-
-                if (tObj->GetTerrainType() == TerrainType::TYPE_PLATFORM)
-                {
-                    if (velocity.y < 0 && this->SegmentsOverlap(after.x, after.x + size.x, objPos.x, topRight.x))
-                    {
-                        if (before.y - size.y >= objPos.y)
-                        {
-                            if (objPos.y > (after.y - size.y))
-                            {
-                                after.y = objPos.y + size.y;
-                                velocity.y = 0;
-                            }
-                        }
-                    }
-                }
-                else if (tObj->GetTerrainType() == TerrainType::TYPE_WALL)
-                {
-                    if (this->SegmentsOverlap(after.x, after.x + size.x, objPos.x, topRight.x))
-                    {
-                        if (velocity.y < 0)
-                        {
-                            if (before.y - size.y >= objPos.y)
-                            {
-                                if (objPos.y > (after.y - size.y))
-                                {
-                                    after.y = objPos.y + size.y;
-                                    velocity.y = 0;
-                                }
-                            }
-                        }
-                        else if (velocity.y > 0)
-                        {
-                            if (bottomLeft.y >= before.y)
-                            {
-                                if (after.y > bottomLeft.y)
-                                {
-                                    after.y = bottomLeft.y;
-                                    //velocity.y = 0;
-                                }
-                            }
-                        }
-                    }
-
-                    if (this->SegmentsOverlap(after.y - size.y, after.y, bottomLeft.y, objPos.y))
-                    {
-                        if (velocity.x > 0)
-                        {
-                            if (objPos.x >= before.x + size.x)
-                            {
-                                if (after.x + size.x > objPos.x)
-                                {
-                                    after.x = objPos.x - size.x;
-                                }
-                            }
-                        }
-                        else if (velocity.x < 0)
-                        {
-                            if (topRight.x <= before.x)
-                            {
-                                if (after.x < topRight.x)
-                                {
-                                    after.x = topRight.x;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            actor->SetPosition(after);
-            actor->SetVelocity(velocity);
-        }
-    }
-*/
 }
 
 void World::UpdatePhysics(double deltaT)
@@ -135,9 +29,57 @@ void World::UpdatePhysics(double deltaT)
 
 void World::ResolveCollisions(double deltaT)
 {
-
+    for (Game::Physics::phys_obj_handle handle = 0; handle < this->GetPhysicsHandler().MaxNumPhysicsObject(); handle++)
+    {
+        Game::Physics::PhysicsObject *obj = this->GetPhysicsHandler().GetPhysicsObject(handle);
+        if (obj != nullptr)
+        {
+            this->ResolveCollisionsForSingle(deltaT, obj, this->GetTerrainHandler().GetWalls());
+            if (obj->GetVelocity().y < 0)
+            {
+                this->ResolveCollisionsForSingle(deltaT, obj, this->GetTerrainHandler().GetPlatforms());
+            }
+        }
+    }
 }
 
+void World::ResolveCollisionsForSingle(double deltaT, Game::Physics::PhysicsObject *obj, const ResourceManager<Game::Terrain::TerrainObject> &objects)
+{
+    Game::Vector2 position_before = obj->GetGameObject().position - (obj->GetVelocity() * deltaT);
+    Game::Vector2 position_now = obj->GetGameObject().position;
+    Game::Vector2 size = obj->GetGameObject().size;
+
+    for (Game::Terrain::terrain_obj_handle handle = 0; handle < objects.MaxNumResources(); handle++)
+    {
+        const Game::Terrain::TerrainObject *t_obj = objects.GetResource(handle);
+        if (t_obj != nullptr)
+        {
+            // Collide Down
+            if (obj->IsMovingDown())
+            {
+                double edge_bottom_before = position_before.y - size.y;
+                double edge_bottom_now = position_now.y - size.y;
+
+                const Game::Vector2 &pos = t_obj->GetGameObject().position;
+                const Game::Vector2 &t_size = t_obj->GetGameObject().size;
+                Game::Vector2 t_bounds = pos + t_size;
+
+                if (edge_bottom_before >= pos.y && edge_bottom_now < pos.y)
+                {
+                    double edge_left_now = position_now.x;
+                    double edge_right_now = position_now.x + size.x;
+                    if (edge_left_now < t_bounds.x && edge_right_now > pos.x)
+                    {
+                        obj->GetGameObject().position.y = pos.y + size.y;
+                        obj->SetVelocity(Vector2(obj->GetVelocity().x, 0));
+                    }
+                }
+
+            }
+        }
+    }
+
+}
 
 void World::AddActor(Actor *actor)
 {

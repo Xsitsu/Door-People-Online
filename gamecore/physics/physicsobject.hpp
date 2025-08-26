@@ -20,6 +20,10 @@ public:
     GameObject& GetGameObject();
     void UpdatePosition(const Vector2 &val);
 
+    bool IsMovingUp() const;
+    bool IsMovingDown() const;
+    bool IsMovingLeft() const;
+    bool IsMovingRight() const;
 
 protected:
     Vector2 velocity;
