@@ -14,6 +14,9 @@ GameStandalone::GameStandalone(): display(nullptr), event_queue(nullptr), timer(
 
     this->dataModel.Init();
     this->dataModel.GetWorld()->GetTerrainHandler().LoadMockTerrain();
+    this->dataModel.GetWorld()->GetPhysicsHandler().SetPhysicsSettings(
+        Game::PhysicsSettings(560, 160, 280)
+    );
 
     this->display = al_create_display(1152, 648);
     this->event_queue = al_create_event_queue();

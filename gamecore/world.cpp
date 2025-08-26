@@ -90,6 +90,10 @@ void World::AddActor(Actor *actor)
     obj.size = Game::Vector2(40, 80);
     obj.position = Game::Vector2(0, 200);
 
+    auto settings = this->GetPhysicsHandler().GetPhysicsSettings();
+    actor->SetJumpPower(settings.GetDefaultJumpPower());
+    actor->SetWalkspeed(settings.GetDefaultWalkspeed());
+
     this->actors.push_back(actor);
 }
 

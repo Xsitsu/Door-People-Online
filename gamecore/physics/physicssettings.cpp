@@ -12,6 +12,11 @@ PhysicsSettings::PhysicsSettings()
     this->default_jump_power = 100;
 }
 
+PhysicsSettings::PhysicsSettings(int gravity, int walkspeed, int jump_power) : gravity(gravity), default_walkspeed(walkspeed), default_jump_power(jump_power)
+{
+
+}
+
 int PhysicsSettings::GetGravity() const
 {
     return this->gravity;

@@ -14,6 +14,7 @@ class DLL_EXPORT PhysicsSettings
 {
 public:
     PhysicsSettings();
+    PhysicsSettings(int gravity, int walkspeed, int jump_power);
 
     int GetGravity() const;
     int GetDefaultWalkspeed() const;
