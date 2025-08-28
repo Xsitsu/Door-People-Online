@@ -110,11 +110,11 @@ void GameStandalone::Run()
 
             Game::Vector2 drawFocus = drawBegin;
 
-            if (this->player)
+            if (this->player != nullptr)
             {
                 Game::Physics::PhysicsObject *obj = this->dataModel.GetWorld()->GetPhysicsHandler().GetPhysicsObject(this->player->GetPhysicsObjectHandle());
 
-                Game::Vector2 drawFocus = drawBegin - Game::Vector2(obj->GetGameObject().position.x, 0);
+                drawFocus -= Game::Vector2(obj->GetGameObject().position.x, 0);
             }
 
             this->DrawTerrain(drawFocus);
